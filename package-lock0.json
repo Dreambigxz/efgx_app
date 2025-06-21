@@ -19,6 +19,7 @@
         "@angular/router": "^19.2.0",
         "angularx-qrcode": "^19.0.0",
         "ngx-qrcode-styling": "^1.0.3",
+        "ngx-qrcode2": "^9.0.0",
         "rxjs": "~7.8.0",
         "tslib": "^2.3.0",
         "zone.js": "~0.15.0"
@@ -10574,6 +10575,21 @@
       "peerDependencies": {
         "@angular/common": "^19.0.0 || ^20.0.0 || ^21.0.0 || ^22.0.0 || ^23.0.0 || ^24.0.0",
         "@angular/core": "^19.0.0 || ^20.0.0 || ^21.0.0 || ^22.0.0 || ^23.0.0 || ^24.0.0"
+      }
+    },
+    "node_modules/ngx-qrcode2": {
+      "version": "9.0.0",
+      "resolved": "https://registry.npmjs.org/ngx-qrcode2/-/ngx-qrcode2-9.0.0.tgz",
+      "integrity": "sha512-o1wPTKMCTQyX3qZso5f2KVF4lujMrAYN2HSzrjiUfSxI6YZv1EEizp0lGecyKzHbGi15FZAzMhavStUKLGYozg==",
+      "deprecated": "ngx-qrcode2 has been deprecated. Use @techiediaries/ngx-qrcode instead.",
+      "license": "MIT",
+      "dependencies": {
+        "qrcode": "^1.4.4"
+      },
+      "peerDependencies": {
+        "@angular/common": ">=6.0.0 || <=10.0.0",
+        "@angular/core": ">=6.0.0 || <=10.0.0",
+        "tslib": "^1.10.0"
       }
     },
     "node_modules/node-addon-api": {
