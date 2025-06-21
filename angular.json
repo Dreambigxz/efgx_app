@@ -24,7 +24,8 @@
               {
                 "glob": "**/*",
                 "input": "public",
-                "src/assets"
+                "src/assets",
+                "output": "assets"
               }
             ],
             "styles": [
@@ -32,7 +33,7 @@
               "src/styles.css"
             ],
             "scripts": [
-              
+
             ]
           },
           "configurations": {
