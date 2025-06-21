@@ -32,7 +32,6 @@
               "src/styles.css"
             ],
             "scripts": [
-              "vercel-build": "npm install --legacy-peer-deps && npm run build"
 
             ]
           },

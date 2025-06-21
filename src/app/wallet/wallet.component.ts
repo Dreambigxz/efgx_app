@@ -18,8 +18,7 @@ import { copyContent } from '../../helper';
 import { PaidComponent } from "../modal/paid/paid.component";
 import { OtpComponent } from "../modal/otp/otp.component";
 
-// import { NgxQRCodeModule } from 'ngx-qrcode2';
-import { NgxQrcodeStylingModule } from 'ngx-qrcode-styling';
+// import { NgxQrcodeStylingModule } from 'ngx-qrcode-styling';
 import { Observable, of } from 'rxjs';
 
 import { MatCardModule } from '@angular/material/card';
@@ -32,19 +31,22 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material/input';
 import {MatSelectModule} from '@angular/material/select';
 
+
+import { QRCodeComponent } from 'angularx-qrcode';
+
 @Component({
   selector: 'app-wallet',
   imports: [
     ReactiveFormsModule,RouterLink,CommonModule,
     PaidComponent,
-    NgxQrcodeStylingModule,
     MatTableModule,
     MatIconModule,
     MatPaginatorModule,MatCardModule,
     MatFormFieldModule,
     MatInputModule,
     MatSelectModule,
-    FormsModule
+    FormsModule,
+    QRCodeComponent
     //
   ],
   templateUrl: './wallet.component.html',

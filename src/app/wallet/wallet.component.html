@@ -78,12 +78,11 @@
 
                           <div *ngIf='walletAddress' style="margin: 20px 0;">
 
-                            <ngx-qrcode-styling
-                              [data]="walletAddress"
-                              [width]="150"
-                              [height]="150"
-                              [dotsOptions]="{ color: '#000' }"
-                            ></ngx-qrcode-styling>
+														<qrcode
+															[qrdata]="walletAddress"
+															[width]="150"
+															>
+														</qrcode>
 
                           </div>
 
