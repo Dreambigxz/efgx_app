@@ -6,7 +6,8 @@
     "start": "ng serve",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "build": "[angular] build --output public"
+    "vercel-build": "npm ci --legacy-peer-deps && npm run build",
+    "build": "ng build"
 
   },
   "private": true,
