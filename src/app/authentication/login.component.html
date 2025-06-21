@@ -1,0 +1,60 @@
+<div class="page page--login" data-page="login">
+
+	<!-- HEADER -->
+	<header class="header header--fixed">
+		<div class="header__inner">
+			<div  (click)='history.back()' class="header__icon">
+        <span><img src="../assets/images/icons/gray/arrow-back.svg" alt="" title=""> </span>
+      </div>
+
+			<div id="google_translate_element" class="custom-google-select "></div>
+
+			<div style="justify-content:flex-end;display:flex" class="logo">
+				<img style='width:40%' src="https://jmglimitedbucket.s3.amazonaws.com/paymentProof/logo.png" alt="">
+			</div>
+
+    </div>
+
+	</header>
+
+        <div class="login mb-10">
+		<div class="login__content">
+			<!-- <div id="google_translate_element" class="custom-google-select ">Language</div> -->
+
+			<h2 class="login__title">Login to your account</h2>
+				<div class="login-form ">
+					<form (ngSubmit)="handleSubmit()" [formGroup]="loginForm"  novalidate="novalidate">
+						<div class="login-form__row">
+							<label class="login-form__label">Username</label>
+							<input type="text"  formControlName='username' name="Username" value="" class="login-form__input required" required >
+						</div>
+						<div class="login-form__row password-wrapper">
+							<label class="login-form__label">Password</label>
+							<input
+							autocomplete=""
+								[type]="showPassword ? 'text' : 'password'"
+								formControlName='password'
+								name="password" value="hello"
+								class="login-form__input required password-input"
+								required>
+							<span class="toggle-icon" (click)="togglePassword()">
+						    {{ showPassword ? '🙈' : '👁️' }}
+						  </span>
+						</div>
+						<div class="login-form__row">
+							<input *ngIf="!loading; else elseBlock" type="submit" name="submit" class="login-form__submit button button--blue button--full" id="submit" value="SIGN IN" [disabled]="!loginForm.valid">
+							<ng-template #elseBlock>
+								<input class="login-form__submit button button--blue button--full is-loading" value="waiting ...">
+							</ng-template>
+						</div>
+					</form>
+					<div class="login-form__forgot-pass"><a routerLink="/forgot-password">Forgot Password?</a></div>
+					<div class="login-form__bottom">
+						<p>Don't have an account?</p>
+						<a routerLink="/register" class="button button--green button--full mb-10" style="margin-bottom:4em !important">SIGN UP</a>
+					</div>
+				</div>
+		</div>
+        </div>
+
+</div>

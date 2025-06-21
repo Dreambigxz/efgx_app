@@ -1,0 +1,90 @@
+<div class="body-overlay"></div>
+
+<div class="page" data-page="intro-metro">
+
+	<!-- HEADER -->
+	<header class="header header--page header--fixed">
+		<div class="header__inner">
+			<div (click)='history.back()' class="header__icon"><img src="../assets/images/icons/white/arrow-back.svg" alt="" title=""></div>
+			<div class="header__text">Group {{directory}}</div>
+			<div class="header__icon open-panel" data-panel="right" data-arrow="left">
+      </div>
+                </div>
+	</header>
+
+	<!-- PAGE CONTENT -->
+	<div class="page__content page__content--with-header">
+
+    <div *ngIf="isLoadingContent; else pageAvailable" class="spinner-overlay">
+        <span class="loader"></span>
+      </div>
+
+    <ng-template #pageAvailable>
+
+      <!-- Transaction Table -->
+      <div class="container mb-10">
+        <h3>User Records</h3>
+        <div class="table-container">
+        <table>
+          <thead>
+            <tr>
+              <!-- <th>#</th> -->
+              <th>User</th>
+              <!-- <th>Amount</th> -->
+              <th>Amount</th>
+              <!-- <th>Status</th> -->
+              <th>Date Joined</th>
+
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let user of paginatedUsers">
+              <!-- <td>{{ user.id }}</td> -->
+              <td>{{ user.username }}</td>
+              <!-- <td>{{initCurrency.symbol}}{{ user.amount | number }}</td> -->
+
+              <!-- <td>{{ user.email }}</td> -->
+              <td>
+                <span
+                  [ngClass]="{
+                    'status-active': user.status === 'success',
+                    'status-inactive': user.status === 'Inactive',
+                    'status-pending': user.status === 'pending'
+                  }">
+                  {{initCurrency.symbol}}{{ user.amount | number }}
+                </span>
+              </td>
+              <td>{{ user.timestamp | date:'medium' }}</td>
+
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+        <!-- <table border="1" cellspacing="0" cellpadding="8">
+
+        </table> -->
+
+        <!-- Pagination Controls -->
+        <div class="pagination">
+          <button
+            [disabled]="currentPage === 1"
+            (click)="changePage(currentPage - 1)">Previous</button>
+
+          <button
+            *ngFor="let page of [].constructor(totalPages); let i = index"
+            [disabled]="currentPage === i + 1"
+            (click)="changePage(i + 1)">
+            {{ i + 1 }}
+          </button>
+
+          <button
+            [disabled]="currentPage === totalPages"
+            (click)="changePage(currentPage + 1)">Next</button>
+        </div>
+      </div>
+
+    </ng-template>
+
+  </div>
+</div>

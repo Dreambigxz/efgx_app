@@ -1,0 +1,73 @@
+table {
+  width: 100%;
+  margin-bottom: 15px;
+  border-collapse: collapse;
+}
+
+th {
+  background-color: #f4f4f4;
+}
+
+.status-active {
+  color: green;
+  font-weight: bold;
+}
+.status-inactive {
+  color: gray;
+  font-style: italic;
+}
+.status-pending {
+  color: orange;
+  font-weight: 500;
+}
+
+.pagination button {
+  margin: 0 5px;
+  padding: 5px 10px;
+}
+
+/* Make table scroll horizontally on small screens */
+.table-container {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Make the table use full width */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 600px; /* force horizontal scroll if screen is too narrow */
+}
+
+th, td {
+  padding: 8px 12px;
+  text-align: left;
+  border: 1px solid #ddd;
+}
+
+/* Responsive pagination */
+.pagination {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.pagination button {
+  padding: 5px 10px;
+  min-width: 40px;
+}
+
+/* Status styles */
+.status-active {
+  color: green;
+  font-weight: bold;
+}
+.status-inactive {
+  color: gray;
+  font-style: italic;
+}
+.status-pending {
+  color: orange;
+  font-weight: 500;
+}

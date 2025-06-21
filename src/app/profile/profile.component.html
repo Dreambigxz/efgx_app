@@ -1,0 +1,102 @@
+<div class="body-overlay"></div>
+
+<div class="page" data-page="intro-metro">
+
+	<!-- HEADER -->
+	<header class="header header--page header--fixed">
+		<div class="header__inner">
+			<div (click)='history.back()' class="header__icon"><img src="../assets/images/icons/white/arrow-back.svg" alt="" title=""></div>
+			<div class="header__text">Profile</div>
+			<div class="header__icon open-panel" data-panel="right" data-arrow="left">
+      </div>
+    </div>
+  </header>
+
+    	<!-- PAGE CONTENT -->
+    	<div class="page__content page__content--with-header">
+
+        <div *ngIf="isLoadingContent; else pageAvailable" class="spinner-overlay">
+            <span class="loader"></span>
+          </div>
+
+        <ng-template #pageAvailable>
+
+
+          <div class="">
+          		<div class="">
+                <div id="google_translate_element" class="custom-google-select">
+                  Language
+                </div>
+
+          			<div class="user-profile__thumb"><img style="width:20%" src="../assets/images/avatar.jpg" alt="" title=""></div>
+          			<div class="user-profile__name">#{{user.username}}</div>
+                <div *ngIf='user' class="">
+                  <div class="flex-row">
+                    <div class="flex-title">Email:</div>
+                    <div class="flex-content">{{user.email}}</div>
+                  </div>
+
+                  <div class="flex-row">
+                    <div class="flex-title">Full Name:</div>
+                    <div class="flex-content">{{user.fullname}}</div>
+                  </div>
+
+                  <div class="flex-row">
+                    <div class="flex-title">Joined:</div>
+                    <div class="flex-content">{{user.joined|date:'medium'}}</div>
+                  </div>
+                </div>
+          			<!-- <div class="buttons buttons--centered">
+          				<a href="#" class="button button--blue button--ex-small ml-10">Deposit</a>
+          				<a href="#" class="button button--green button--ex-small ml-10">Withdraw</a>
+          			</div> -->
+                <div (click)="navigate('/wallet deposit')" class="action-buttons mb-10">
+                  <button class="action-btn deposit">
+                    <mat-icon>account_balance_wallet</mat-icon>
+                    <span>Deposit</span>
+                  </button>
+
+                  <button (click)="navigate('/wallet withdraw')" class="action-btn withdraw">
+                    <mat-icon>outbox</mat-icon>
+                    <span>Withdraw</span>
+                  </button>
+                </div>
+
+
+          		</div>
+
+              <app-change-password *ngIf='changePassword'></app-change-password>
+          		<nav class="main-nav  mb-10">
+          			<ul>
+          				<li><a><mat-icon>notifications</mat-icon><span>Notification</span><strong>3</strong></a></li>
+          				<li><a [routerLink]="['/task','manage-task']"><mat-icon>settings</mat-icon><span>Mange Tasks</span></a></li>
+          				<li><a (click)="changePassword=true" ><mat-icon>security</mat-icon><span>Change Password</span></a></li>
+                  <li><a><mat-icon>download</mat-icon><span>App</span></a></li>
+          				<li><a (click)="authService.logout(false)"><mat-icon>logout</mat-icon><span>Logout</span></a></li>
+          			</ul>
+          		</nav>
+          </div>
+    </ng-template>
+  </div>
+  <nav class="bottom-nav">
+    <a routerLink="/main" [class.active]="current === 'home'">
+      <mat-icon>home</mat-icon>
+      <span>Home</span>
+    </a>
+
+    <a [routerLink]="['/task','do-task']" [class.active]="current === 'tasks'">
+      <mat-icon>check_circle</mat-icon>
+      <span>Tasks</span>
+    </a>
+
+    <a routerLink="/teams" [class.active]="current === 'teams'">
+      <mat-icon>groups</mat-icon>
+      <span>Teams</span>
+    </a>
+
+    <a routerLink="/profile" [class.active]="current === 'profile'">
+      <mat-icon>person</mat-icon>
+      <span>Profile</span>
+    </a>
+  </nav>
+  </div>

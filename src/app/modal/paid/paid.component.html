@@ -1,0 +1,32 @@
+<div class="modal-backdrop" (click)="close()"></div>
+
+<div class="modal-content">
+  <h2>Submit Payment proof</h2>
+  <div class="fieldset">
+			<div class="form">
+				<form id="paymentCompletedForm" (ngSubmit)="handleSubmit()"  [formGroup]="paymentCompletedForm" novalidate="novalidate">
+					<div class="form__row">
+						<input type="text" formControlName="senders_name" name="senders_name" value="" class="form__input required" placeholder="Senders Name" required>
+					</div>
+					<div class="form__row">
+						<input type="text" formControlName="transaction_id" name="transaction_id" value="" class="form__input required" placeholder="Transaction ID" required>
+					</div>
+          <div class="form__row">
+						<input type="file" (change)="onFileChange($event)" formControlName="file" name="file" value="" class="form__input required" placeholder="Transaction ID" required>
+					</div>
+
+          <!-- <input type="hidde" name="action" value="submit_payment_proof"> -->
+
+					<div class="form__row mt-20">
+						<input *ngIf="!loading" type="submit" name="submit" class="form__submit button button--green button--full" id="submit" value="SUBMIT" [disabled]='!paymentCompletedForm.valid'>
+						<label *ngIf='loading' id="loader" style="display:;"><div id="loader-animation"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div></label>
+					</div>
+				</form>
+			</div>
+		</div>
+    <mat-dialog-actions >
+      <button mat-raised-button  mat-button mat-dialog-close (click)="close()">Close</button>
+      <!-- <button matButton mat-dialog-close cdkFocusInitial>Ok</button> -->
+    </mat-dialog-actions>
+  <!-- <button (click)="close()">Close</button> -->
+</div>

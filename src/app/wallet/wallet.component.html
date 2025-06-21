@@ -1,0 +1,358 @@
+
+<div class="body-overlay"></div>
+
+<div class="page" data-page="intro-metro">
+
+	<!-- HEADER -->
+	<header class="header header--page header--fixed">
+		<div class="header__inner">
+			<div (click)='history.back()' class="header__icon"><img src="../assets/images/icons/white/arrow-back.svg" alt="" title=""></div>
+			<div class="header__text">{{directory}}</div>
+			<div class="header__icon open-panel" data-panel="right" data-arrow="left">
+      </div>
+                </div>
+	</header>
+
+	<!-- PAGE CONTENT -->
+	<div class="page__content page__content--with-header">
+
+    <div *ngIf="isLoadingContent; else pageAvailable" class="spinner-overlay">
+        <span class="loader"></span>
+      </div>
+
+    <ng-template #pageAvailable>
+        <div *ngIf="directory==='deposit'">
+
+          <div *ngIf="awaitingDeposit&&!awaitingDeposit.transaction;else pendingPaymentBlock">
+            <h4 class="page__title">How  much do you want to deposit ?</h4>
+            <div class="fieldset">
+      			<div class="form">
+      				<form (ngSubmit)="handleDepositSubmit()" [formGroup]="walletForm" novalidate="novalidate">
+      					<div class="form__row">
+      						<input min="{{wallet.settings.minimum_deposit}}" formControlName='amount' type="number" name="amount" value="" class="form__input required" placeholder="Amount" required>
+                  <small *ngIf='wallet'  style="font-size:12px;margin-left:8px">Minimum of {{initCurrency.symbol}}{{wallet.settings.minimum_deposit|number}} required</small>
+      					</div>
+                <div class="form__row mt-20">
+      						<input *ngIf="!loading; else elseBlock" type="submit" name="submit" class="form__submit button button--green button--full" id="submit" value="SUBMIT" [disabled]="!walletForm.valid">
+                  <ng-template #elseBlock>
+                    <input class="form__submit button button--blue button--full is-loading" value="waiting ...">
+                  </ng-template>
+      						<!-- <input class="" type="hidden" name="to" value="youremail@website.com">
+      						<input class="" type="hidden" name="ContactSubject" value="Contacf form message">
+      						<label id="loader" style="display:none;"><div id="loader-animation"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div></label> -->
+      					</div>
+      				</form>
+      			</div>
+      		</div>
+          </div>
+
+          <ng-template #pendingPaymentBlock>
+              <!-- <h4 class="page__title">Awaiting user payment {{initCurrency.symbol}}</h4> -->
+              <div *ngIf="initCurrency.symbol==='$';else otherCurrencyBlock">
+                <div class="invoice-box">
+                  <!-- <button *ngIf='awaitingDeposit.transaction[0].generator!=="awaiting_deposit_confirmation"' (click)='paymentCompletedModal=true' style="float:right" class="form__submit button button--green button--small">PAID</button> -->
+                  <!-- <button *ngIf='this.serviceData.userData.awaitingDeposit' (click)='paymentCompletedModal=true' style="float:right" class="form__submit button button--green button--small">PAID</button> -->
+                  <div class="invoice-header">
+                    <div>
+                      <strong>Invoice #: </strong>{{ awaitingDeposit.transaction[0].sessionID }}<br>
+                      <strong>Date: </strong>{{ awaitingDeposit.transaction[0].timestamp | date:'short' }}<br>
+                      <strong>Amount: </strong>{{initCurrency.symbol}}{{ awaitingDeposit.transaction[0].amount|number:'1.2-2' }}<br>
+                      <!-- <strong *ngIf='awaitingDeposit.transaction[0].generator=="awaiting_deposit_confirmation"' >Approximate C: </strong> -->
+
+                    </div>
+
+                    <!-- <div style="text-align: right;">
+                      <strong>Company Name</strong><br>
+                      c
+                    </div> -->
+                  </div>
+
+                  <hr />
+
+                  <div *ngIf='awaitingDeposit.transaction[0].generator!=="awaiting_deposit_confirmation"' class="invoice-customer">
+                    <div class="address">
+                      <div style="max-width: 400px; margin: auto; text-align: center;">
+                          <h2>Send USDT Payment</h2>
+
+                          <p class="text-info">Please send only  <strong>{{ awaitingDeposit.transaction[0].amount|number:'1.2-2' }} {{ initCurrency.code }}</strong> to the address below:</p>
+
+                          <div *ngIf='walletAddress' style="margin: 20px 0;">
+
+                            <ngx-qrcode-styling
+                              [data]="walletAddress"
+                              [width]="150"
+                              [height]="150"
+                              [dotsOptions]="{ color: '#000' }"
+                            ></ngx-qrcode-styling>
+
+                          </div>
+
+                          <p style="word-break: break-word;"><strong>{{ walletAddress }}</strong></p>
+
+                          <button (click)="copyAddress()" style="margin-top: 10px;">Copy Wallet Address</button>
+
+                          <p *ngIf="copied" style="color: green;">✔ Address copied!</p>
+                        </div>
+
+
+                    </div>
+
+                  </div>
+
+                  <div (click)="deleteAction('invoice')" class="cancelPayment">
+                    <button  style="float:" class="form__submit button button--danger button--small">Cancel Invoice</button>
+                  </div>
+                </div>
+
+                </div>
+
+                <ng-template #otherCurrencyBlock>
+
+                  <div *ngIf="awaitingDeposit.transaction[0].generator!=='awaiting_deposit_confirmation'">
+                    <h3>NOTE:</h3>
+                    <span>Kindly click the paid button after the invoice payment is completed.</span>
+                  </div>
+
+                    <div *ngIf='awaitingDeposit.transaction[0].generator=="awaiting_deposit_confirmation"'>
+                      <h3>Payment completed ✅</h3>
+                      <p class="text-info">Your invoice is currently awaiting confirmation! Approximate waiting time is 2 hours.</p>
+                    </div>
+
+                    <!-- <button (click)="showModal = true">Open Modal</button> -->
+
+                    <app-paid *ngIf="paymentCompletedModal" (closeModal)="paymentCompletedModal = false"></app-paid>
+
+
+                      <div class="invoice-box">
+                        <button *ngIf='awaitingDeposit.transaction[0].generator!=="awaiting_deposit_confirmation"' (click)='paymentCompletedModal=true' style="float:right" class="form__submit button button--green button--small">PAID</button>
+                        <!-- <button *ngIf='this.serviceData.userData.awaitingDeposit' (click)='paymentCompletedModal=true' style="float:right" class="form__submit button button--green button--small">PAID</button> -->
+                        <div class="invoice-header">
+                          <div>
+                            <strong>Invoice #: </strong>{{ awaitingDeposit.transaction[0].sessionID }}<br>
+                            <strong>Date: </strong>{{ awaitingDeposit.transaction[0].timestamp | date:'short' }}<br>
+                            <strong>Amount: </strong>{{initCurrency.symbol}}{{ awaitingDeposit.transaction[0].amount|number:'1.2-2' }}<br>
+                            <!-- <strong *ngIf='awaitingDeposit.transaction[0].generator=="awaiting_deposit_confirmation"' >Approximate C: </strong> -->
+
+                          </div>
+
+                          <!-- <div style="text-align: right;">
+                            <strong>Company Name</strong><br>
+                            c
+                          </div> -->
+                        </div>
+
+                        <hr />
+
+                        <div *ngIf='awaitingDeposit.transaction[0].generator!=="awaiting_deposit_confirmation"' class="invoice-customer">
+                          <strong>Verified Agents:</strong><br>
+                          <p class="text-info">Make payment to any of the account below:</p>
+                          <div class="address" *ngFor="let account of awaitingDeposit.local_address">
+                            <div class="x-flex">
+                              <strong> <i class="fa fa-credit-card"></i> {{account.account_number}}</strong>
+                              <i (click)="copyContent(account.account_number)" class="fa fa-copy"></i>
+                            </div>
+                            <div class="x-flex">
+                            </div>
+                            <span><i class="fa fa-user"></i> {{account.account_holder}}</span> <br>
+                            <span><i class="fa fa-bank"></i> {{account.bank}}</span>
+                            <hr>
+
+                          </div>
+
+                        </div>
+
+                        <div (click)="deleteAction('invoice')" class="cancelPayment">
+                          <button  style="float:" class="form__submit button button--danger button--small">Cancel Invoice</button>
+                        </div>
+                      </div>
+
+
+
+                </ng-template>
+
+            </ng-template>
+        </div>
+        <div *ngIf="directory==='withdraw'">
+          <!-- <app-otp *ngIf="showOtp" (closeModal)="showOtp = false"></app-otp> -->
+
+          <div *ngIf='withdrawalInfo&&!withdrawalInfo.addresses; else canWithdrawBlock' class="">
+            <h4 class="page__title">Update payment address ({{initCurrency.name}})</h4>
+            <div class="fieldset">
+        			<div class="form">
+        				<form (ngSubmit)="handleAddressSubmit()" [formGroup]="addAddressForm" novalidate="novalidate">
+
+                  <div *ngIf='initCurrency&&initCurrency.symbol!=="$";else usdtBlock'>
+                    <div class="form__row">
+          						<input  formControlName='account_number' type="number" name="account_number"  class="form__input required" placeholder="Account Number" required>
+          					</div>
+                    <div class="form__row">
+          						<input formControlName='account_holder'  type="text" name="account_holder"  class="form__input required" placeholder="Account Name" required>
+          					</div>
+                    <div class="form__row">
+          						<input formControlName='bank'  type="text" name="bank"  class="form__input required" placeholder="Bank" required>
+          					</div>
+                  </div>
+                  <ng-template #usdtBlock>
+                    <div class="form__row">
+                      <input  formControlName='account_number' type="text" name="account_number"  class="form__input required" placeholder="USDT Address" required>
+                    </div>
+                    </ng-template>
+
+                  <!-- <div class="form__row">
+                    <input formControlName='pin'  type="text" name="pin"  class="form__input required" placeholder="Security pin" required>
+                  </div> -->
+                  <div class="form__row mt-20">
+        						<input *ngIf="!loading; else elseBlock" type="submit" name="submit" class="form__submit button button--green button--full" id="submit" value="SUBMIT" [disabled]="!addAddressForm.valid">
+                    <ng-template #elseBlock>
+                      <input class="form__submit button button--blue button--full is-loading" value="waiting ...">
+                    </ng-template>
+        						<!-- <input class="" type="hidden" name="to" value="youremail@website.com">
+        						<input class="" type="hidden" name="ContactSubject" value="Contacf form message">
+        						<label id="loader" style="display:none;"><div id="loader-animation"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div></label> -->
+        					</div>
+        				</form>
+        			</div>
+        		</div>
+          </div>
+          <ng-template #canWithdrawBlock class="canWithdrawBlock">
+            <h4 class="page__title">How  much do you want to withdraw ?</h4>
+            <div class="fieldset">
+        			<div class="form">
+        				<form (ngSubmit)="handleDepositSubmit('create_withdraw')" [formGroup]="walletForm" novalidate="novalidate">
+        					<div class="form__row">
+        						<input min="{{wallet.settings.minimum_withdraw}}" formControlName='amount' type="number" name="amount" value="" class="form__input required" placeholder="Amount" required>
+                    <small *ngIf='wallet'  style="font-size:12px;margin-left:8px">Minimum of {{initCurrency.symbol}}{{wallet.settings.minimum_deposit|number}} required</small>
+        					</div>
+
+                  <div class="form__row">
+          						<div class="form__select">
+          							<select formControlName='selectedAddress' name="selectedAddress" class="required" required>
+          								<option  disabled="" selected="">Select Address</option>
+                          <div *ngFor="let add of withdrawalInfo.addresses;let i = index">
+                            <option value="{{i}}">{{add.account_number}}</option>
+                          </div>
+
+          							</select>
+          						</div>
+          					</div>
+
+                  <div class="form__row mt-20">
+        						<input *ngIf="!loading; else elseBlock" type="submit" name="submit" class="form__submit button button--green button--full" id="submit" value="SUBMIT" [disabled]="!walletForm.valid">
+                    <ng-template #elseBlock>
+                      <input class="form__submit button button--blue button--full is-loading" value="waiting ...">
+                    </ng-template>
+        						<!-- <input class="" type="hidden" name="to" value="youremail@website.com">
+        						<input class="" type="hidden" name="ContactSubject" value="Contacf form message">
+        						<label id="loader" style="display:none;"><div id="loader-animation"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div></label> -->
+        					</div>
+        				</form>
+        			</div>
+            </div>
+          </ng-template>
+        </div>
+        <div *ngIf="directory==='transaction'">
+            <!-- transaction.component.html -->
+            <div class="transaction-wrapper mat-elevation-z2">
+
+              <!-- Summary Cards -->
+              <div class="summary-cards">
+                <mat-card *ngIf='wallet' class="summary-card deposit">
+                  <mat-icon>account_balance_wallet</mat-icon>
+                  <div>
+                    <h3>Deposited</h3>
+                    <p>{{initCurrency.symbol}}{{ wallet.history.deposit | number:'1.2-2'}}</p>
+                  </div>
+                </mat-card>
+
+                <mat-card *ngIf='wallet' class="summary-card withdrawal">
+                  <mat-icon>credit_card</mat-icon>
+                  <div>
+                    <h3>Withdrawn</h3>
+                    <p>{{initCurrency.symbol}}{{ wallet.history.withdraw | number:'1.2-2'}}</p>
+                  </div>
+                </mat-card>
+              </div>
+
+              <!-- Transaction Table -->
+              <div class="table-section">
+                <div class="x-fex">
+
+                  <div class="filter-bar">
+                      <mat-form-field appearance="outline">
+                        <mat-label>Filter</mat-label>
+                        <mat-select [(ngModel)]="selectedType" (selectionChange)="applyFilters()">
+                          <mat-option value="All">All</mat-option>
+                          <mat-option value="deposit">Deposit</mat-option>
+                          <mat-option value="withdrawal">Withdrawal</mat-option>
+                        </mat-select>
+                      </mat-form-field>
+
+                      <!-- <mat-form-field appearance="outline">
+                        <mat-label>From</mat-label>
+                        <input matInput type="date" [(ngModel)]="dateFrom" (change)="applyFilters()" />
+                      </mat-form-field> -->
+
+                      <!-- <mat-form-field appearance="outline">
+                        <mat-label>To</mat-label>
+                        <input matInput type="date" [(ngModel)]="dateTo" (change)="applyFilters()" />
+                      </mat-form-field> -->
+                    </div>
+
+                    <h2>History</h2>
+
+                </div>
+
+                <table mat-table [dataSource]="pagedTransactions" class="mat-elevation-z1">
+
+                  <!-- Type Column -->
+                  <ng-container matColumnDef="type">
+                    <th mat-header-cell *matHeaderCellDef> Type </th>
+                    <td mat-cell *matCellDef="let tx">
+                      <mat-icon [color]="tx.type === 'deposit' ? 'primary' : 'warn'">
+                        {{ tx.type === 'deposit' ? 'arrow_downward' : 'arrow_upward' }}
+                      </mat-icon>
+                      {{ tx.type }}
+                    </td>
+                  </ng-container>
+
+                  <!-- Amount Column -->
+                  <ng-container matColumnDef="amount">
+                    <th mat-header-cell *matHeaderCellDef> Amount </th>
+                    <td mat-cell *matCellDef="let tx"> {{initCurrency.symbol}}{{ tx.amount | number }} </td>
+                  </ng-container>
+
+                  <!-- Date Column -->
+                  <ng-container matColumnDef="date">
+                    <th mat-header-cell *matHeaderCellDef> Date </th>
+                    <td mat-cell *matCellDef="let tx"> {{ tx.timestamp | date:'medium' }} </td>
+                  </ng-container>
+
+                  <!-- Status Column -->
+                  <ng-container matColumnDef="status">
+                    <th mat-header-cell *matHeaderCellDef> Status </th>
+                    <td mat-cell *matCellDef="let tx">
+                      <span [ngClass]="tx.status">{{ tx.status }}</span>
+                    </td>
+                  </ng-container>
+
+                  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                </table>
+
+                <!-- <mat-paginator [length]="transactions.length" [pageSize]="5" (page)="onPageChange($event)">
+                </mat-paginator> -->
+
+                <mat-paginator
+                   [length]="filteredTransactions.length"
+                   [pageSize]="pageSize"
+                   [pageSizeOptions]="[5, 10, 20]"
+                   (page)="onPageChange($event)">
+                 </mat-paginator>
+
+              </div>
+            </div>
+        </div>
+      </ng-template>
+
+  </div>
+  </div>

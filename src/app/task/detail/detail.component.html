@@ -1,0 +1,104 @@
+<!-- <p *ngIf='directory=="create-task"'>task works! {{directory}}</p>
+
+DIR! {{directory}} -->
+
+
+<div class="body-overlay"></div>
+
+<div class="page" data-page="intro-metro">
+
+<!-- HEADER -->
+<header class="header header--page header--fixed">
+  <div class="header__inner">
+    <div (click)='history.back()' class="header__icon"><img src="../assets/images/icons/white/arrow-back.svg" alt="" title=""></div>
+    <div class="header__text">Details</div>
+    <div class="header__icon open-panel" data-panel="right" data-arrow="left"></div>
+              </div>
+</header>
+
+<!-- PAGE CONTENT -->
+<div class="page__content page__content--with-header">
+  <div *ngIf="isLoadingContent; else pageAvailable" class="spinner-overlay">
+      <span class="loader"></span>
+    </div>
+
+    <ng-template #pageAvailable>
+        <div class="post-details">
+          <span class="post-details__share open-popup" data-popup="social"><img src="../assets/images/icons/black/love.svg" alt="" title=""></span>
+          <div class="post-details__date">{{taskDetails.timestamp| date:'fullDate'}}</div>
+          <h2 class="post-details__title">{{taskDetails.heading}}</h2>
+          <div class="post-details__user">
+            <img src="{{taskDetails.file}}" alt="" title="">
+            <span>Admin</span>
+          </div>
+          <div class="post-details__feat-image">
+          <img src="{{taskDetails.file}}" alt="" title="">
+          </div>
+
+          <div class="post-details__entry mb-20">
+            <p>{{taskDetails.content}} </p>
+
+          </div>
+          <div class="tabs tabs--style1 mb-20">
+            <input type="radio" name="tabs2" class="tabs__radio" id="tab1" checked="checked">
+            <label class="tabs__label tabs__label--12" for="tab1">Comments</label>
+            <div class="tabs__content">
+              <h4>{{totalComments}} comments</h4>
+              <ul *ngFor='let comment of allComments' class="comments">
+                <li>
+                  <span class="user-line"><img src="../assets/images/photos/avatar.jpg" alt="" title=""><span>{{comment.username}}</span></span>
+                  <p>{{comment.comment}}</p>
+                </li>
+              </ul>
+            </div>
+
+            <input type="radio" name="tabs2" class="tabs__radio" id="tab2">
+            <label class="tabs__label tabs__label--12" for="tab2">Leave a comment</label>
+            <div class="tabs__content">
+              <div *ngIf='!hasTask else hasTaskBlock' class="">
+
+                <p>You need to create a task to enable you add a comment.</p>
+                <a [routerLink]="['/task','create-task']">Create task now</a>
+              </div>
+
+              <ng-template #hasTaskBlock>
+                <div *ngIf='!hasComment else hasCommentBlock' class="form">
+                  <h4>Your comment</h4>
+
+                  <form (ngSubmit)="handleSubmit()" [formGroup]="commentForm">
+
+                    <div class="form__row">
+                      <textarea formControlName='comment' name="comment" class="form__textarea " placeholder="Say something!" required></textarea>
+                    </div>
+                    <!-- <div class="form__row">
+                      <div class="checkbox-simple">
+                        <input  type="checkbox" name="agree" id="agree" value="agree" checked=""><label for="agree">Make my comment private</label>
+                      </div>
+                    </div> -->
+                    <div class="form__row mt-20">
+                      <input *ngIf="!loading; else waitBtnBlock" type="submit" name="submit" class="form__submit button button--blue button--full" id="submit"  value="COMMENT" [disabled]="!commentForm.valid">
+                      <ng-template #waitBtnBlock>
+        								<input class="form__submit button button--blue button--full is-loading" value="waiting ...">
+        							</ng-template>
+                    </div>
+                  </form>
+                </div>
+
+                <ng-template #hasCommentBlock>
+                  <ul class="custom-listing custom-listing--checked p-20">
+                      <li>Task completed!</li>
+                    </ul>
+                  </ng-template>
+              </ng-template>
+
+
+
+            </div>
+          </div>
+        </div>
+
+    </ng-template>
+
+
+</div>
+</div>

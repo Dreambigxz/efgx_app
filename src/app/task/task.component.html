@@ -1,0 +1,215 @@
+  <!-- <p *ngIf='directory=="create-task"'>task works! {{directory}}</p>
+
+DIR! {{directory}} -->
+
+
+<div class="body-overlay"></div>
+
+<div class="page" data-page="intro-metro">
+
+	<!-- HEADER -->
+	<header class="header header--page header--fixed">
+		<div class="header__inner">
+			<div (click)='history.back()' class="header__icon"><img src="../assets/images/icons/white/arrow-back.svg" alt="" title=""></div>
+			<div class="header__text">{{directory}}</div>
+			<div class="header__icon open-panel" data-panel="right" data-arrow="left">
+      </div>
+                </div>
+	</header>
+
+	<!-- PAGE CONTENT -->
+	<div class="page__content page__content--with-header">
+
+    <div *ngIf="isLoadingContent; else pageAvailable" class="spinner-overlay">
+        <span class="loader"></span>
+      </div>
+
+    <ng-template #pageAvailable>
+
+        <div *ngIf="directory==='do-task'">
+
+      		<h2 class="page__title">Available Tasks</h2>
+
+          <div *ngIf='taskModel[0]' class="posts">
+            <!-- *ngIf='taskModel[0]'  -->
+      			  <div  class="post" *ngFor="let post of taskModel">
+      				  <div class="post__thumb">
+      					  <a href="blog-single.html"><img src="{{post.file}}" alt="" title=""></a>
+      				  </div>
+      				  <div class="post__details">
+      					<h4 class="post__title"><a href="blog-single.html">{{post.heading}}</a></h4>
+                <!-- <a  (click)="openDetails(post.id)" class="post__more button button--blue button--ex-small">READ IT</a> -->
+      					<a  [routerLink]="['/task-detail',post.taskID]" class="post__more button button--blue button--ex-small">READ IT</a>
+      				  </div>
+      			  </div>
+
+      			  <!-- <a href="blog.html" class="button button--green button--full">NEXT PAGE</a> -->
+          </div>
+
+        </div>
+
+        <div *ngIf="directory==='create-task'">
+
+          <div *ngIf="!taskData.active;else isActiveBlock " class="">
+            <h2 *ngIf="!taskData.active" class="page__title text-center">Create Task here</h2>
+            <p>Create your first task to enable you start earning.</p>
+
+          </div>
+          <ng-template #isActiveBlock>
+            <h2 *ngIf="taskData.active" class="page__title text-center">Increase Task Capital</h2>
+            <p>You already have an active task: you can increase the capital earning with the form below</p>
+            </ng-template>
+
+          <div class="fieldset">
+    			<!-- <h2 id="Note">Create Task here</h2> -->
+    			<div class="form">
+    				<form (ngSubmit)="handleTaskFormSubmit()" [formGroup]="taskForm" novalidate="novalidate">
+    					<div class="form__row">
+    						<input min="{{taskData.settings.minimum}}" formControlName='amount' type="number" name="amount" value="" class="form__input required" placeholder="Amount" required>
+                <small  style="font-size:12px">Minimum of {{currencySymbol}}{{taskData.settings.minimum}} required</small>
+    					</div>
+              <div class="form__row mt-20">
+    						<input *ngIf="!loading; else elseBlock" type="submit" name="submit" class="form__submit button button--green button--full" id="submit" value="SUBMIT" [disabled]="!taskForm.valid">
+                <ng-template #elseBlock>
+                  <input class="form__submit button button--blue button--full is-loading" value="waiting ...">
+                </ng-template>
+    						<!-- <input class="" type="hidden" name="to" value="youremail@website.com">
+    						<input class="" type="hidden" name="ContactSubject" value="Contacf form message">
+    						<label id="loader" style="display:none;"><div id="loader-animation"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div></label> -->
+    					</div>
+    				</form>
+    			</div>
+    		</div>
+
+          <h3>What you should Know</h3>
+          <div class="accordion mb-40">
+    			<div class="accordion__item">
+    			  <input class="accordion__input" id="acc1" type="radio" name="accordion">
+    			  <label class="accordion__label" for="acc1">What is Task ? <span></span></label>
+    			  <div class="accordion__content">
+    				<p>Task is the activity that enable users to increase their daily earning: Users are required to perform this task everyday.</p>
+    			  </div>
+    			</div>
+    			<div class="accordion__item">
+    			  <input class="accordion__input" id="acc2" type="radio" name="accordion">
+    			  <label class="accordion__label" for="acc2">What do I earn from doing task ? <span></span></label>
+    			  <div class="accordion__content">
+              <p>When a user do a task, the user earns 2 percent of his task capital. <br> <br> <strong>For example</strong> <br> I created a task of 1000 <br> each time i do a task I earn 20 </p>
+    			  </div>
+    			</div>
+    			<div class="accordion__item">
+    			  <input class="accordion__input" id="acc3" type="radio" name="accordion">
+    			  <label class="accordion__label" for="acc3">Can I increase my task capital? <span></span></label>
+    			  <div class="accordion__content">
+    				<p>Yes you can decide to increase your task capital anytime</p>
+    			  </div>
+    			</div>
+          <div class="accordion__item">
+    			  <input class="accordion__input" id="acc4" type="radio" name="accordion">
+    			  <label class="accordion__label" for="acc4">Can I withdraw my task capital? <span></span></label>
+    			  <div class="accordion__content">
+              <p>Yes you can decide to withdraw your task capital anytime <br> <strong>Note:</strong> This will automatically deativate your task.</p>
+    			  </div>
+    			</div>
+          <div class="accordion__item">
+    			  <input class="accordion__input" id="acc5" type="radio" name="accordion">
+    			  <label class="accordion__label" for="acc5">Can I do task automatically? <span></span></label>
+    			  <div class="accordion__content">
+              <p>Yes, you can activate the bot-task on your account to do the daily task automatically without going through the hassle if login everyday to perform task manually</p>
+    			  </div>
+    			</div>
+    	  	</div>
+
+
+
+        </div>
+
+        <div *ngIf="directory==='manage-task'">
+          <!-- <p>Manage task</p> -->
+
+          <!-- dashboard.component.html -->
+        <mat-toolbar color="primary" class="mat-elevation-z2">
+          <span>Action</span>
+          <span class="spacer"></span>
+          <nav>
+            <button type="button" name="button"><a [routerLink]="['/task','create-task']"  mat-button>Increase Capital</a></button>
+            <button mat-button>withdraw Capital</button>
+
+            <!-- <button mat-button>Students</button>
+            <button mat-button>Grades</button> -->
+          </nav>
+          <!-- <mat-icon class="ml-4">account_circle</mat-icon> -->
+        </mat-toolbar>
+
+        <div class="dashboard-container mb-10">
+          <!-- Cards Grid -->
+          <!-- <mat-grid-list cols="4" rowHeight="120px" gutterSize="16px" cols.xs="1" cols.sm="2" cols.md="2" cols.lg="4"> -->
+          <div class="card-grid" >
+
+            <!-- <mat-grid-tile *ngFor="let card of cards"> -->
+              <!-- <mat-card class="" *ngFor="let card of cards"> -->
+          <mat-card class="mat-elevation-z3 card" *ngFor="let card of cards">
+            <div class="card-content">
+              <mat-icon class="card-icon" [ngStyle]="{ color: card.iconColor }">{{ card.icon }}</mat-icon>
+              <!-- <mat-icon class="mat-icon-rtl-mirror" svgIcon="thumb-up"></mat-icon> -->
+
+              <div>
+                <p class="card-title">{{ card.title }}</p>
+                <h2 class="card-value"><span *ngIf="true">{{currencySymbol}}</span> {{ card.value }}</h2>
+                <p class="card-caption" *ngIf="card.caption">{{ card.caption }}</p>
+              </div>
+            </div>
+          </mat-card>
+            <!-- </mat-grid-tile> -->
+          <!-- </mat-grid-list> -->
+          </div>
+
+          <!-- Attendance Overview Section -->
+          <!-- <mat-card class="mat-elevation-z2 mt-4">Fuupdate
+            <mat-card-title>Attendance Overview</mat-card-title>
+            <mat-card-subtitle>Weekly attendance trends</mat-card-subtitle>
+            <div class="attendance-chart-placeholder">
+              [Chart Placeholder – Integrate with ngx-charts or Chart.js]
+            </div>
+          </mat-card> -->
+        </div>
+
+        <div class="">
+
+          <div class="event-list mb-12">
+              <h2>My Task Activities </h2>
+              <div class="event" *ngFor="let event of events">
+                <div class="event-dot" [ngStyle]="{'background-color': event.color}"></div>
+                <div class="title">{{ event.title }}</div>
+                <div class="sub"><i>{{ event.timestamp| date:'medium' }} · {{ event.time }}</i></div>
+                <div class="sub">{{ event.description }}</div>
+              </div>
+              <!-- <div class="announcement">Announcements</div> -->
+            </div>
+        </div>
+        </div>
+      </ng-template>
+
+	</div>
+	<nav class="bottom-nav">
+		<a routerLink="/main" [class.active]="current === 'home'">
+			<mat-icon>home</mat-icon>
+			<span>Home</span>
+		</a>
+
+		<a [routerLink]="['/task','do-task']" [class.active]="current === 'tasks'">
+			<mat-icon>check_circle</mat-icon>
+			<span>Tasks</span>
+		</a>
+
+		<a routerLink="/teams" [class.active]="current === 'teams'">
+			<mat-icon>groups</mat-icon>
+			<span>Teams</span>
+		</a>
+
+		<a routerLink="/profile" [class.active]="current === 'profile'">
+			<mat-icon>person</mat-icon>
+			<span>Profile</span>
+		</a>
+	</nav>
+</div>

@@ -1,0 +1,112 @@
+.dashboard {
+  font-family: Arial, sans-serif;
+  /* padding: 10px; */
+  /* background-color: #0d0b1d; */
+  color: white;
+}
+
+.stats-container {
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 20px;
+}
+
+.stat-card {
+  background-color: #1a1a2e;
+  padding: 10px 20px;
+  border-radius: 10px;
+  text-align: center;
+  min-width: 100px;
+}
+
+.invite-code {
+  background: linear-gradient(to right, #1b6cfc, #121330);
+  padding: 10px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+}
+
+.invite-code .link {
+  font-weight: bold;
+  color: #fff;
+  word-break: break-all;
+}
+
+.level-card {
+  padding: 12px;
+  border-radius: 12px;
+  /* margin-bottom: 20px; */
+  color: white;
+}
+
+.level-1 {
+  background: linear-gradient(to right, #9e807e, #131433);
+}
+
+.level-2 {
+  background: linear-gradient(to right, #5f72bd, #9b23ea);
+}
+
+.level-3 {
+  background: linear-gradient(to right, #11998e, #38ef7d);
+  margin-bottom:30px;
+}
+
+.level-card h2 {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.level-info {
+  margin-top: 10px;
+}
+
+button {
+  margin-top: 10px;
+  background: white;
+  color: black;
+  padding: 6px 12px;
+  border: none;
+  border-radius: 6px;
+  font-weight: bold;
+}
+
+.summary-cards {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  margin-bottom: 30px;
+  flex-wrap: wrap;
+}
+
+.summary-card {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 15px;
+  flex: 1 1 45%;
+}
+
+.summary-card.withdrawal{
+  background:  #1b6cfc;
+  color:#fff;
+}
+.summary-card.deposit{
+  /* background:  #121330; */
+  color:#000;
+}
+
+.deposit mat-icon {
+  color: green;
+  font-size: 36px;
+}
+
+.withdrawal mat-icon {
+  color: white;
+  font-size: 36px;
+}
+
+.withdrawal h3{
+  color: #fff
+}

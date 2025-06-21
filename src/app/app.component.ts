@@ -1,12 +1,19 @@
 import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+// import { RouterOutlet } from '@angular/router';
+import {CommonModule} from '@angular/common';
+import { RouterLink, RouterOutlet } from '@angular/router';
+import { HttpClientModule, HttpClient } from '@angular/common/http'; // ✅ Import this
+
+
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet],
-  templateUrl: './app.component.html',
-  styleUrl: './app.component.css'
+  standalone:true,
+ imports: [ RouterOutlet, RouterLink, HttpClientModule],
+   templateUrl: './app.component.html',
+  styleUrl: './app.component.css',
 })
 export class AppComponent {
-  title = 'app';
+  title = 'EFGX - Investment App';
+
 }

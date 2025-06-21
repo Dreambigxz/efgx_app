@@ -1,0 +1,76 @@
+<div class="page page--login" data-page="login">
+
+	<!-- HEADER -->
+	<header class="header header--fixed">
+		<div class="header__inner">
+			<div (click)='history.back()' class="header__icon">
+				<span><img src="../assets/images/icons/gray/arrow-back.svg" alt="" title=""> </span>
+			</div>
+
+			<div id="google_translate_element" class="custom-google-select "></div>
+
+
+			<div style="justify-content:flex-end;display:flex" class="logo"><img style='width:40%' src="https://jmglimitedbucket.s3.amazonaws.com/paymentProof/logo.png" alt=""></div>
+
+    </div>
+	</header>
+
+  <div class="login">
+		<div class="login__content">
+			<h2 class="login__title">Join us for free!</h2>
+				<div class="login-form ">
+					<form (ngSubmit)="handleSubmit()" [formGroup]="MyForm" novalidate="novalidate">
+						<div class="login-form__row">
+							<label class="login-form__label">Username</label>
+							<input type="text" formControlName='username' name="Username" value="" class="login-form__input required" required>
+						</div>
+						<div class="login-form__row">
+							<label class="login-form__label">Full Name</label>
+							<input type="text" formControlName='fullname' name="fullname" value="" class="login-form__input required email" required>
+						</div>
+						<div class="login-form__row">
+							<label class="login-form__label">Email</label>
+							<input type="email" formControlName='email' name="email" value="" class="login-form__input required email" required>
+						</div>
+						<div class="login-form__row">
+							<label class="login-form__label">Currency</label>
+
+							<div class="form__select">
+								<select formControlName="currency" name="currency" class="required" required>
+									<option value="" disabled="disabled" selected="">Select currency</option>
+									<div *ngFor='let currency of currencySettings'>
+										<option value="{{currency.code}}">{{currency.name}}</option>
+									</div>
+								</select>
+							</div>
+					</div>
+						<!-- <div class="login-form__row">
+							<input readonly type="invite" formControlName='invite' name="email" value="{{invitedBy}}" class="login-form__input required email" >
+						</div> -->
+						<div class="login-form__row">
+							<label class="login-form__label">Referral</label>
+							<input readonly type="invite" formControlName='invite' name="email" value="{{invitedBy}}" class="login-form__input required email" >
+						</div>
+
+
+						<div class="login-form__row password-wrapper">
+							<label class="login-form__label">Password</label>
+							<input
+							autocomplete=""
+								[type]="showPassword ? 'text' : 'password'"
+								formControlName='password'
+								name="password" value="hello"
+								class="login-form__input required password-input"
+								required>
+							<span class="toggle-icon" (click)="togglePassword()">
+						    {{ showPassword ? '🙈' : '👁️' }}
+						  </span>
+						</div>
+						<div class="login-form__row">
+							<input type="submit" name="submit" class="login-form__submit button button--blue button--full" id="submit" value="SIGN UP" [disabled]="!MyForm.valid">
+						</div>
+					</form>
+				</div>
+		</div>
+  </div>
+</div>

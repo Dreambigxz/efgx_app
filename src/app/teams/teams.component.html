@@ -1,0 +1,99 @@
+<div class="body-overlay"></div>
+
+<div class="page" data-page="intro-metro">
+
+	<!-- HEADER -->
+	<header class="header header--page header--fixed">
+		<div class="header__inner">
+			<div (click)='history.back()' class="header__icon"><img src="../assets/images/icons/white/arrow-back.svg" alt="" title=""></div>
+			<div class="header__text">Teams</div>
+			<div class="header__icon open-panel" data-panel="right" data-arrow="left">
+      </div>
+                </div>
+	</header>
+
+	<!-- PAGE CONTENT -->
+	<div class="page__content page__content--with-header">
+
+    <div *ngIf="isLoadingContent; else pageAvailable" class="spinner-overlay">
+        <span class="loader"></span>
+      </div>
+
+    <ng-template #pageAvailable>
+      <div class="dashboard">
+
+        <div class="summary-cards">
+
+          <mat-card  class="summary-card withdrawal">
+            <mat-icon>credit_card</mat-icon>
+            <div>
+              <h3>Total Income:</h3>
+              <p *ngIf='initCurrency'>{{initCurrency.symbol}}{{teamsDir.total_paid|number}}</p>
+            </div>
+          </mat-card>
+          <mat-card  class="summary-card deposit">
+            <mat-icon>account_balance_wallet</mat-icon>
+            <div>
+              <h3>Today Income:</h3>
+              <p *ngIf='initCurrency'>{{initCurrency.symbol}}{{teamsDir.track_daily_earn.daily.amount}}</p>
+            </div>
+          </mat-card>
+
+
+        </div>
+
+        <!-- <div class="stats-container">
+          <div class="stat-card">Total Invites<br><strong>0</strong></div>
+          <div class="stat-card">Team Deposits<br><strong>$0</strong></div>
+        </div> -->
+
+        <div class="invite-code">
+          <p>Invitation code:</p>
+          <p style='color:#ffe81f' class="link">{{inviteCode}}</p>
+          <p (click)='copyContent()' class="text-right">
+            <mat-icon>file_copy</mat-icon>
+          </p>
+        </div>
+        <div *ngIf="copied" class="copied-invite text-center">
+          <p  style="color: green;">✔ Invite code copied!</p>
+        </div>
+
+        <div  class="level-card" *ngFor='let level of teamLevels'>
+          <div *ngIf="initCurrency" class="level-card level-{{level.level}}">
+            <h2>Level-{{level.level}}</h2>
+            <p>{{level.percentage}}% on first investment</p>
+            <div class="level-info">
+              <p>Users: {{level.users}}</p>
+              <p>Active: {{level.active}}</p>
+              <p>Total Deposits: {{initCurrency.symbol}}{{level.total_deposit}}</p>
+              <p>Total Withdrawn: {{initCurrency.symbol}}{{level.total_withdraw}}</p>
+              <p>Income: {{initCurrency.symbol}}{{level.income}}</p>
+            </div>
+            <button (click)="openLevelDetails(level.level)" >View</button>
+          </div>
+        </div>
+      </div>
+    </ng-template>
+  </div>
+
+	<nav class="bottom-nav">
+		<a routerLink="/main" [class.active]="current === 'home'">
+			<mat-icon>home</mat-icon>
+			<span>Home</span>
+		</a>
+
+		<a [routerLink]="['/task','do-task']" [class.active]="current === 'tasks'">
+			<mat-icon>check_circle</mat-icon>
+			<span>Tasks</span>
+		</a>
+
+		<a routerLink="/teams" [class.active]="current === 'teams'">
+			<mat-icon>groups</mat-icon>
+			<span>Teams</span>
+		</a>
+
+		<a routerLink="/profile" [class.active]="current === 'profile'">
+			<mat-icon>person</mat-icon>
+			<span>Profile</span>
+		</a>
+	</nav>

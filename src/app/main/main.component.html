@@ -1,0 +1,95 @@
+
+<div class="body-overlay"></div>
+
+<div class="page page--medical" data-page="intro-metro">
+
+
+	<header class="mobile-header">
+
+  <div (click)="navigate('/')" class="logo"><img style='width:40%' src="https://jmglimitedbucket.s3.amazonaws.com/paymentProof/logo.png" alt=""></div>
+
+	<button mat-icon-button aria-label="Notifications" class="icon-btn" translate='no'>
+		<mat-icon>notifications</mat-icon>
+		<span class="badge">{{ notificationsCount }}</span>
+	</button>
+
+	<button mat-icon-button aria-label="Logout" class="icon-btn" (click)="authService.logout(false)">
+    <mat-icon>logout</mat-icon>
+  </button>
+
+</header>
+
+
+	<!-- PAGE CONTENT -->
+	<div class="page__content page__content--with-header">
+
+		<div *ngIf="isLoadingContent; else pageAvailable" class="spinner-overlay">
+        <span class="loader"></span>
+      </div>
+
+    <ng-template #pageAvailable>
+
+			<app-spin *ngIf="!spinnedSignedUp"></app-spin>
+
+			<div  class="user-welcome mb-10">
+				<div class="x-flex">
+					<span>
+						Hello,<strong  *ngIf="user"> {{user.username}}</strong>
+					</span>
+
+					<span translate='no' *ngIf="wallet">
+						{{init_currency.symbol}}
+						<span style="font-weight:500">{{wallet.bal_info.bal}}</span>
+					</span>
+
+				</div>
+
+	    </div>
+				<div class="slider-container mb-20">
+					  <div class="slider">
+					    <img [src]="images[currentIndex]" alt="Slide image" />
+					  </div>
+					</div>
+
+					<nav class="nav-medical mb-20">
+						<ul>
+							<li class=""><a [routerLink]="['/task','do-task']"><img src="../assets/images/icons/blue/news.svg" alt="" title=""><span>Do Task</span></a></li>
+							<li><a [routerLink]="['/task','manage-task']"><img src="../assets/images/icons/blue/tabs.svg" alt="" title=""><span>Manage Task</span></a></li>
+							<li><a [routerLink]="['/task','create-task']"><img src="/assets/images/icons/blue/pencil.svg" alt="" title=""><span>Add Task</span></a></li>
+							<li><a [routerLink]="['/wallet','deposit']"><img src="/assets/images/icons/blue/blocks.svg" alt="" title=""><span>Deposit</span></a></li>
+							<li><a [routerLink]="['/wallet','withdraw']"><img src="../assets/images/icons/blue/popup.svg" alt="" title=""><span>withdraw</span></a></li>
+							<li><a [routerLink]="['/wallet','transaction']"><img src="../assets/images/icons/blue/tables.svg" alt="" title=""><span>Records</span></a></li>
+							<li><a><img src="/assets/images/icons/blue/pencil.svg" alt="" title=""><span>About</span></a></li>
+							<li><a ><img src="../assets/images/icons/blue/send.svg" alt="" title=""><span>Telegram</span></a></li>
+							<li><a ><img src="../assets/images/icons/blue/contact.svg" alt="" title=""><span>Help</span></a></li>
+						</ul>
+					</nav>
+
+		      <h2 style="margin-bottom:20em" class="page__title mb-20">Main Specialties</h2>
+
+		 </ng-template>
+		</div>
+
+		<nav class="bottom-nav">
+			<a routerLink="/main" [class.active]="current === 'home'">
+				<mat-icon>home</mat-icon>
+				<span>Home</span>
+			</a>
+
+			<a [routerLink]="['/task','do-task']" [class.active]="current === 'tasks'">
+				<mat-icon>check_circle</mat-icon>
+				<span>Tasks</span>
+			</a>
+
+			<a routerLink="/teams" [class.active]="current === 'teams'">
+				<mat-icon>groups</mat-icon>
+				<span>Teams</span>
+			</a>
+
+			<a routerLink="/profile" [class.active]="current === 'profile'">
+				<mat-icon>person</mat-icon>
+				<span>Profile</span>
+			</a>
+		</nav>
+
+</div>
