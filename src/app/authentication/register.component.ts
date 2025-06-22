@@ -67,7 +67,7 @@ export class RegisterComponent {
         })
         if (response.success) {
           this.authService.login(response.token)
-          localStorage['redirectUrl']?[this.router.navigate([localStorage['redirectUrl']]),delete(localStorage['redirectUrl'])]:0;
+          this.router.navigate(['/main']);
         }
       },
       error: (error) => {
