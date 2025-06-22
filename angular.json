@@ -39,7 +39,7 @@
               },
 
             "styles": [
-              "src/style.css",
+              "src/assets/css/style.css",
               "src/styles.css"
             ],
             "scripts": [
