@@ -16,10 +16,10 @@ import { MatIconModule } from '@angular/material/icon';
 
 import { MatDialog } from '@angular/material/dialog';
 import { SimpleDialogComponent } from "../simple-dialog/simple-dialog.component";
-
+import { GoogleAuthComponent } from "../google-auth/google-auth.component";
 
 @Component({
-  selector: 'app-main',
+  standalone: true,
   imports: [RouterLink, CommonModule,SpinComponent, MatSliderModule,MatIconModule],
   templateUrl: './main.component.html',
   // template:`    <p>Car Listing: {{ username }}</p>`,
@@ -33,12 +33,14 @@ export class MainComponent implements OnInit {
     // private route: ActivatedRoute,
     private router: Router,
     public dialog: MatDialog,
-    // private otp: OtpComponent
+    // private googleAuth: GoogleAuthComponent
   ) {}
 
   serviceData = inject(DataService)
   apiService = inject(ApiService)
   authService = inject(AuthService)
+  // twoFA = inject(twoFAGuard)
+  // googleAuth = inject(GoogleAuthComponent)
 
   // taskComponent = inject(TaskComponent)
 
@@ -49,6 +51,9 @@ export class MainComponent implements OnInit {
   //
   isLoadingContent = false
   spinnedSignedUp = true
+  has2FA = (this.serviceData.userData as any).has2FA
+  build2FA = (this.serviceData.userData as any).build2FA
+  forceClose2fa = false
   // (this.serviceData.userData as any).spinnedSignedUp
 
   ngOnInit(): void{
@@ -63,6 +68,8 @@ export class MainComponent implements OnInit {
         this.init_currency = response.init_currency
         this.isLoadingContent = false;
         this.spinnedSignedUp=response.spinnedSignedUp
+        this.has2FA=response.has2FA
+        this.build2FA=response.build2FA
         this.checkViews()
       }, err => {
         if (err.statusText === "Unauthorized") {this.authService.logout(true)}
@@ -79,6 +86,7 @@ export class MainComponent implements OnInit {
     if ((this.serviceData.userData as any).must_reset_password) {
       this.router.navigate(['/profile'])
     }
+    else{this.check2Fa()}
   }
 
   images = [
@@ -102,35 +110,63 @@ export class MainComponent implements OnInit {
     }, 3000); // Change every 3 seconds
   }
 
-  // prevImage() {
-  //   this.currentIndex = (this.currentIndex - 1 + this.images.length) % this.images.length;
-  // }
-
   nextImage() {
     this.currentIndex = (this.currentIndex + 1) % this.images.length;
   }
 
   notificationsCount = 0; // Example count
 
-  logout() {
-    // Your logout logic here
-    const dialogRef = this.dialog.open(SimpleDialogComponent,{
-      data:{message:"Are you sure you want to logout your account?",header:'Logout!', color:'red',confirmation:true},
-      // width:200px
-    })
-    dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        this.authService.logout()
-      }
-    })
-
-  }
-
   current = 'home';
 
   navigate(url:any) {
     url = url.split(' ')
     this.router.navigate(url);
+  }
+
+  check2Fa(){
+
+    if (this.user&&!this.has2FA) {
+      console.log(this.build2FA);
+
+      let dialogRef = this.dialog.open(GoogleAuthComponent,{
+        data:this.build2FA
+      })
+      dialogRef.afterClosed().subscribe(result => {
+        if (result) {
+          console.log({result});
+          if (typeof(result)==='string') {
+            if (result.length==6) {
+              this.isLoadingContent=true
+              this.apiService.tokenData('main/', this.authService.tokenKey, 'post', {otp:result,action:'bind'})
+              .subscribe(response => {
+                console.log(response);
+                this.isLoadingContent=false
+                let dialogRef = this.dialog.open(SimpleDialogComponent,{
+                  data:{message:response.message,header:response.header,color:response.success?'green':'red'}
+                })
+                dialogRef.afterClosed().subscribe(result => {
+                  response.success?[
+                    this.has2FA=true
+                  ]:this.check2Fa()
+                })
+
+              }, error =>{
+                this.isLoadingContent=false
+                if (error.statusText === "Unauthorized") {this.authService.logout()}else{
+                  let dialogRef=this.dialog.open(SimpleDialogComponent,{
+                    data:{message:"Unable to process request, please try again",header:'Request timeout!', color:'red'}
+                  });
+
+                }
+              });
+            }else{
+              this.check2Fa()
+            }
+          }
+        }else{this.check2Fa()}
+      })
+
+    }
   }
 
 }

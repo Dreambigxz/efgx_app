@@ -60,28 +60,41 @@ export class TaskComponent implements OnInit {
 
   history = window.history
 
-  initCurrency!:Object
+  wallet = (this.serviceData.userData as any).wallet
+  initCurrency:any
   currencySymbol = ''
   isLoadingContent = false
 
   checkConditions(){
+
     if (
       this.serviceData.userData &&
       typeof this.serviceData.userData === 'object' &&
       'task' in this.serviceData.userData
       ) {
+
+
         this.taskData = (this.serviceData.userData as any).task;
         this.taskModel=(this.serviceData.userData as any).taskModel
         this.initCurrency=(this.serviceData.userData as any).init_currency
+        this.wallet=(this.serviceData.userData as any).wallet
         if (this.taskData.active) {
           this.cards[0].value = numberWithCommas(this.taskData.active.capital,2)
           this.cards[1].value = numberWithCommas(this.taskData.active.daily_return)
           this.cards[2].value = numberWithCommas(this.taskData.active.total_earning)
-
+          this.cards[2].caption = `+${this.taskData.active.total_percentage}% total percentage`
         }
+
+        this.cards[1].caption = `✔️ ${this.taskData.settings.percentage}% on todays task`
+
+
         this.events = this.taskData.activities
         this.events?this.events.reverse():0
         this.currencySymbol=(this.initCurrency as any).symbol
+
+        console.log('ACTIVITIES,', this.events);
+
+        this.loadMore()
         return true //taskData
     }else{
       return false
@@ -107,9 +120,8 @@ export class TaskComponent implements OnInit {
         });
       }
 
-      console.log({directory:this.directory,userData:this.serviceData.userData});
-
     });
+
 
   }
 
@@ -123,10 +135,13 @@ export class TaskComponent implements OnInit {
       this.loading=false;
       this.serviceData.update(response)
       this.dialog.open(SimpleDialogComponent,{
-        // width:'400px',
         data:{message:response.message,header:response.header,color:response.success?'green':'red'}
       })
-      response.success?this.router.navigate(['/task','manage-task']):0
+      response.success?[
+        this.displayedItems=[],this.currentIndex=0,
+        this.router.navigate(['/task','manage-task'])
+      ]:0
+      
       // this.AllData = this.serviceData.update(response)
     }, error =>{
       this.loading=false
@@ -141,8 +156,8 @@ export class TaskComponent implements OnInit {
 
   cards = [
     { title: 'Task Capital', value: 0, icon: 'wallet', iconColor: '#3f51b5' },
-    { title: 'Daily Return', value: 0, icon: 'bar_chart', iconColor: '#4caf50', caption: '✔️ 92% attendance' },
-    { title: 'Total Earning', value: 0, icon: 'check_circle', iconColor: '#2196f3', caption: '+2.1% from last week' },
+    { title: 'Daily Return', value: 0, icon: 'bar_chart', iconColor: '#4caf50', caption: '✔️ 2% on todays task' },
+    { title: 'Total Earning', value: 0, icon: 'check_circle', iconColor: '#2196f3', caption: '+0% total percentage' },
     // { title: 'Upcoming Events', value: 0, icon: 'event', iconColor: '#ff9800', caption: 'This year' }
   ];
 
@@ -154,5 +169,31 @@ export class TaskComponent implements OnInit {
 
     // this.router.navigate(['detail'], { relativeTo: this.router.url });
 
+  }
+
+  // loadMore
+  displayedItems: any[] = [];
+  batchSize = 3;
+  currentIndex = 0;
+  loadingMoreEvent = false
+
+  loadMore() {
+
+    console.log({currentIndex:this.currentIndex,'displayedItems':this.displayedItems});
+
+    if (this.events) {
+      const nextItems = this.events.slice(this.currentIndex, this.currentIndex + this.batchSize);
+      console.log({nextItems});
+
+      this.displayedItems = [...this.displayedItems, ...nextItems];
+      this.currentIndex += this.batchSize;
+    }
+  }
+
+  onScroll(event: any) {
+    const element = event.target;
+    if (element.scrollHeight - element.scrollTop === element.clientHeight) {
+      this.loadMore();
+    }
   }
 }

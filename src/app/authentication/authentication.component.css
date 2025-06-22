@@ -14,10 +14,14 @@
 
 .toggle-icon {
   position: absolute;
-  top: 60%;
+  top: 70%;
   right: 10px;
   transform: translateY(-50%);
   cursor: pointer;
   user-select: none;
   font-size: 18px;
+}
+
+.goog-te-gadget-icon{
+  background-image: '': 
 }

@@ -95,11 +95,10 @@ export class WalletComponent {
   awaitingReq: any = null
 
   myProfile = (this.serviceData.userData as any).profile
-
+  hasPin=true
   checkPin(){
-    let hasPin=true
     if (this.myProfile&&!this.myProfile.transaction_pin) {
-      hasPin=false
+      this.hasPin=false
       this.promptOtp({'message':'Pleae update your four digit Security pin and save it somewhere.', header:'Set Pin'})
       this.awaitingReq = (result:any)=>{
         result['action']='set_trasanction_pin'
@@ -112,7 +111,10 @@ export class WalletComponent {
             data:{message:response.message,header:response.header,color:response.success?'green':'red'},
             // width:'400px'
           })
-          this.myProfile=response.profile
+          if (response.success) {
+            this.myProfile=response.profile
+            this.hasPin=Object.keys(response.profile).includes('transaction_pin')
+          }
 
         }, error =>{
           this.isLoadingContent=true
@@ -125,7 +127,7 @@ export class WalletComponent {
         });
       }
     }
-    return hasPin
+    return this.hasPin
   }
 
   updateWalletAddress(awaitingDeposit:any){
@@ -145,9 +147,6 @@ export class WalletComponent {
   }
 
   ngOnInit(): void {
-    this.checkPin();
-    // this.setPage(0, 5);
-
     this.route.paramMap.subscribe(params => {
       const action = params.get('action');
       this.directory=`${action}`
@@ -178,6 +177,8 @@ export class WalletComponent {
               if (err.statusText === "Unauthorized") {this.authService.logout(true)}
             }
           });
+        }else{
+          this.updateResponse(this.serviceData.userData)
         }
       }else{
         if (!this.transactions) {
@@ -198,10 +199,9 @@ export class WalletComponent {
         // this.startTransaction()
       }
     });
-
   }
 
-  handleDepositSubmit(action='create_deposit'){
+  handleSubmit(action='create_deposit'){
 
     let data = {action}
 
@@ -311,6 +311,10 @@ export class WalletComponent {
       if (result&&result.length==4) {
         this.awaitingReq({'pin':result})
       }
+      else{
+          this.promptOtp(data)
+      }
+
     })
     // return
   }
@@ -354,7 +358,13 @@ export class WalletComponent {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   ngAfterViewInit(): void {
-    this.paginator.page.subscribe(() => this.updatePagedTransactions());
+    try {
+      this.paginator.page.subscribe(() => this.updatePagedTransactions());
+
+    } catch (error) {
+      console.log('error>>', error);
+
+    }
   }
 
   onPageChange(event: PageEvent): void {

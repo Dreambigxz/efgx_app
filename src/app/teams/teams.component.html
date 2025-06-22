@@ -1,6 +1,6 @@
 <div class="body-overlay"></div>
 
-<div class="page" data-page="intro-metro">
+<div  class="page" data-page="intro-metro">
 
 	<!-- HEADER -->
 	<header class="header header--page header--fixed">
@@ -13,7 +13,7 @@
 	</header>
 
 	<!-- PAGE CONTENT -->
-	<div class="page__content page__content--with-header">
+	<div (scroll)="onScroll($event)"  class="page__content page__content--with-header">
 
     <div *ngIf="isLoadingContent; else pageAvailable" class="spinner-overlay">
         <span class="loader"></span>
@@ -28,14 +28,14 @@
             <mat-icon>credit_card</mat-icon>
             <div>
               <h3>Total Income:</h3>
-              <p *ngIf='initCurrency'>{{initCurrency.symbol}}{{teamsDir.total_paid|number}}</p>
+              <p *ngIf='initCurrency'>{{initCurrency.symbol}}{{teamsDir.total_paid|number:'1.1-1'}}</p>
             </div>
           </mat-card>
           <mat-card  class="summary-card deposit">
             <mat-icon>account_balance_wallet</mat-icon>
             <div>
               <h3>Today Income:</h3>
-              <p *ngIf='initCurrency'>{{initCurrency.symbol}}{{teamsDir.track_daily_earn.daily.amount}}</p>
+              <p *ngIf='initCurrency'>{{initCurrency.symbol}}{{teamsDir.track_daily_earn.daily.amount|number:'1.1-1'}}</p>
             </div>
           </mat-card>
 
@@ -65,9 +65,9 @@
             <div class="level-info">
               <p>Users: {{level.users}}</p>
               <p>Active: {{level.active}}</p>
-              <p>Total Deposits: {{initCurrency.symbol}}{{level.total_deposit}}</p>
-              <p>Total Withdrawn: {{initCurrency.symbol}}{{level.total_withdraw}}</p>
-              <p>Income: {{initCurrency.symbol}}{{level.income}}</p>
+              <p>Total Deposits: {{initCurrency.symbol}}{{level.total_deposit|number:'1.2-2'}}</p>
+              <p>Total Withdrawn: {{initCurrency.symbol}}{{level.total_withdraw|number:'1.2-2'}}</p>
+              <p>Income: {{initCurrency.symbol}}{{level.income|number:'1.2-2'}}</p>
             </div>
             <button (click)="openLevelDetails(level.level)" >View</button>
           </div>

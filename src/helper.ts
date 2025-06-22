@@ -49,18 +49,32 @@ export function createElement(type:any,cls='',dataset=[],data=null,onclickFun=nu
  export function loadExternalScript(URL='https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit'){
 
    setTimeout(() => {
-     const element = document.querySelector('.goog-te-gadget-icon');
+     let element = document.querySelector('.goog-te-gadget-icon');
      console.log({element});
      if (!element) {
        loadScript(URL)
        .then(() => {
          console.log('Google Translate script loaded.');
+         setTimeout(() => {
+           changeGoogleIcon(document.querySelector('.goog-te-gadget-simple'))
+         }, 3000)
+
        })
        .catch(err => {
          console.error('Script load error:', err);
        });
+     }else{
+       console.log('ELEMENT LOADED');
+       changeGoogleIcon(document.querySelector('.goog-te-gadget-simple'))
      }
    }, 3000); // delay in milliseconds
+ }
 
+ function changeGoogleIcon(ele:any) {
 
+   if (ele) {
+     ele.querySelector('img').style=''
+     ele.style='background:transparent;border:none !important;';
+     ele.querySelector('img')?ele.querySelector('img').src='assets/images/icons8-world-40.png':0;
+   }
  }

@@ -37,6 +37,8 @@ export class RegisterComponent {
   favoriteFramework = '';
   invitedBy!:any
 
+
+
   showPassword = false;
 
   togglePassword() {
@@ -67,6 +69,7 @@ export class RegisterComponent {
         dialogRef.afterClosed().subscribe(result => {
 
           if (response.success) {
+            this.invitedBy?delete(localStorage['invitedBy']):0
             this.authService.login(response.token)
             this.router.navigate(['/main']);
           }
@@ -76,7 +79,7 @@ export class RegisterComponent {
 
       },
       error: (error) => {
-
+        this.loading=false
         this.dialog.open(SimpleDialogComponent,{
           data:{message:"Unable to process request, please try again",header:'Request timeout!', color:'red'}
         })
@@ -91,8 +94,13 @@ export class RegisterComponent {
 
     if (checkUrl[1]) {
       this.invitedBy=checkUrl[1].replaceAll('=','')
-      this.MyForm.patchValue({invite:this.invitedBy})
+      localStorage['invitedBy']=this.invitedBy
+    }else{
+      if (localStorage['invitedBy']) {
+        this.invitedBy=localStorage['invitedBy']
+      }
     }
+    this.MyForm.patchValue({invite:this.invitedBy})
 
     if (!this.currencySettings[0]) {
       this.apiService.NotokenData('register/',{},'get').subscribe({

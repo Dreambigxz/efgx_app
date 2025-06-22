@@ -40,8 +40,8 @@
           <tbody>
             <tr *ngFor="let user of paginatedUsers">
               <!-- <td>{{ user.id }}</td> -->
-              <td>{{ user.username }}</td>
-              <!-- <td>{{initCurrency.symbol}}{{ user.amount | number }}</td> -->
+              <td>{{ user.transactionID }}</td>
+              <!-- <td>{{initCurrency.symbol}}{{ user.amount | number:'1.2-2' }}</td> -->
 
               <!-- <td>{{ user.email }}</td> -->
               <td>
@@ -51,7 +51,7 @@
                     'status-inactive': user.status === 'Inactive',
                     'status-pending': user.status === 'pending'
                   }">
-                  {{initCurrency.symbol}}{{ user.amount | number }}
+                  {{initCurrency.symbol}}{{ user.amount | number:'1.2-2' }}
                 </span>
               </td>
               <td>{{ user.timestamp | date:'medium' }}</td>

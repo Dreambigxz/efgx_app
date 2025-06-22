@@ -3,7 +3,7 @@
 <div class="modal-content">
   <h2 style='color:{{data.color}}; font-size:10px' mat-dialog-title>{{ data.color==="red"?"Request Faild":data.header}}</h2>
   <!-- <mat-dialog-content style='font-size:14px'> -->
-    {{data.message}}
+    <span>{{data.message?data.message:'Unable to complete this request!'}}</span>
   <!-- </mat-dialog-content> -->
 
     <mat-dialog-actions *ngIf='!data.confirmation'>

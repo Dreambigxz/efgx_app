@@ -67,7 +67,11 @@
 						  </span>
 						</div>
 						<div class="login-form__row">
-							<input type="submit" name="submit" class="login-form__submit button button--blue button--full" id="submit" value="SIGN UP" [disabled]="!MyForm.valid">
+							<input *ngIf="!loading; else elseBlock" type="submit" name="submit" class="login-form__submit button button--blue button--full" id="submit" value="SIGN UP" [disabled]="!MyForm.valid">
+							<ng-template #elseBlock>
+								<input class="login-form__submit button button--blue button--full is-loading" value="waiting ...">
+							</ng-template>
+							<!-- <input type="submit" name="submit" class="login-form__submit button button--blue button--full" id="submit" value="SIGN UP" [disabled]="!MyForm.valid"> -->
 						</div>
 					</form>
 				</div>

@@ -8,6 +8,9 @@
       </div>
 
 			<div id="google_translate_element" class="custom-google-select "></div>
+			<div class="">
+				<img src="../assets/images/icons8-headset-24.png" alt="">
+			</div>
 
 			<div style="justify-content:flex-end;display:flex" class="logo">
 				<img style='width:40%' src="https://jmglimitedbucket.s3.amazonaws.com/paymentProof/logo.png" alt="">
@@ -38,7 +41,9 @@
 								class="login-form__input required password-input"
 								required>
 							<span class="toggle-icon" (click)="togglePassword()">
-						    {{ showPassword ? '🙈' : '👁️' }}
+								<img *ngIf="showPassword" src="assets/images/password_close.png" draggable="false">
+									<img style="width:25px" *ngIf="!showPassword" src="assets/images/password_open.png" draggable="false">
+
 						  </span>
 						</div>
 						<div class="login-form__row">

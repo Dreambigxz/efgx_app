@@ -62,11 +62,15 @@ DIR! {{directory}} -->
 
           <div class="fieldset">
     			<!-- <h2 id="Note">Create Task here</h2> -->
+						<span class="available-bal" translate='no' *ngIf="wallet&&initCurrency">
+							BAL: {{initCurrency.symbol}}
+							<span style="font-weight:500">{{wallet.bal_info.bal|number}}</span>
+						</span>
     			<div class="form">
     				<form (ngSubmit)="handleTaskFormSubmit()" [formGroup]="taskForm" novalidate="novalidate">
     					<div class="form__row">
     						<input min="{{taskData.settings.minimum}}" formControlName='amount' type="number" name="amount" value="" class="form__input required" placeholder="Amount" required>
-                <small  style="font-size:12px">Minimum of {{currencySymbol}}{{taskData.settings.minimum}} required</small>
+                <small class="minimum-val">Minimum of <strong translate='no'>{{currencySymbol}}{{taskData.settings.minimum}}</strong> required</small>
     					</div>
               <div class="form__row mt-20">
     						<input *ngIf="!loading; else elseBlock" type="submit" name="submit" class="form__submit button button--green button--full" id="submit" value="SUBMIT" [disabled]="!taskForm.valid">
@@ -176,15 +180,17 @@ DIR! {{directory}} -->
 
         <div class="">
 
-          <div class="event-list mb-12">
+          <div *ngIf="events"  (scroll)="onScroll($event)" class="event-list scroll-box">
               <h2>My Task Activities </h2>
-              <div class="event" *ngFor="let event of events">
+              <div class="event" *ngFor="let event of displayedItems">
                 <div class="event-dot" [ngStyle]="{'background-color': event.color}"></div>
                 <div class="title">{{ event.title }}</div>
                 <div class="sub"><i>{{ event.timestamp| date:'medium' }} · {{ event.time }}</i></div>
                 <div class="sub">{{ event.description }}</div>
+								<div *ngIf='event.reward' class="announcement">Reward:{{event.reward.percentage}}%</div>
               </div>
-              <!-- <div class="announcement">Announcements</div> -->
+							<div *ngIf="currentIndex < events.length" class="loading">Scroll to load more...</div>
+						  <div *ngIf="currentIndex >= events.length" class="done">No more items</div>
             </div>
         </div>
         </div>

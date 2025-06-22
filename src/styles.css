@@ -1,13 +1,11 @@
 /* You can add global styles to this file, and also import other style files */
 
 
-html, body { height: 100%; top:0!important; overflow: hidden;}
+html, body {  top:0!important; overflow: auto;}
 body {
-   margin: 0;
-   font-family: Roboto, "Helvetica Neue", sans-serif;
-   background-color: #b3b3b3;
-   display: flex;
-   justify-content: center;
+   /* font-family: Roboto, "Helvetica Neue", sans-serif; */
+   /* background-color: #b3b3b3; */
+
  }
 
 .ng-invalid #submit{
@@ -67,7 +65,7 @@ text-info {
   position: relative;
   left: -32px;
   border-radius: 50%;
-  color: #007aff;
+  color: #999;
   background: currentColor;
   box-shadow: 32px 0 , -32px 0 ,  64px 0;
 }
@@ -80,7 +78,7 @@ text-info {
   width: 16px;
   height: 16px;
   border-radius: 10px;
-  background:green;
+  background:#121330;
   animation: move 3s linear infinite alternate;
 }
 
@@ -123,16 +121,23 @@ text-info {
 }
 
 
-    .page {
-      width: 420px; /* typical mobile width */
-      min-height: 100vh;
-      background-color: #dbdaeb;
-      /* background-color: #121330; */
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-      /* padding: 1rem; */
-      box-sizing: border-box;
 
-    }
+  .page {
+    width: 420px; /* typical mobile width */
+    min-height: 100%;
+    background-color: #dbdaeb;
+    /* background-color: #121330; */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    /* padding: 1rem; */
+    box-sizing: border-box;
+
+    overflow: auto;
+    display: flex;
+    flex-direction: column;
+    scroll-behavior: smooth;
+
+  }
+
 
     .text-info{
       color: #c86e51
@@ -290,4 +295,32 @@ text-info {
 
 .mat-mdc-dialog-title{
   padding: 6px 0px 13px !important;
+}
+
+.minimum-val{
+  color: #c86e51;
+  margin-bottom:12px;
+  font-size:12px;
+  margin-left:8px
+}
+
+span.available-bal {
+    padding: 10px;
+    margin: 7px;
+    display: flex;
+    float: inline-end;
+    color: #1b6cfc
+}
+
+.goog-te-gadget-icon{
+  width: 100% !important;
+  height:100% !important;
+}
+
+.close-modal {
+    justify-content: end;
+    display: grid
+;
+    margin-bottom: 12px;
+    font-size: 1.5em;
 }

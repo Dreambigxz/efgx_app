@@ -12,7 +12,7 @@
 						<input type="text" formControlName="transaction_id" name="transaction_id" value="" class="form__input required" placeholder="Transaction ID" required>
 					</div>
           <div class="form__row">
-						<input type="file" (change)="onFileChange($event)" formControlName="file" name="file" value="" class="form__input required" placeholder="Transaction ID" required>
+						<input accept=".jpg,.jpeg,image/jpeg,.png" type="file" (change)="onFileChange($event)" formControlName="file" name="file" value="" class="form__input required" placeholder="Transaction ID" required>
 					</div>
 
           <!-- <input type="hidde" name="action" value="submit_payment_proof"> -->

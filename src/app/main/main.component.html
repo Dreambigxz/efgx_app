@@ -29,7 +29,8 @@
 
     <ng-template #pageAvailable>
 
-			<app-spin *ngIf="!spinnedSignedUp"></app-spin>
+			<app-spin *ngIf="!spinnedSignedUp&&has2FA||!spinnedSignedUp&&forceClose2fa"></app-spin>
+			<!-- <app-google-auth *ngIf="!has2FA&&!forceClose2fa"></app-google-auth> -->
 
 			<div  class="user-welcome mb-10">
 				<div class="x-flex">

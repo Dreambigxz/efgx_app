@@ -1,0 +1,48 @@
+<div class="modal-backdrop" (click)="dialogRef.close(true)"></div>
+
+<div class="modal-content">
+  <div (click)="dialogRef.close(true)" class="close-modal">
+    <i class="fa fa-close"></i>
+  </div>
+  <h1>Two Factor Authentication</h1>
+  <h2 class="text-info">Download Google Authenticator for binding</h2>
+    <div class="">
+      <p>Scan the QR code to bind:</p>
+
+    </div>
+    <div class="qr-section">
+      <div class="image">
+        <img class="qr-code" width="150px" src="data:image/png;base64,{{data[1]}}">
+      </div>
+      <div class="secret-key">
+          <h4 class="text-info">Use Setup Key:</h4>
+          <p ><span class="secret-key-text">{{data[0]}}</span>
+            <br>
+          <i style="font-size:20px" (click)="copyContent(data[0])" class="fa fa-copy"></i></p>
+      </div>
+    </div>
+
+    <div class="text-center">
+      <p *ngIf="copied" style="color: green;">✔ secret key copied!</p>
+    </div>
+
+    <div class="otp-section">
+      <h5 class="text-center">Enter confirmation code</h5>
+      <div class="otp-container mb-10">
+        <input  *ngFor="let digit of otpDigits; let i = index"
+              type="number" maxlength="1" inputmode="numeric"
+
+               [(ngModel)]="otp[i]"
+               (keyup)="onKeyUp($event, i)"
+               [id]="'otp-' + i" />
+        </div>
+    </div>
+
+
+    <mat-dialog-actions >
+      <button mat-raised-button (click)='dialogRef.close(getOtp())' mat-button>BIND NOW</button>
+      <!-- <button mat-raised-button  mat-button mat-dialog-close (click)="close()">BIND NOW</button> -->
+      <!-- <button mat-button (click)="close()" cdkFocusInitial>Close</button> -->
+    </mat-dialog-actions>
+  <!-- <button (click)="close()">Close</button> -->
+</div>

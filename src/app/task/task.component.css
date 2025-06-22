@@ -6,7 +6,7 @@
 
 .dashboard-container {
   padding: 4px;
-  margin-top: 12px; 
+  margin-top: 12px;
 }
 
 .spacer {
@@ -47,8 +47,11 @@
 }
 
 .card-caption {
-  font-size: 0.8rem;
+  font-size: 12px;;
   color: #4caf50;
+  right: 12px;
+  bottom: 12px;
+  position: absolute;
 }
 
 .chart-placeholder {
@@ -106,6 +109,21 @@
 
     .announcement {
       font-weight: bold;
-      margin-top: 30px;
+      margin-top: 10px;
       color: #333;
     }
+
+  .scroll-box {
+    height: 400px;
+    overflow-y: auto;
+    border: 1px solid #ccc;
+    padding: 10px;
+  }
+
+
+
+  .loading, .done {
+    text-align: center;
+    color: gray;
+    padding: 10px;
+  }

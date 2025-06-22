@@ -123,5 +123,29 @@ export class TeamsComponent {
     this.router.navigate(['/team-detail',level]);
   }
 
+  onScroll(event: any) {
+    const element = event.target;
+
+    // console.log({clientHeight:element.clientHeight,'scrollTop':element.scrollTop,'scrollHeight':element.scrollHeight});
+
+    const scrollLeft = element.scrollHeight - element.scrollTop
+     // - element.clientHeight;
+     const isAtBottom = Math.abs(element.scrollHeight - element.clientHeight - element.scrollTop) < 1;
+     const isAtBottom2 = Math.ceil(element.scrollTop) >= element.scrollHeight - element.clientHeight;
+
+
+     console.log({isAtBottom,isAtBottom2});
+
+    if (element.scrollHeight - element.scrollTop === element.clientHeight) {
+      console.log('ENDOF PAGE');
+      console.log({scrollLeft});
+
+
+    }else{
+      console.log('PAGE NOT EDED');
+
+    }
+  }
+
 
 }
