@@ -141,7 +141,7 @@ export class TaskComponent implements OnInit {
 
   cards = [
     { title: 'Task Capital', value: 0, icon: 'wallet', iconColor: '#3f51b5' },
-    { title: 'Dily Return', value: 0, icon: 'bar_chart', iconColor: '#4caf50', caption: '✔️ 92% attendance' },
+    { title: 'Daily Return', value: 0, icon: 'bar_chart', iconColor: '#4caf50', caption: '✔️ 92% attendance' },
     { title: 'Total Earning', value: 0, icon: 'check_circle', iconColor: '#2196f3', caption: '+2.1% from last week' },
     // { title: 'Upcoming Events', value: 0, icon: 'event', iconColor: '#ff9800', caption: 'This year' }
   ];
