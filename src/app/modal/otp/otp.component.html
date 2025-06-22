@@ -4,7 +4,7 @@
   <h2>{{data.header}}</h2>
     <p class="text-info">{{data.message}}</p>
   <div class="otp-container mb-10">
-    <input type="text" maxlength="1" *ngFor="let digit of otpDigits; let i = index"
+    <input type="number" maxlength="1" *ngFor="let digit of otpDigits; let i = index"
            [(ngModel)]="otp[i]"
            (keyup)="onKeyUp($event, i)"
            [id]="'otp-' + i" />

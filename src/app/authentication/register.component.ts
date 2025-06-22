@@ -62,19 +62,23 @@ export class RegisterComponent {
     this.apiService.NotokenData('register/',data).subscribe({
       next: (response) => {
         this.loading=false
-        this.dialog.open(SimpleDialogComponent,{
+        const dialogRef = this.dialog.open(SimpleDialogComponent,{
           data:{message:response.message,header:response.header,color:response.success?'green':'red'}
         })
-        if (response.success) {
-          this.authService.login(response.token)
-          this.router.navigate(['/main']);
-        }
+        dialogRef.afterClosed().subscribe(result => {
+          if (response.success) {
+            this.authService.login(response.token)
+            this.router.navigate(['/main']);
+          }
+        })
+
       },
       error: (error) => {
 
         this.dialog.open(SimpleDialogComponent,{
           data:{message:"Unable to process request, please try again",header:'Request timeout!', color:'red'}
         })
+
       }
     });
 
