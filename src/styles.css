@@ -124,7 +124,7 @@ text-info {
 
 
     .page {
-      width: 375px; /* typical mobile width */
+      width: 475px; /* typical mobile width */
       min-height: 100vh;
       background-color: #dbdaeb;
       /* background-color: #121330; */
@@ -289,5 +289,5 @@ text-info {
 }
 
 .mat-mdc-dialog-title{
-  padding: 6px 0px 13px !important; 
+  padding: 6px 0px 13px !important;
 }
