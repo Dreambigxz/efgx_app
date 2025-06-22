@@ -39,7 +39,7 @@
 
 					<span translate='no' *ngIf="wallet">
 						{{init_currency.symbol}}
-						<span style="font-weight:500">{{wallet.bal_info.bal}}</span>
+						<span style="font-weight:500">{{wallet.bal_info.bal|number}}</span>
 					</span>
 
 				</div>
