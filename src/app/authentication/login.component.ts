@@ -52,14 +52,19 @@ export class LoginComponent {
 
     this.apiService.NotokenData('login/',data).subscribe({
       next: (response) => {
-        this.loading=false
-        this.dialog.open(SimpleDialogComponent,{
+        // this.loading=false
+        const dialogRef=this.dialog.open(SimpleDialogComponent,{
           data:{message:response.message,header:response.header,color:response.success?'green':'red'}
         })
-        if (response.success) {
-          this.authService.login(response.token)
-          localStorage['redirectUrl']?[this.router.navigate([localStorage['redirectUrl']]),delete(localStorage['redirectUrl'])]:0;
-        }
+        dialogRef.afterClosed().subscribe(result => {
+          if (response.success) {
+            this.authService.login(response.token)
+            localStorage['redirectUrl']?[this.router.navigate([localStorage['redirectUrl']]),delete(localStorage['redirectUrl'])]:0;
+          }
+          this.loading=false
+
+        })
+
       },
       error: (error) => {
         this.loading=false

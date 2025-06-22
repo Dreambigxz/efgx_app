@@ -61,15 +61,17 @@ export class RegisterComponent {
 
     this.apiService.NotokenData('register/',data).subscribe({
       next: (response) => {
-        this.loading=false
         const dialogRef = this.dialog.open(SimpleDialogComponent,{
           data:{message:response.message,header:response.header,color:response.success?'green':'red'}
         })
         dialogRef.afterClosed().subscribe(result => {
+
           if (response.success) {
             this.authService.login(response.token)
             this.router.navigate(['/main']);
           }
+          this.loading=false
+
         })
 
       },
