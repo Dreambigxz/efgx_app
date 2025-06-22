@@ -58,8 +58,9 @@ export class WalletComponent {
     private route: ActivatedRoute,
     private router: Router,
     public dialog: MatDialog,
-    // private otp: OtpComponent
   ) {}
+
+  copyContent = copyContent
 
   serviceData = inject(DataService)
   apiService = inject(ApiService)
@@ -213,7 +214,6 @@ export class WalletComponent {
       this.serviceData.update(response)
       this.dialog.open(SimpleDialogComponent,{
         data:{message:response.message,header:response.header,color:response.success?'green':'red'},
-        // width:'400px'
       })
       this.awaitingDeposit=response.awaitingDeposit
       this.updateWalletAddress(response.awaitingDeposit)
@@ -265,7 +265,6 @@ export class WalletComponent {
 
   }
 
-  copyContent = copyContent
 
   invoice = {
 
@@ -320,9 +319,11 @@ export class WalletComponent {
   amount: number = 0.005;
   copied: boolean = false;
 
-  copyAddress() {
-    navigator.clipboard.writeText(this.walletAddress).then(() => {
-      this.copied = true;
+  copyAddress(item=this.walletAddress,dialog=false) {
+    navigator.clipboard.writeText(item).then(() => {
+      dialog?[this.dialog.open(SimpleDialogComponent,{
+        data:{message: item+' successfully copied',header:'Success',color:'green'},
+      })]:this.copied = true;
       setTimeout(() => this.copied = false, 3000);
     });
   }
@@ -353,7 +354,7 @@ export class WalletComponent {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   ngAfterViewInit(): void {
-    // this.paginator.page.subscribe(() => this.updatePagedTransactions());
+    this.paginator.page.subscribe(() => this.updatePagedTransactions());
   }
 
   onPageChange(event: PageEvent): void {

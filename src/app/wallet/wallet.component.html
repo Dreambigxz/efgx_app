@@ -148,7 +148,7 @@
                           <div class="address" *ngFor="let account of awaitingDeposit.local_address">
                             <div class="x-flex">
                               <strong> <i class="fa fa-credit-card"></i> {{account.account_number}}</strong>
-                              <i (click)="copyContent(account.account_number)" class="fa fa-copy"></i>
+                              <i (click)="copyAddress(account.account_number,true)" class="fa fa-copy"></i>
                             </div>
                             <div class="x-flex">
                             </div>

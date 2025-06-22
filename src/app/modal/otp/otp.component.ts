@@ -39,14 +39,12 @@ export class OtpComponent {
   onKeyUp(event: KeyboardEvent, index: number) {
     const input = event.target as HTMLInputElement;
     const key = event.key;
-
-    console.log({key, input});
-
-
+    console.log({key, input,otp:this.otp});
     if (key === 'Backspace' && index > 0 && !input.value) {
       const prev = document.getElementById('otp-' + (index - 1));
       prev?.focus();
     } else if (input.value && index < 5) {
+      input.value=key; this.otp[index]=key
       const next = document.getElementById('otp-' + (index + 1));
       next?.focus();
     }
