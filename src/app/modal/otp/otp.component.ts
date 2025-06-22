@@ -40,7 +40,7 @@ export class OtpComponent {
     const input = event.target as HTMLInputElement;
     const key = event.key;
 
-    // console.log({key, input});
+    console.log({key, input});
 
 
     if (key === 'Backspace' && index > 0 && !input.value) {
