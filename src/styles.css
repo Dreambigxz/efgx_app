@@ -124,7 +124,7 @@ text-info {
 
 
     .page {
-      width: 475px; /* typical mobile width */
+      width: 400px; /* typical mobile width */
       min-height: 100vh;
       background-color: #dbdaeb;
       /* background-color: #121330; */
