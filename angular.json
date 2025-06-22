@@ -21,30 +21,18 @@
             ],
             "tsConfig": "tsconfig.app.json",
             "assets": [
-                {
-                  "glob": "**/*",
-                  "input": "src/assets",
-                  "output": "/assets"
-                },
-                {
-                  "glob": "favicon.ico",
-                  "input": "src",
-                  "output": "/"
-                }
-              ],
-              "stylePreprocessorOptions": {
-                "includePaths": [
-                  "src/assets"
-                ]
-              },
-
+              {
+                "glob": "**/*",
+                "input": "public",
+                "src/assets"
+              }
+            ],
             "styles": [
-              "src/assets/css/style.css",
+              "src/custom-theme.scss",
+              "src/assets/css/style.css"
               "src/styles.css"
             ],
-            "scripts": [
-
-            ]
+            "scripts": []
           },
           "configurations": {
             "production": {
