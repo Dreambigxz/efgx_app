@@ -29,7 +29,7 @@
             ],
             "styles": [
               "src/custom-theme.scss",
-              "src/assets/css/style.css",
+              "public/assets/css/style.css",
               "src/styles.css"
             ],
             "scripts": []
@@ -88,7 +88,7 @@
               }
             ],
             "styles": [
-              "src/styles.css",
+              "src/styles.css"
             ],
             "scripts": []
           }
