@@ -11,10 +11,11 @@ import { MatDialog } from '@angular/material/dialog';
 import { SimpleDialogComponent } from "../simple-dialog/simple-dialog.component";
 
 import { loadExternalScript } from "../../helper";
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-authentication',
-  imports: [ReactiveFormsModule,RouterLink,CommonModule],
+  imports: [ReactiveFormsModule,RouterLink,CommonModule,FormsModule],
   templateUrl: './register.component.html',
   styleUrl: './authentication.component.css'
 })
@@ -38,7 +39,6 @@ export class RegisterComponent {
   invitedBy!:any
 
 
-
   showPassword = false;
 
   togglePassword() {
@@ -47,6 +47,7 @@ export class RegisterComponent {
 
   MyForm = new FormGroup({
     username: new FormControl(''),
+    otp: new FormControl(''),
     fullname: new FormControl(''),
     email: new FormControl(''),
     password: new FormControl(''),
@@ -57,9 +58,12 @@ export class RegisterComponent {
   currencySettings: any [ ] = [ ]
 
   handleSubmit() {
-
+    if (this.resending) {this.resending=false;return}
     let data = this.MyForm.value
+
     this.loading=true
+
+    console.log({data}, 'submit');
 
     this.apiService.NotokenData('register/',data).subscribe({
       next: (response) => {
@@ -117,8 +121,35 @@ export class RegisterComponent {
       });
     }
 
+
+
   }
   ngAfterViewInit() {
     loadExternalScript()
   }
+
+  otpCode = '';
+  countdown = 0;
+  resending = false
+  private intervalId: any;
+
+  startCountdown(): void {
+    this.countdown = 30;
+    clearInterval(this.intervalId);
+
+    this.intervalId = setInterval(() => {
+      this.countdown--;
+      if (this.countdown <= 0) {
+        clearInterval(this.intervalId);
+      }
+    }, 1000);
+  }
+
+  resendOtp(): void {
+    this.resending=true
+    this.otpCode = '';
+    this.startCountdown();
+
+  }
+
 }

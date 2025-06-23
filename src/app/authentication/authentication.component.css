@@ -23,5 +23,24 @@
 }
 
 .goog-te-gadget-icon{
-  background-image: '': 
+  background-image: '':
+}
+
+.otp-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.otp-input {
+  flex: 1;
+  padding: 10px;
+  font-size: 16px;
+}
+
+.resend-button {
+  padding: 5px 16px;
+  font-size: 10px;
+  cursor: pointer;
+  width: 24%;
 }
