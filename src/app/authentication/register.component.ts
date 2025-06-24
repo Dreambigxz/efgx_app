@@ -40,7 +40,6 @@ export class RegisterComponent {
   favoriteFramework = '';
   invitedBy!:any
 
-
   showPassword = false;
 
   togglePassword() {
@@ -177,6 +176,10 @@ export class RegisterComponent {
 
     this.handleSubmit('register/?action=send_verification_code&email='+data.email,'get')
 
+  }
+
+  trackById(index: number, item: any) {
+    return item.id;
   }
 
 
