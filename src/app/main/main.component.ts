@@ -4,6 +4,7 @@ import { tap, delay } from 'rxjs/operators';
 import { CommonModule } from '@angular/common';
 import { Observable, } from 'rxjs';
 
+
 import { ApiService } from "../api/api.service";
 import { AuthService } from "../auth/auth.service";
 
@@ -99,6 +100,9 @@ export class MainComponent implements OnInit {
   currentIndex = 0;
   autoSlideInterval: any;
 
+  ngAfterViewInit() {
+    let page = document.querySelector('.page')
+  }
 
   ngOnDestroy() {
     clearInterval(this.autoSlideInterval);
@@ -126,14 +130,11 @@ export class MainComponent implements OnInit {
   check2Fa(){
 
     if (this.user&&!this.has2FA) {
-      console.log(this.build2FA);
-
       let dialogRef = this.dialog.open(GoogleAuthComponent,{
         data:this.build2FA
       })
       dialogRef.afterClosed().subscribe(result => {
         if (result) {
-          console.log({result});
           if (typeof(result)==='string') {
             if (result.length==6) {
               this.isLoadingContent=true
@@ -162,6 +163,8 @@ export class MainComponent implements OnInit {
             }else{
               this.check2Fa()
             }
+          }else{
+            this.forceClose2fa=true
           }
         }else{this.check2Fa()}
       })

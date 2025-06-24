@@ -1,4 +1,4 @@
-import { Component, Output, EventEmitter, inject, Inject } from '@angular/core';
+import { Component, Output, inject, Inject, AfterViewInit, ViewChild, ElementRef, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { FormsModule } from '@angular/forms';
@@ -34,13 +34,25 @@ export class GoogleAuthComponent {
     public dialog: MatDialog,
   ) {}
 
-
   @Output() closeModal = new EventEmitter<void>();
+  @ViewChild('otpInput') otpInput!: ElementRef<HTMLInputElement>;
+
 
   close(): void {this.dialogRef.close()}
 
   otp: string[] = ['', '', '', '','','']; // for 6-digit OTP
   otpDigits = new Array(6);
+
+  ngAfterViewInit() {
+    // Blur the input after the view has loaded
+    // this.otpInput.nativeElement.blur();
+    console.log('DONE');
+    setTimeout(() => {
+      this.otpInput?.nativeElement?.blur();
+    }, 100); // Short delay ensures DOM is fully settled
+
+  }
+
 
   onKeyUp(event: KeyboardEvent, index: number) {
     const input = event.target as HTMLInputElement;

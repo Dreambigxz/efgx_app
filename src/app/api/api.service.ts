@@ -17,7 +17,7 @@ export class ApiService {
     // private client: HttpClientModule
   ){}
 
-  // defaultUrl = 'http:// a127.0.0.1:8000/api/'
+  // defaultUrl = 'http://127.0.0.1:8000/api/'
   defaultUrl='https://efgxapp-09bac9e2934a.herokuapp.com/api/'
 
 

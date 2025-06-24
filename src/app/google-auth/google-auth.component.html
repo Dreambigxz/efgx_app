@@ -29,9 +29,9 @@
     <div class="otp-section">
       <h5 class="text-center">Enter confirmation code</h5>
       <div class="otp-container mb-10">
-        <input  *ngFor="let digit of otpDigits; let i = index"
+        <input #otpInput
+              *ngFor="let digit of otpDigits; let i = index"
               type="number" maxlength="1" inputmode="numeric"
-
                [(ngModel)]="otp[i]"
                (keyup)="onKeyUp($event, i)"
                [id]="'otp-' + i" />

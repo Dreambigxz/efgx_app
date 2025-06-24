@@ -1,3 +1,6 @@
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { Component, Injectable } from '@angular/core';
+
 let timeOuts: any[] =[]
 
 export function createElement(type:any,cls='',dataset=[],data=null,onclickFun=null){
@@ -78,3 +81,23 @@ export function createElement(type:any,cls='',dataset=[],data=null,onclickFun=nu
      ele.querySelector('img')?ele.querySelector('img').src='assets/images/icons8-world-40.png':0;
    }
  }
+
+ @Injectable({
+   providedIn: 'root'
+ })
+ export class quickMessage {
+
+   constructor(
+
+     private snackBar: MatSnackBar,
+   ) {}
+
+  show(message:any,duration=3000) {
+     this.snackBar.open(message, '', {
+      duration: duration, // duration in milliseconds
+      verticalPosition: 'top',
+      horizontalPosition: 'center'
+    });
+  }
+
+}

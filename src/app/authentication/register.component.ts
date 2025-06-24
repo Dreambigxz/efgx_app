@@ -10,8 +10,9 @@ import { MatDialog } from '@angular/material/dialog';
 
 import { SimpleDialogComponent } from "../simple-dialog/simple-dialog.component";
 
-import { loadExternalScript } from "../../helper";
+import { loadExternalScript, quickMessage } from "../../helper";
 import { FormsModule } from '@angular/forms';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-authentication',
@@ -25,6 +26,7 @@ export class RegisterComponent {
   constructor(
     // private route: ActivatedRoute,
     // private router: Router
+    private pop: quickMessage,
     private dialog: MatDialog
   ) {}
 
@@ -57,29 +59,41 @@ export class RegisterComponent {
 
   currencySettings: any [ ] = [ ]
 
-  handleSubmit() {
-    if (this.resending) {this.resending=false;return}
-    let data = this.MyForm.value
+  handleSubmit(url='register/',method='post') {
 
-    this.loading=true
 
-    console.log({data}, 'submit');
+    let data = this.MyForm.value;
 
-    this.apiService.NotokenData('register/',data).subscribe({
+    console.log({method,data,url});
+
+
+    if (url==='register/') {
+      if (this.resending) {this.resending=false;return}
+      this.loading=true
+    }
+
+    this.apiService.NotokenData(url,data,method).subscribe({
       next: (response) => {
-        const dialogRef = this.dialog.open(SimpleDialogComponent,{
-          data:{message:response.message,header:response.header,color:response.success?'green':'red'}
-        })
-        dialogRef.afterClosed().subscribe(result => {
+        console.log({response});
 
-          if (response.success) {
-            this.invitedBy?delete(localStorage['invitedBy']):0
-            this.authService.login(response.token)
-            this.router.navigate(['/main']);
-          }
-          this.loading=false
+        if (method==='post') {
+          const dialogRef = this.dialog.open(SimpleDialogComponent,{
+            data:{message:response.message,header:response.header,color:response.success?'green':'red'}
+          })
+          dialogRef.afterClosed().subscribe(result => {
 
-        })
+            if (response.success) {
+              this.invitedBy?delete(localStorage['invitedBy']):0
+              this.authService.login(response.token)
+              this.router.navigate(['/main']);
+            }
+            this.loading=false
+
+          })
+        }
+        else{
+          this.pop.show(response.message)
+        }
 
       },
       error: (error) => {
@@ -107,7 +121,7 @@ export class RegisterComponent {
     this.MyForm.patchValue({invite:this.invitedBy})
 
     if (!this.currencySettings[0]) {
-      this.apiService.NotokenData('register/',{},'get').subscribe({
+      this.apiService.NotokenData('register/?action=currency_settings',{},'get').subscribe({
         next: (response) => {
           this.loading=false
           this.currencySettings=response.currencySettings
@@ -146,10 +160,24 @@ export class RegisterComponent {
   }
 
   resendOtp(): void {
+    let data = this.MyForm.value
     this.resending=true
+
+    if (!data.email) {
+      this.pop.show('Please provide a valid email address')
+      setTimeout(() => {
+        this.resending=false
+      }, 2000);
+
+      return
+    }
+
     this.otpCode = '';
     this.startCountdown();
 
+    this.handleSubmit('register/?action=send_verification_code&email='+data.email,'get')
+
   }
+
 
 }
