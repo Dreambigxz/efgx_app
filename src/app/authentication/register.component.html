@@ -63,9 +63,12 @@
 							<div class="form__select">
 								<select formControlName="currency" name="currency" class="required" required>
 									<option value="" disabled="disabled" selected="">Select currency</option>
-									<div *ngFor='let currency of currencySettings'>
+									<option value="">Hi</option>
+									<option value="">We cool</option>
+
+									<!-- <div *ngFor='let currency of currencySettings'>
 										<option value="{{currency.code}}">{{currency.name}}</option>
-									</div>
+									</div> -->
 								</select>
 							</div>
 					</div>
