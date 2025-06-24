@@ -15,5 +15,10 @@ import { HttpClientModule, HttpClient } from '@angular/common/http'; // ✅ Impo
 })
 export class AppComponent {
   title = 'EFGX - Investment App';
+  appVersion = 1
 
+  ngOnInit(){
+    console.log('Hi');
+
+  }
 }
