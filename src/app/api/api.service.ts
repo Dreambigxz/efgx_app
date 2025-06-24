@@ -17,8 +17,8 @@ export class ApiService {
     // private client: HttpClientModule
   ){}
 
-  defaultUrl = 'http://127.0.0.1:8000/api/'
-  // defaultUrl='https://efgxapp-09bac9e2934a.herokuapp.com/api/'
+  // defaultUrl = 'http://127.0.0.1:8000/api/'
+  defaultUrl='https://efgxapp-09bac9e2934a.herokuapp.com/api/'
 
 
   tokenData(url:any,token:any,req_type='get',data:any|null): Observable<any>{
