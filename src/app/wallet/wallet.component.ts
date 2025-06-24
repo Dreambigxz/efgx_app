@@ -33,6 +33,7 @@ import {MatSelectModule} from '@angular/material/select';
 
 
 import { QRCodeComponent } from 'angularx-qrcode';
+import { GoogleAuthComponent } from "../google-auth/google-auth.component";
 
 @Component({
   selector: 'app-wallet',
@@ -72,7 +73,10 @@ export class WalletComponent {
 
   loading=false
   isLoadingContent = false
+  forceClose2fa= false
   history = window.history
+
+  user=(this.serviceData.userData as any).user
 
   awaitingDeposit = (this.serviceData.userData as any).awaitingDeposit
   withdrawalInfo = (this.serviceData.userData as any).withdrawalInfo
@@ -96,6 +100,10 @@ export class WalletComponent {
 
   myProfile = (this.serviceData.userData as any).profile
   hasPin=true
+
+  has2FA = (this.serviceData.userData as any).has2FA
+  build2FA = (this.serviceData.userData as any).build2FA
+
   checkPin(){
     if (this.myProfile&&!this.myProfile.transaction_pin) {
       this.hasPin=false
@@ -143,7 +151,11 @@ export class WalletComponent {
     this.wallet = response.wallet
     this.serviceData.update(response)
     this.myProfile=response.profile
-    this.checkPin()
+    this.has2FA = response.has2FA
+    this.user=response.user
+    this.check2Fa();
+
+    if (this.withdrawalInfo.addresses) {this.showWithdrawalAdd(this.withdrawalInfo.addresses)}
   }
 
   ngOnInit(): void {
@@ -261,10 +273,32 @@ export class WalletComponent {
       });
     }
 
-    this.checkPin()?this.promptOtp({header:'Security pin',message:"Please provide your 4 digit pin"}):0
+
+    this.has2FA?this.promptOtp({header:'Security pin',message:"Please provide your 4 digit pin"}):0
+    // this.checkPin()?this.promptOtp({header:'Security pin',message:"Please provide your 4 digit pin"}):0
 
   }
 
+  showWithdrawalAdd(addresses:any[]){
+
+    setTimeout(() => {
+      let select =  document.querySelector('select')
+
+      let option = document.createElement('option')
+      option.setAttribute('disabled','')
+      option.setAttribute('selected','');option.innerText='Select Currency'
+      select?.append(option)
+
+      for (let index = 0; index < addresses.length; index++) {
+        const element = addresses[index];
+        option = document.createElement('option')
+        option.value=`${index}`;option.innerText = element.account_number
+        select?.append(option)
+      }
+
+    }, 300);
+
+   }
 
   invoice = {
 
@@ -317,6 +351,53 @@ export class WalletComponent {
 
     })
     // return
+  }
+
+  check2Fa(){
+
+    console.log('HAS2fa>>', this.has2FA, 'user>>',this.user);
+
+    if (this.user&&!this.has2FA) {
+      let dialogRef = this.dialog.open(GoogleAuthComponent,{
+        data:this.build2FA
+      })
+      dialogRef.afterClosed().subscribe(result => {
+        if (result) {
+          if (typeof(result)==='string') {
+            if (result.length==6) {
+              this.isLoadingContent=true
+              this.apiService.tokenData('main/', this.authService.tokenKey, 'post', {otp:result,action:'bind'})
+              .subscribe(response => {
+                this.isLoadingContent=false
+                let dialogRef = this.dialog.open(SimpleDialogComponent,{
+                  data:{message:response.message,header:response.header,color:response.success?'green':'red'}
+                })
+                dialogRef.afterClosed().subscribe(result => {
+                  response.success?[
+                    this.has2FA=true,
+                    this.serviceData.update({has2FA:true})
+                  ]:this.check2Fa()
+                })
+
+              }, error =>{
+                this.isLoadingContent=false
+                if (error.statusText === "Unauthorized") {this.authService.logout()}else{
+                  let dialogRef=this.dialog.open(SimpleDialogComponent,{
+                    data:{message:"Unable to process request, please try again",header:'Request timeout!', color:'red'}
+                  });
+
+                }
+              });
+            }else{
+              this.check2Fa()
+            }
+          }else{
+            this.forceClose2fa=true
+          }
+        }else{this.check2Fa()}
+      })
+
+    }
   }
 
   walletAddress: string = ''; // Example Bitcoin address

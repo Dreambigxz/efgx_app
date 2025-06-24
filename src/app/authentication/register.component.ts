@@ -60,7 +60,7 @@ export class RegisterComponent {
   });
 
   currencySettings :any [ ] = [ ]
-  
+
   handleSubmit(url='register/',method='post') {
 
 
@@ -140,9 +140,6 @@ export class RegisterComponent {
         }
       });
     }
-
-
-
   }
   ngAfterViewInit() {
     loadExternalScript()

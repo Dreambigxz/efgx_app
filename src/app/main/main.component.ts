@@ -140,14 +140,14 @@ export class MainComponent implements OnInit {
               this.isLoadingContent=true
               this.apiService.tokenData('main/', this.authService.tokenKey, 'post', {otp:result,action:'bind'})
               .subscribe(response => {
-                console.log(response);
                 this.isLoadingContent=false
                 let dialogRef = this.dialog.open(SimpleDialogComponent,{
                   data:{message:response.message,header:response.header,color:response.success?'green':'red'}
                 })
                 dialogRef.afterClosed().subscribe(result => {
                   response.success?[
-                    this.has2FA=true
+                    this.has2FA=true,
+                    this.serviceData.update({has2FA:true})
                   ]:this.check2Fa()
                 })
 

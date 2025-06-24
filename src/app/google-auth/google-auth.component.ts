@@ -45,8 +45,7 @@ export class GoogleAuthComponent {
 
   ngAfterViewInit() {
     // Blur the input after the view has loaded
-    // this.otpInput.nativeElement.blur();
-    console.log('DONE');
+    this.otpInput.nativeElement.blur();
     setTimeout(() => {
       this.otpInput?.nativeElement?.blur();
     }, 100); // Short delay ensures DOM is fully settled
