@@ -1,4 +1,4 @@
-import { Component, inject} from '@angular/core';
+import { Component, Output, inject, Inject, AfterViewInit, ViewChild, ElementRef, EventEmitter } from '@angular/core';
 import {FormGroup, FormControl} from '@angular/forms';
 import {ReactiveFormsModule} from '@angular/forms';
 import { ApiService } from "../api/api.service";
@@ -30,6 +30,9 @@ export class RegisterComponent {
     private dialog: MatDialog
   ) {}
 
+  @ViewChild('selectCurrency') selectCurrency!: ElementRef<HTMLInputElement>;
+
+
   apiService = inject(ApiService);
   authService = inject(AuthService);
   router = inject(Router);
@@ -56,66 +59,16 @@ export class RegisterComponent {
     invite:new FormControl(this.invitedBy)
   });
 
-  currencySettings = [
-    {
-        'symbol':'$',
-        'name':'Dollar',
-        'code':'USD',
-        'rate':1
-    },
-
-   {
-          'symbol':'TZS',
-          'name':'Tanzanian Shilling',
-          'code':'TZS',
-          'rate':2700
-      },
-
-    {
-        'symbol':'£',
-        'name':'Egyptian Pound',
-        'code':'EGP',
-        'rate':50
-    },
-
-    {
-        'symbol':'₦',
-        'name':'Nigeria Naira',
-        'code':'NGN',
-        'rate':1000
-    },
-
-    {
-        'symbol':'Rs',
-        'name':'Pakistani Rupee',
-        'code':'PKR',
-        'rate':300
-    },
-
-
-
-    {
-        'symbol':'Rp',
-        'name':'Indonesian Rupiah',
-        'code':'IDR',
-        'rate':16000
-    },
-
-
-
-]
-  //: any [ ] = [ ]
-
+  currencySettings :any [ ] = [ ]
+  
   handleSubmit(url='register/',method='post') {
 
 
     let data = this.MyForm.value;
 
-    console.log({method,data,url});
-
 
     if (url==='register/') {
-      if (this.resending) {this.resending=false;return}
+      if (!this.MyForm.valid) {return}
       this.loading=true
     }
 
@@ -172,6 +125,12 @@ export class RegisterComponent {
         next: (response) => {
           this.loading=false
           this.currencySettings=response.currencySettings
+          let currencySettings =  document.querySelector('select.currencySettings')
+          this.currencySettings.forEach(element => {
+            let option = document.createElement('option')
+            option.value=element.code;option.innerText = element.name
+            currencySettings?.appendChild(option)
+          });
         },
         error: (error) => {
           this.loading=false
@@ -208,7 +167,6 @@ export class RegisterComponent {
 
   resendOtp(): void {
     let data = this.MyForm.value
-    this.resending=true
 
     if (!data.email) {
       this.pop.show('Please provide a valid email address')

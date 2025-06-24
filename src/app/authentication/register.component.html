@@ -60,12 +60,12 @@
 						<div class="login-form__row">
 							<label class="login-form__label">Currency</label>
 
-							<div class="form__select">
-								<select *ngIf="currencySettings?.length" formControlName="currency" name="currency" class="required" required>
+							<div class="form__select ">
+								<select #selectCurrency  formControlName="currency" name="currency" class="required currencySettings" required>
 									<option value="" disabled="disabled" selected="">Select currency</option>
 									<!-- <option value="">Hi</option>
 									<option value="">We cool</option> -->
-										<option *ngFor='let currency of currencySettings;trackBy: trackById' [value]="currency.code">{{currency.name}}</option>
+										<!-- <option *ngFor='let currency of currencySettings;trackBy: trackById' [value]="currency.code">{{currency.name}}</option> -->
 								</select>
 							</div>
 					</div>
