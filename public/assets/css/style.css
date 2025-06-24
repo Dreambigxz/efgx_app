@@ -2580,15 +2580,16 @@ a.plyr__controls__item.plyr__control:hover,
     padding: 0;
     width: 100%;
     margin: 0;
-    overflow: hidden;
+    /* overflow: hidden; */
     border-radius: 25px;
     background-color: #eef3ff;
     background-image: url(https://vegathemes.net/gomobile/assets/images/icons/blue/arrow-down.svg);
     background-repeat: no-repeat;
     background-position: 95% 50%;
     background-size: 16px;
-    -webkit-backface-visibility: hidden;
-    backface-visibility: hidden; }
+    /* -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;  */
+  }
     .form__select select {
       padding: 18px 0 10px 20px;
       width: calc(100% - 20px);
