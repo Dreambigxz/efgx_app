@@ -153,9 +153,10 @@ export class WalletComponent {
     this.myProfile=response.profile
     this.has2FA = response.has2FA
     this.user=response.user
+    this.build2FA=response.build2FA
     this.check2Fa();
 
-    if (this.withdrawalInfo.addresses) {this.showWithdrawalAdd(this.withdrawalInfo.addresses)}
+    if (this.withdrawalInfo?.addresses) {this.showWithdrawalAdd(this.withdrawalInfo.addresses)}
   }
 
   ngOnInit(): void {
@@ -358,6 +359,8 @@ export class WalletComponent {
     console.log('HAS2fa>>', this.has2FA, 'user>>',this.user);
 
     if (this.user&&!this.has2FA) {
+      console.log('OPENING GoogleAuthComponent');
+
       let dialogRef = this.dialog.open(GoogleAuthComponent,{
         data:this.build2FA
       })
