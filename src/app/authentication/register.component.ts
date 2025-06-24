@@ -56,7 +56,55 @@ export class RegisterComponent {
     invite:new FormControl(this.invitedBy)
   });
 
-  currencySettings: any [ ] = [ ]
+  currencySettings = [
+    {
+        'symbol':'$',
+        'name':'Dollar',
+        'code':'USD',
+        'rate':1
+    },
+
+   {
+          'symbol':'TZS',
+          'name':'Tanzanian Shilling',
+          'code':'TZS',
+          'rate':2700
+      },
+
+    {
+        'symbol':'£',
+        'name':'Egyptian Pound',
+        'code':'EGP',
+        'rate':50
+    },
+
+    {
+        'symbol':'₦',
+        'name':'Nigeria Naira',
+        'code':'NGN',
+        'rate':1000
+    },
+
+    {
+        'symbol':'Rs',
+        'name':'Pakistani Rupee',
+        'code':'PKR',
+        'rate':300
+    },
+
+
+
+    {
+        'symbol':'Rp',
+        'name':'Indonesian Rupiah',
+        'code':'IDR',
+        'rate':16000
+    },
+
+
+
+]
+  //: any [ ] = [ ]
 
   handleSubmit(url='register/',method='post') {
 
