@@ -37,8 +37,8 @@ export class OtpComponent {
   }
 
 
-  otp: string[] = ['', '', '', '']; // for 6-digit OTP
-  otpDigits = new Array(4);
+  otp: string[] = ['', '', '', '', '', '']; // for 6-digit OTP
+  otpDigits = new Array(6);
 
   onKeyUp(event: KeyboardEvent, index: number) {
     const input = event.target as HTMLInputElement;

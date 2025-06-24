@@ -217,28 +217,37 @@ export class WalletComponent {
   handleSubmit(action='create_deposit'){
 
     let data = {action}
-
     Object.assign(data,this.walletForm.value)
 
-    this.loading=true
-    this.apiService.tokenData('wallet/send_request/', this.authService.tokenKey, 'post', data)
-    .subscribe(response => {
-      this.loading=false;
-      this.serviceData.update(response)
-      this.dialog.open(SimpleDialogComponent,{
-        data:{message:response.message,header:response.header,color:response.success?'green':'red'},
-      })
-      this.awaitingDeposit=response.awaitingDeposit
-      this.updateWalletAddress(response.awaitingDeposit)
-    }, error =>{
-      this.loading=false
-      if (error.statusText === "Unauthorized") {this.authService.logout()}else{
-        this.dialog.open(SimpleDialogComponent,{
-          data:{message:"Unable to process request, please try again",header:'Request timeout!', color:'red'}
-        })
+    this.awaitingReq = (result:any)=>{
+      result?Object.assign(data,result):0;
 
-      }
-    });
+      this.loading=true
+      this.apiService.tokenData('wallet/send_request/', this.authService.tokenKey, 'post', data)
+      .subscribe(response => {
+        this.loading=false;
+        this.serviceData.update(response)
+        this.dialog.open(SimpleDialogComponent,{
+          data:{message:response.message,header:response.header,color:response.success?'green':'red'},
+        })
+        if (response.awaitingDeposit) {
+          this.awaitingDeposit=response.awaitingDeposit
+          this.updateWalletAddress(response.awaitingDeposit)
+        }
+
+      }, error =>{
+        this.loading=false
+        if (error.statusText === "Unauthorized") {this.authService.logout()}else{
+          this.dialog.open(SimpleDialogComponent,{
+            data:{message:"Unable to process request, please try again",header:'Request timeout!', color:'red'}
+          })
+
+        }
+      });
+
+    }
+
+    this.check2Fa()?this.promptOtp({header:'2 Factor Authentication!',message:"Please provide your google authentication code:"}):0
 
   }
 
@@ -255,6 +264,9 @@ export class WalletComponent {
       this.loading=true
       this.apiService.tokenData('wallet/send_request/', this.authService.tokenKey, 'post', data)
       .subscribe(response => {
+
+        console.log({response});
+
         this.loading=false;
         this.serviceData.update(response)
         this.dialog.open(SimpleDialogComponent,{
@@ -262,7 +274,7 @@ export class WalletComponent {
           // width:'400px'
         })
         this.withdrawalInfo=response.withdrawalInfo
-
+        this.showWithdrawalAdd(response.withdrawalInfo.addresses)
       }, error =>{
         this.loading=false
         if (error.statusText === "Unauthorized") {this.authService.logout()}else{
@@ -275,7 +287,7 @@ export class WalletComponent {
     }
 
 
-    this.has2FA?this.promptOtp({header:'Security pin',message:"Please provide your 4 digit pin"}):0
+    this.check2Fa()?this.promptOtp({header:'2 Factor Authentication!',message:"Please provide your google authentication code:"}):0
     // this.checkPin()?this.promptOtp({header:'Security pin',message:"Please provide your 4 digit pin"}):0
 
   }
@@ -287,7 +299,7 @@ export class WalletComponent {
 
       let option = document.createElement('option')
       option.setAttribute('disabled','')
-      option.setAttribute('selected','');option.innerText='Select Currency'
+      option.setAttribute('selected','');option.innerText='Select Address'
       select?.append(option)
 
       for (let index = 0; index < addresses.length; index++) {
@@ -343,7 +355,7 @@ export class WalletComponent {
       // width:'400px'
     })
     dialogRef.afterClosed().subscribe(result => {
-      if (result&&result.length==4) {
+      if (result&&result.length===6) {
         this.awaitingReq({'pin':result})
       }
       else{
@@ -356,10 +368,10 @@ export class WalletComponent {
 
   check2Fa(){
 
-    console.log('HAS2fa>>', this.has2FA, 'user>>',this.user);
+    // console.log('HAS2fa>>', this.has2FA, 'user>>',this.user);
 
     if (this.user&&!this.has2FA) {
-      console.log('OPENING GoogleAuthComponent');
+      // console.log('OPENING GoogleAuthComponent');
 
       let dialogRef = this.dialog.open(GoogleAuthComponent,{
         data:this.build2FA
@@ -399,8 +411,8 @@ export class WalletComponent {
           }
         }else{this.check2Fa()}
       })
-
-    }
+      return false
+    }else{return true}
   }
 
   walletAddress: string = ''; // Example Bitcoin address
@@ -443,7 +455,7 @@ export class WalletComponent {
 
   ngAfterViewInit(): void {
     try {
-      this.paginator.page.subscribe(() => this.updatePagedTransactions());
+      this.paginator.page?.subscribe(() => this.updatePagedTransactions());
 
     } catch (error) {
       console.log('error>>', error);
