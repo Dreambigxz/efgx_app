@@ -11,7 +11,7 @@
     <div class="wheel" [style.transform]="'rotate(' + rotation + 'deg)'">
       <div class="segment" *ngFor="let number of numbers; let i = index"
            [style.transform]="'rotate(' + (i * segmentAngle) + 'deg)'">
-        <span class="seg-text">${{ number }}</span>
+        <span translate='no' class="seg-text">${{ number }}</span>
       </div>
     </div>
 

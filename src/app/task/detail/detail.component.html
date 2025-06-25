@@ -29,7 +29,7 @@ DIR! {{directory}} -->
           <h2 class="post-details__title">{{taskDetails.heading}}</h2>
           <div class="post-details__user">
             <img src="{{taskDetails.file}}" alt="" title="">
-            <span>Admin</span>
+            <span>Published by Admin</span>
           </div>
           <div class="post-details__feat-image">
           <img src="{{taskDetails.file}}" alt="" title="">
@@ -46,8 +46,9 @@ DIR! {{directory}} -->
               <h4>{{totalComments}} comments</h4>
               <ul *ngFor='let comment of allComments' class="comments">
                 <li>
-                  <span class="user-line"><img src="../assets/images/photos/avatar.jpg" alt="" title=""><span>{{comment.username}}</span></span>
+                  <span class="user-line"><img src="{{comment.profile_url?comment.profile_url:'../assets/images/avatar.jpg'}}" alt="" title=""><span>{{comment.username}}</span></span>
                   <p>{{comment.comment}}</p>
+                  <span class="comment-date">{{comment.timestamp|date:'medium'}}</span>
                 </li>
               </ul>
             </div>

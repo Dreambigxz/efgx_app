@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, ViewChild, ElementRef } from '@angular/core';
 import { DataService } from "../user/data.service";
 import { tap, delay } from 'rxjs/operators';
 import { CommonModule } from '@angular/common';
@@ -23,12 +23,13 @@ import { GoogleAuthComponent } from "../google-auth/google-auth.component";
   standalone: true,
   imports: [RouterLink, CommonModule,SpinComponent, MatSliderModule,MatIconModule],
   templateUrl: './main.component.html',
-  // template:`    <p>Car Listing: {{ username }}</p>`,
   styleUrl: './main.component.css'
 })
 
 // export class MainComponent implements OnInit {
 export class MainComponent implements OnInit {
+
+  // @ViewChild('googleAuthModal') googleAuthModal!: ElementRef<HTMLInputElement>;
 
   constructor(
     // private route: ActivatedRoute,
@@ -40,10 +41,7 @@ export class MainComponent implements OnInit {
   serviceData = inject(DataService)
   apiService = inject(ApiService)
   authService = inject(AuthService)
-  // twoFA = inject(twoFAGuard)
-  // googleAuth = inject(GoogleAuthComponent)
 
-  // taskComponent = inject(TaskComponent)
 
   AllData=this.serviceData.userData;
   user=(this.serviceData.userData as any).user
@@ -101,7 +99,7 @@ export class MainComponent implements OnInit {
   autoSlideInterval: any;
 
   ngAfterViewInit() {
-    let page = document.querySelector('.page')
+    // let page = document.querySelector('.page')
   }
 
   ngOnDestroy() {

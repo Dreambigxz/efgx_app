@@ -36,6 +36,7 @@ export class GoogleAuthComponent {
 
   @Output() closeModal = new EventEmitter<void>();
   @ViewChild('otpInput') otpInput!: ElementRef<HTMLInputElement>;
+  @ViewChild('googleAuthModal') googleAuthModal!: ElementRef<HTMLInputElement>;
 
 
   close(): void {this.dialogRef.close()}
@@ -44,14 +45,13 @@ export class GoogleAuthComponent {
   otpDigits = new Array(6);
 
   ngAfterViewInit() {
-    // Blur the input after the view has loaded
-    this.otpInput.nativeElement.blur();
     setTimeout(() => {
       this.otpInput?.nativeElement?.blur();
-    }, 100); // Short delay ensures DOM is fully settled
+      this.googleAuthModal.nativeElement.click()
+
+    }, 1000); // Short delay ensures DOM is fully settled
 
   }
-
 
   onKeyUp(event: KeyboardEvent, index: number) {
     const input = event.target as HTMLInputElement;

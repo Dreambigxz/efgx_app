@@ -1,7 +1,7 @@
 .profile-container {
   max-width: 500px;
   margin: auto;
-  padding: 20px;
+  padding: 2px;
   text-align: center;
   font-family: 'Segoe UI', sans-serif;
 }
@@ -95,4 +95,40 @@ p {
   background: #fff;
   border-radius:12px;
   /* margin-bottom:7em !important; */
+}
+
+/* .profile-container {
+  text-align: center;
+  margin-top: 20px;
+} */
+
+.image-wrapper {
+  position: relative;
+  display: inline-block;
+}
+
+.profile-img {
+  width: 150px;
+  height: 150px;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 2px solid #ccc;
+}
+
+.camera-icon {
+  /* position: absolute; */
+  bottom: 0;
+  right: 0;
+  background-color: #ffffffcc;
+  padding: 5px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 20px;
+  border: 1px solid #888;
+  box-shadow: 0 0 3px rgba(0, 0, 0, 0.2);
+  transition: background 0.2s;
+}
+
+.camera-icon:hover {
+  background-color: #eee;
 }

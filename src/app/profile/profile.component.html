@@ -26,10 +26,19 @@
         <div class="">
       		<div class="">
             <div id="google_translate_element" class="custom-google-select">
-              Language
             </div>
 
-      			<div class="user-profile__thumb"><img style="width:20%" src="../assets/images/avatar.jpg" alt="" title=""></div>
+							<div class="profile-container">
+
+		      			<div class="user-profile__thumb"><img style="width:20%" src="{{profileImageUrl}}" alt="" title="">
+								</div>
+								<label for="imageInput" class="camera-icon">
+								 📷
+							 </label>
+								<input id="imageInput" type="file" accept="image/*" (change)="onImageSelected($event)" hidden />
+
+							</div>
+
       			<div class="user-profile__name">#{{user.username}}</div>
             <div *ngIf='user' class="">
               <div class="flex-row">
