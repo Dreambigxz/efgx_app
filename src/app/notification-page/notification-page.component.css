@@ -21,6 +21,5 @@
 .scroll-box {
   height: 700px;
   overflow-y: auto;
-  /* border: 1px solid #ccc; */
   padding: 10px;
 }
