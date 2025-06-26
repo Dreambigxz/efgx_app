@@ -127,3 +127,29 @@
     color: gray;
     padding: 10px;
   }
+
+  .card-caption.inactive{
+    color: #999;;
+  }
+
+  .capital{
+    display: flex;
+  }
+
+  .event-dot-capital{
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    position: absolute;
+    /* left: 0; */
+    text-align: right;
+
+    background: green;
+    /* bottom:  11px; */
+  }
+  .event-dot-capital.inactive{
+    background: red
+  }
+  .event-dot-capital.pending{
+    background: #FF5722;
+  }

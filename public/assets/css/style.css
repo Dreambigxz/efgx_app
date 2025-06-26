@@ -1926,11 +1926,11 @@ body.panel-closing .page, body.panel-closing .bottom-toolbar {
       align-items: center;
       justify-content: center;
       width: 100%;
-      margin-top: 20%;
+      margin-top: 10%;
   }
   .login__content {
     width: 100%;
-    height: 500px;              /* You can use max-height too */
+    /* height: 500px;              /* You can use max-height too */ */
     overflow-y: auto;
    }
   .login__title {

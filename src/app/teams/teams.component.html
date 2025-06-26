@@ -65,8 +65,12 @@
             <div class="level-info">
               <p>Users: {{level.users}}</p>
               <p>Active: {{level.active}}</p>
-              <p>Total Deposits: {{initCurrency.symbol}}{{level.total_deposit|number:'1.2-2'}}</p>
-              <p>Total Withdrawn: {{initCurrency.symbol}}{{level.total_withdraw|number:'1.2-2'}}</p>
+							<div *ngIf="level.level==1">
+								<p>Total Deposits: {{initCurrency.symbol}}{{level.total_deposit|number:'1.2-2'}}</p>
+	              <p>Total Withdrawn: {{initCurrency.symbol}}{{level.total_withdraw|number:'1.2-2'}}</p>
+							</div>
+
+							<p>Invested: {{initCurrency.symbol}}{{level.first_investment|number:'1.2-2'}}</p>
               <p>Income: {{initCurrency.symbol}}{{level.income|number:'1.2-2'}}</p>
             </div>
             <button (click)="openLevelDetails(level.level)" >View</button>

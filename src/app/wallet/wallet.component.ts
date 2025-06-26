@@ -84,6 +84,8 @@ export class WalletComponent {
   wallet = (this.serviceData.userData as any).wallet
   initCurrency = (this.serviceData.userData as any).init_currency
 
+  addNewAddress = false
+
   walletForm = new FormGroup({
     amount: new FormControl(''),
     selectedAddress: new FormControl('')
@@ -227,9 +229,15 @@ export class WalletComponent {
       .subscribe(response => {
         this.loading=false;
         this.serviceData.update(response)
-        this.dialog.open(SimpleDialogComponent,{
+        const dialogRef= this.dialog.open(SimpleDialogComponent,{
           data:{message:response.message,header:response.header,color:response.success?'green':'red'},
         })
+        dialogRef.afterClosed().subscribe(result => {
+          if (response.redirect) {
+            this.router.navigate(['/wallet',response.redirect])
+          }
+        })
+
         if (response.awaitingDeposit) {
           this.awaitingDeposit=response.awaitingDeposit
           this.updateWalletAddress(response.awaitingDeposit)
@@ -246,8 +254,9 @@ export class WalletComponent {
       });
 
     }
-
-    this.check2Fa()?this.promptOtp({header:'2 Factor Authentication!',message:"Please provide your google authentication code:"}):0
+    if (action==='create_deposit') {
+      this.awaitingReq('')
+    }else{this.check2Fa()?this.promptOtp({header:'2 Factor Authentication!',message:"Please provide your google authentication code:"}):0}
 
   }
 
@@ -264,17 +273,20 @@ export class WalletComponent {
       this.loading=true
       this.apiService.tokenData('wallet/send_request/', this.authService.tokenKey, 'post', data)
       .subscribe(response => {
-
-        console.log({response});
-
         this.loading=false;
         this.serviceData.update(response)
         this.dialog.open(SimpleDialogComponent,{
           data:{message:response.message,header:response.header,color:response.success?'green':'red'},
           // width:'400px'
         })
-        this.withdrawalInfo=response.withdrawalInfo
-        this.showWithdrawalAdd(response.withdrawalInfo.addresses)
+        if (response.success) {
+          if (response.withdrawalInfo) {
+            this.withdrawalInfo=response.withdrawalInfo
+            this.showWithdrawalAdd(response.withdrawalInfo.addresses)
+          }
+          this.addNewAddress=false
+        }
+
       }, error =>{
         this.loading=false
         if (error.statusText === "Unauthorized") {this.authService.logout()}else{
@@ -285,11 +297,7 @@ export class WalletComponent {
         }
       });
     }
-
-
     this.check2Fa()?this.promptOtp({header:'2 Factor Authentication!',message:"Please provide your google authentication code:"}):0
-    // this.checkPin()?this.promptOtp({header:'Security pin',message:"Please provide your 4 digit pin"}):0
-
   }
 
   showWithdrawalAdd(addresses:any[]){
@@ -312,10 +320,6 @@ export class WalletComponent {
     }, 300);
 
    }
-
-  invoice = {
-
-  }
 
   paymentCompletedModal=false
 
@@ -359,7 +363,7 @@ export class WalletComponent {
         this.awaitingReq({'pin':result})
       }
       else{
-          this.promptOtp(data)
+          result?this.promptOtp(data):0;
       }
 
     })
@@ -368,10 +372,7 @@ export class WalletComponent {
 
   check2Fa(){
 
-    // console.log('HAS2fa>>', this.has2FA, 'user>>',this.user);
-
     if (this.user&&!this.has2FA) {
-      // console.log('OPENING GoogleAuthComponent');
 
       let dialogRef = this.dialog.open(GoogleAuthComponent,{
         data:this.build2FA
@@ -459,7 +460,6 @@ export class WalletComponent {
 
     } catch (error) {
       console.log('error>>', error);
-
     }
   }
 

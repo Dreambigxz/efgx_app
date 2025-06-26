@@ -46,9 +46,6 @@ export class SpinComponent {
     this.main.spinnedSignedUp=true
   }
 
-    // openDialog() {
-    //   this.dialog.open(SpinComponent);
-    // }
 
   numbers = [1, 2, 3, 4, 5, 6, 7, 8,9,10];
   segmentAngle = 360 / this.numbers.length;
@@ -81,8 +78,10 @@ export class SpinComponent {
 
   sendWonValue(val:any){
     if (val<=0) {val=1}
+    this.main.isLoadingContent=true
     this.apiService.tokenData('wallet/send_request/', this.authService.tokenKey,'post', {amount:val,action:'welcome_bonus_lucky_draw'})
     .subscribe(response => {
+      this.main.isLoadingContent=false
       if (response.success) {
         this.serviceData.update(response)
         this.main.spinnedSignedUp=response.spinnedSignedUp
@@ -94,6 +93,7 @@ export class SpinComponent {
         // width:'400px'
       })
     }, error => {
+      this.main.isLoadingContent=false
       if (error.statusText === "Unauthorized") {
         this.authService.logout()
       }

@@ -53,7 +53,7 @@ export class MainComponent implements OnInit {
   has2FA = (this.serviceData.userData as any).has2FA
   build2FA = (this.serviceData.userData as any).build2FA
   forceClose2fa = false
-  // (this.serviceData.userData as any).spinnedSignedUp
+  totalNotUnread = (this.serviceData.userData as any).totalNotUnread
 
   ngOnInit(): void{
 
@@ -68,12 +68,16 @@ export class MainComponent implements OnInit {
         this.isLoadingContent = false;
         this.spinnedSignedUp=response.spinnedSignedUp
         this.has2FA=response.has2FA
-        this.build2FA=response.build2FA
+        this.build2FA=response.build2FA;
+        this.totalNotUnread=response.totalNotUnread
         this.checkViews()
       }, err => {
         if (err.statusText === "Unauthorized") {this.authService.logout(true)}
       });
     }else{
+
+      console.log('totalNotUnread>>', this.totalNotUnread);
+
       this.spinnedSignedUp=(this.serviceData.userData as any).spinnedSignedUp
       this.checkViews()
     }

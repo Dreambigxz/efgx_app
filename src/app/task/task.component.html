@@ -129,15 +129,20 @@ DIR! {{directory}} -->
         </div>
 
         <div *ngIf="directory==='manage-task'">
-          <!-- <p>Manage task</p> -->
+					<app-liquidate *ngIf='liquidate'></app-liquidate>
 
-          <!-- dashboard.component.html -->
         <mat-toolbar color="primary" class="mat-elevation-z2">
-          <span>Action</span>
+          <span><mat-icon class="icon">arrow_right</mat-icon></span>
           <span class="spacer"></span>
           <nav>
-            <button type="button" name="button"><a [routerLink]="['/task','create-task']"  mat-button>Increase Capital</a></button>
-            <button mat-button>withdraw Capital</button>
+            <button class="action-button" type="button" name="button">
+							<a style="color:#3f51b5" [routerLink]="['/task','create-task']"  mat-button>
+							<!-- <mat-icon class="icon">arrow_upward</mat-icon> -->
+							{{!taskData.active?'Create Task':'Increase Capital'}}
+						</a>
+						</button>
+						<button *ngIf='taskData.active&&!taskData.pending_liquidation' (click)="liquidate=true" class="text-info" mat-button>Liquidate</button>
+            <!-- <button *ngIf='taskData.active&&!taskData.pending_liquidation' (click)="liquidate=true" class="text-info" mat-button>Liquidate</button> -->
 
             <!-- <button mat-button>Students</button>
             <button mat-button>Grades</button> -->
@@ -146,6 +151,9 @@ DIR! {{directory}} -->
         </mat-toolbar>
 
         <div class="dashboard-container mb-10">
+
+					<div *ngIf="taskData.pending_liquidation"><p class="text-info">Your task liquidation is currently under review!</p></div>
+
           <!-- Cards Grid -->
           <!-- <mat-grid-list cols="4" rowHeight="120px" gutterSize="16px" cols.xs="1" cols.sm="2" cols.md="2" cols.lg="4"> -->
           <div class="card-grid" >
@@ -160,7 +168,11 @@ DIR! {{directory}} -->
               <div>
                 <p class="card-title">{{ card.title }}</p>
                 <h2 class="card-value"><span *ngIf="true">{{currencySymbol}}</span> {{ card.value }}</h2>
-                <p class="card-caption" *ngIf="card.caption">{{ card.caption }}</p>
+                <p class="card-caption {{taskData.pending_liquidation?'inactive':'active'}}" *ngIf="card.caption">{{ card.caption }}</p>
+								<div *ngIf="card.title.includes('Capital')" class="capital">
+									<div class="event-dot-capital card-caption {{taskData.pending_liquidation?'inactive':'active'}} {{!card.value?'pending':''}}"></div>
+									<!-- <p>{{taskData.pending_liquidation?'Inactive':'Active'}}</p> -->
+								</div>
               </div>
             </div>
           </mat-card>

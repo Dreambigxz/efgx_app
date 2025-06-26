@@ -75,7 +75,7 @@ export class TeamsComponent {
   ngOnInit(): void {
     if (!this.teamsDir) {
       this.isLoadingContent = true
-      this.apiService.tokenData('teams/get_data?type=teams', this.authService.tokenKey,'get', {}).subscribe({
+      this.apiService.tokenData('teams/?type=teams', this.authService.tokenKey,'get', {}).subscribe({
         next: (response) =>{
           this.isLoadingContent = false
           this.serviceData.update(response)
@@ -111,6 +111,7 @@ export class TeamsComponent {
           'active':this.findData(generationData,'active_user','count'),
           total_deposit:this.findData(generationData,'gen_deposit','amount'),
           total_withdraw:this.findData(generationData,'gen_withdraw','amount'),
+          first_investment:this.findData(generationData,'investment','amount'),
           income:this.findData(generationData,'commission','amount'),
           level:level,
           percentage:leveNum[i]
@@ -126,25 +127,11 @@ export class TeamsComponent {
   onScroll(event: any) {
     const element = event.target;
 
-    // console.log({clientHeight:element.clientHeight,'scrollTop':element.scrollTop,'scrollHeight':element.scrollHeight});
-
     const scrollLeft = element.scrollHeight - element.scrollTop
      // - element.clientHeight;
      const isAtBottom = Math.abs(element.scrollHeight - element.clientHeight - element.scrollTop) < 1;
      const isAtBottom2 = Math.ceil(element.scrollTop) >= element.scrollHeight - element.clientHeight;
 
-
-     console.log({isAtBottom,isAtBottom2});
-
-    if (element.scrollHeight - element.scrollTop === element.clientHeight) {
-      console.log('ENDOF PAGE');
-      console.log({scrollLeft});
-
-
-    }else{
-      console.log('PAGE NOT EDED');
-
-    }
   }
 
 

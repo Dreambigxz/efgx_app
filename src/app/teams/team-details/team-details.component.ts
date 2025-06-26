@@ -68,7 +68,7 @@ export class TeamDetailsComponent implements OnInit{
       this.directory=`${action}`
         if (!this.teamsDir) {
           this.isLoadingContent = true
-          this.apiService.tokenData('teams/get_data?type=teams', this.authService.tokenKey,'get', {}).subscribe({
+          this.apiService.tokenData('teams/?type=teams', this.authService.tokenKey,'get', {}).subscribe({
             next: (response) =>{
               this.isLoadingContent = false
               this.serviceData.update(response)

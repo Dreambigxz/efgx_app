@@ -23,8 +23,6 @@ export class ApiService {
 
   tokenData(url:any,token:any,req_type='get',data:any|null): Observable<any>{
 
-    console.log('requesting tokenData',{url,req_type,token,data});
-
     const isFormData = data instanceof FormData;
 
     const headers = new HttpHeaders({

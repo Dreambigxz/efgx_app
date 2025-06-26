@@ -45,11 +45,15 @@ export class GoogleAuthComponent {
   otpDigits = new Array(6);
 
   ngAfterViewInit() {
+
+
     setTimeout(() => {
+      this.googleAuthModal.nativeElement.scrollTop=0
+
       this.otpInput?.nativeElement?.blur();
       this.googleAuthModal.nativeElement.click()
 
-    }, 1000); // Short delay ensures DOM is fully settled
+    }, 500); // Short delay ensures DOM is fully settled
 
   }
 
@@ -70,15 +74,6 @@ export class GoogleAuthComponent {
     return this.otp.join('');
   }
 
-  bindNow(){
-    let otp = this.getOtp()
-    console.log({otp});
-    if (otp.length==6) {
-      console.log('code valid');
-
-    }
-
-  }
 
   copied=false
 

@@ -84,10 +84,11 @@ export class TaskDetailComponent {
       this.dialog.open(SimpleDialogComponent,{
         data:{message:response.message,header:response.header,color:response.success?'green':'red'}
       })
-      this.updateResponse(response);
-      this.serviceData.update(response)
-      response.success?this.router.navigate(['/task','manage-task']):0
-
+      response.success?[
+        this.updateResponse(response),
+        this.serviceData.update(response),
+        this.router.navigate(['/task','manage-task'])
+      ]:0;
     }, error =>{
       this.loading=false
       if (error.statusText === "Unauthorized") {this.authService.logout()}else{

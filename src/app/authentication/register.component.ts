@@ -74,8 +74,6 @@ export class RegisterComponent {
 
     this.apiService.NotokenData(url,data,method).subscribe({
       next: (response) => {
-        console.log({response});
-
         if (method==='post') {
           const dialogRef = this.dialog.open(SimpleDialogComponent,{
             data:{message:response.message,header:response.header,color:response.success?'green':'red'}

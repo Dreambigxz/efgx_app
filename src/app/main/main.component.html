@@ -8,9 +8,9 @@
 
   <div (click)="navigate('/')" class="logo"><img style='width:40%' src="https://jmglimitedbucket.s3.amazonaws.com/paymentProof/logo.png" alt=""></div>
 
-	<button mat-icon-button aria-label="Notifications" class="icon-btn" translate='no'>
-		<mat-icon>notifications</mat-icon>
-		<span class="badge">{{ notificationsCount }}</span>
+	<button (click)="navigate('/notification')" mat-icon-button aria-label="Notifications" class="icon-btn" translate='no'>
+		<mat-icon class="{{totalNotUnread?'ringing':''}}">notifications</mat-icon>
+		<span class="badge">{{ totalNotUnread }}</span>
 	</button>
 
 	<button mat-icon-button aria-label="Logout" class="icon-btn" (click)="authService.logout(false)">

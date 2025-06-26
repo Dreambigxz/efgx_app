@@ -12,6 +12,7 @@ import { WalletComponent } from "./wallet/wallet.component";
 import { TeamsComponent } from "./teams/teams.component";
 import { TeamDetailsComponent } from "./teams/team-details/team-details.component";
 import { ProfileComponent } from "./profile/profile.component";
+import { NotificationPageComponent } from "./notification-page/notification-page.component";
 
 import {authGuard} from './auth/auth.guard'
 
@@ -76,6 +77,14 @@ export const routes: Routes = [
     title: 'Profile',
     canActivate: [authGuard],
     path: 'profile',
+
+  },
+
+  {
+    component: NotificationPageComponent,
+    title: 'Notifications',
+    canActivate: [authGuard],
+    path: 'notification',
 
   },
 

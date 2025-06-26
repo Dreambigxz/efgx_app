@@ -174,7 +174,7 @@
         <div *ngIf="directory==='withdraw'">
           <!-- <app-otp *ngIf="showOtp" (closeModal)="showOtp = false"></app-otp> -->
 
-          <div *ngIf='withdrawalInfo&&!withdrawalInfo.addresses; else canWithdrawBlock' class="">
+          <div *ngIf='withdrawalInfo&&!withdrawalInfo.addresses||addNewAddress; else canWithdrawBlock' class="">
             <h4 class="page__title">Update payment address ({{initCurrency.name}})</h4>
             <div class="fieldset">
 
@@ -217,7 +217,7 @@
           <ng-template #canWithdrawBlock class="canWithdrawBlock">
             <h4 class="page__title">How  much do you want to withdraw ?</h4>
             <div class="fieldset">
-
+							<button class="add-new-add" (click)="addNewAddress=true" type="button" name="button">+ New Address</button>
 							<span class="available-bal" translate='no' *ngIf="wallet">
 								BAL: {{initCurrency.symbol}}
 								<span style="font-weight:500">{{wallet.bal_info.bal|number:'1.2-2'}}</span>
@@ -227,7 +227,7 @@
         				<form (ngSubmit)="handleSubmit('create_withdraw')" [formGroup]="walletForm" novalidate="novalidate">
         					<div class="form__row mb-10">
         						<input min="{{wallet.settings.minimum_withdraw}}" formControlName='amount' type="number" name="amount" value="" class="form__input required" placeholder="Amount" required>
-                    <small *ngIf='wallet' class="minimum-val">Minimum of <strong translate='no'>{{initCurrency.symbol}}{{wallet.settings.minimum_deposit}}</strong> required</small>
+                    <small *ngIf='wallet' class="minimum-val">Minimum of <strong translate='no'>{{initCurrency.symbol}}{{wallet.settings.minimum_withdraw}}</strong> required</small>
         					</div>
 
                   <div class="form__row">

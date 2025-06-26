@@ -131,3 +131,7 @@ span.declined {
 mat-form-field {
   min-width: 150px;
 }
+
+button.add-new-add {
+    font-size: 9px;
+}

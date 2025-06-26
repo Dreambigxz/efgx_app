@@ -101,3 +101,23 @@ export function createElement(type:any,cls='',dataset=[],data=null,onclickFun=nu
   }
 
 }
+
+export function loadMore(e:any) {
+
+  if (e.data) {
+
+    const nextItems = e.data.slice(e.currentIndex, e.currentIndex + e.batchSize);
+    e.displayedItems = [...e.displayedItems, ...nextItems];
+    e.currentIndex += e.batchSize
+    // console.log("displayedItems>>", e.displayedItems);
+    // console.log("data>>", e.dta);
+
+  }
+}
+
+export function onScroll(event: any,e:any) {
+  const element = event.target;
+  if (element.scrollHeight - element.scrollTop === element.clientHeight) {
+    loadMore(e);
+  }
+}

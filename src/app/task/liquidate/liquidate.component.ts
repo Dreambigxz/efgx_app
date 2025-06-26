@@ -12,7 +12,7 @@ import { SimpleDialogComponent } from "../../simple-dialog/simple-dialog.compone
 
 import { RouterLink, ActivatedRoute, Router} from '@angular/router';
 
-import { WalletComponent } from "../../wallet/wallet.component";
+import { TaskComponent } from "../task.component";
 import {MatButtonModule} from '@angular/material/button';
 
 import {
@@ -26,25 +26,26 @@ import {
  } from '@angular/material/dialog';
 
 @Component({
-  selector: 'app-paid',
+  selector: 'app-liquidate',
   imports: [ReactiveFormsModule,CommonModule,MatDialogActions,MatButtonModule],
-  templateUrl: './paid.component.html',
-  styleUrl: '../modal.component.css'
+  templateUrl: './liquidate.component.html',
+  styleUrl: '../../modal/modal.component.css'
 })
-export class PaidComponent {
+export class LiquidateComponent {
+
+  constructor(
+    // private route: ActivatedRoute,
+    private router: Router,
+    private task: TaskComponent,
+    public dialog: MatDialog
+  ) {}
 
   @Output() closeModal = new EventEmitter<void>();
 
   close() {
     this.closeModal.emit();
+    this.task.liquidate=false
   }
-
-  constructor(
-    // private route: ActivatedRoute,
-    private router: Router,
-    private wallet: WalletComponent,
-    public dialog: MatDialog
-  ) {}
 
   serviceData = inject(DataService)
   apiService = inject(ApiService)
@@ -54,38 +55,18 @@ export class PaidComponent {
 
   selectedFile: any //File | null = null;
 
-  paymentCompletedForm = new FormGroup({
-    senders_name:new FormControl(''),
-    transaction_id:new FormControl(''),
-    file:new FormControl(null)
+  Form = new FormGroup({
+    reason:new FormControl(''),
   })
 
-  onFileChange(event: Event) {
-      const input = event.target as HTMLInputElement;
-
-      if (input.files && input.files.length > 0) {
-        this.selectedFile = input.files[0];
-        // this.paymentCompletedForm.file=this.selectedFile
-      }
-  }
 
    handleSubmit (){
 
-     const formData = new FormData();
-
-     const { senders_name, transaction_id } = this.paymentCompletedForm.value;
-
-     formData.append('senders_name', senders_name as any);
-     formData.append('transaction_id', transaction_id as any);
-     formData.append('action', 'submit_payment_proof');
-     formData.append('file', this.selectedFile);
-
-
-     let data = {'action':'submit_payment_proof'}
-
+     let data = {'action':'liquidate'}
+     Object.assign(data,this.Form.value)
      this.loading=true
 
-     this.apiService.tokenData('upload/', this.authService.tokenKey, 'post', formData)
+     this.apiService.tokenData('task/liquidate/', this.authService.tokenKey, 'post', data)
      .subscribe(response => {
        this.close()
        this.loading=false;
@@ -93,11 +74,10 @@ export class PaidComponent {
        this.dialog.open(SimpleDialogComponent,{
          data:{message:response.message,header:response.header,color:response.success?'green':'red'}
        })
-
-       response.success?[this.wallet.awaitingDeposit=response.awaitingDeposit]:0
-       // this.AllData = this.serviceData.update(response)
+       response.success?[this.task.checkConditions()]:0
      }, error =>{
-       this.loading=false
+       this.loading=false;
+       this.close()
        if (error.statusText === "Unauthorized") {this.authService.logout()}else{
          this.dialog.open(SimpleDialogComponent,{
            data:{message:"Unable to process request, please try again",header:'Request timeout!', color:'red'}
