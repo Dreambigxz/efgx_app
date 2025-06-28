@@ -19,6 +19,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { SimpleDialogComponent } from "../simple-dialog/simple-dialog.component";
 import { GoogleAuthComponent } from "../google-auth/google-auth.component";
 
+// import { TronService } from "../service/tron.service";
+
 @Component({
   standalone: true,
   imports: [RouterLink, CommonModule,SpinComponent, MatSliderModule,MatIconModule],
@@ -35,12 +37,14 @@ export class MainComponent implements OnInit {
     // private route: ActivatedRoute,
     private router: Router,
     public dialog: MatDialog,
+    // private tron: TronService
     // private googleAuth: GoogleAuthComponent
   ) {}
 
   serviceData = inject(DataService)
   apiService = inject(ApiService)
   authService = inject(AuthService)
+  // tronService = inject(TronService)
 
 
   AllData=this.serviceData.userData;
@@ -55,8 +59,19 @@ export class MainComponent implements OnInit {
   forceClose2fa = false
   totalNotUnread = (this.serviceData.userData as any).totalNotUnread
 
-  ngOnInit(): void{
+  address = 'TZCkKfWD3FG3GZ9UUTg2qZokfdwWdBwkYA'
 
+  // checkTronService(){
+  //
+  //   this.tron.getUSDTBalance(this.address)
+  //   // .subscribe(bal => {
+  //   //   console.log({bal});
+  //   //
+  //   // })
+  //
+  // }
+  ngOnInit(): void{
+     // this.checkTronService()
     if (!Object.keys(this.serviceData.userData).includes('user')) {
       this.isLoadingContent = true
       this.apiService.tokenData('main/', this.authService.tokenKey,'get', {})
