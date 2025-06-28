@@ -104,7 +104,7 @@ export function createElement(type:any,cls='',dataset=[],data=null,onclickFun=nu
 
 export function loadMore(e:any) {
 
-  alert('loading>>')
+  // alert('loading>>')
   if (e.data) {
 
     const nextItems = e.data.slice(e.currentIndex, e.currentIndex + e.batchSize);
@@ -119,6 +119,7 @@ export function loadMore(e:any) {
 export function onScroll(event: any,e:any) {
   const element = event.target;
   if (element.scrollHeight - element.scrollTop === element.clientHeight) {
+    alert('IS BOTTOM')
     loadMore(e);
   }
 }
