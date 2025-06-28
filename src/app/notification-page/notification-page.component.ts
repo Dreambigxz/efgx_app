@@ -100,7 +100,7 @@ export class NotificationPageComponent implements OnInit {
 
   loadData  = {
     displayedItems:[],
-    batchSize: 6,
+    batchSize: 4,
     currentIndex : 0,
     data:this.notifications
   }
