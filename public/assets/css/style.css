@@ -279,8 +279,11 @@ html, body {
   /*  (10 px in REM size) */ }
 
 body {
+  width: 500px;
   font-family: "Raleway", sans-serif;
-  background-color: #ffffff;
+  /* background-color: #ffffff; */
+  background-color: #dbdaeb;
+
   color: #44484a;
   margin: 0;
   padding: 0;
@@ -482,7 +485,7 @@ ul.custom-listing--checked li {
     position: relative;
     -webkit-overflow-scrolling: touch;
     scrollbar-width: none;
-     margin-bottom: 10em;
+     /* margin-bottom: 10em; */
    }
     .page__content--with-header {
       padding-top: 40px;
@@ -2011,7 +2014,7 @@ body.panel-closing .page, body.panel-closing .bottom-toolbar {
 
 .post {
   width: calc(100% - 40px);
-  display: flex;
+  /* display: flex; */
   align-items: center;
   justify-content: space-between;
   margin-bottom: 20px;

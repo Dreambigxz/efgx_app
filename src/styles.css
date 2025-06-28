@@ -1,7 +1,7 @@
 /* You can add global styles to this file, and also import other style files */
 
 
-html, body {  top:0!important; overflow: auto;}
+/* html, body {  top:0!important; overflow: auto;} */
 body {
    /* font-family: Roboto, "Helvetica Neue", sans-serif; */
    /* background-color: #b3b3b3; */
@@ -123,7 +123,7 @@ text-info {
 
 
   .page {
-    width: 400px; 
+    /* width: 400px;  */
     min-height: 100%;
     background-color: #dbdaeb;
     /* background-color: #121330; */
@@ -131,10 +131,10 @@ text-info {
     /* padding: 1rem; */
     box-sizing: border-box;
 
-    overflow: auto;
+    /* overflow: auto;
     display: flex;
     flex-direction: column;
-    scroll-behavior: smooth;
+    scroll-behavior: smooth; */
 
   }
 
