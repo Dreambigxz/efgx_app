@@ -46,7 +46,7 @@ DIR! {{directory}} -->
               <h4>{{totalComments}} comments</h4>
               <ul *ngFor='let comment of allComments' class="comments">
                 <li>
-                  <span class="user-line"><img src="{{comment.profile_url?comment.profile_url:'../assets/images/avatar.jpg'}}" alt="" title=""><span>{{comment.username}}</span></span>
+                  <span class="user-line"><img class="profile-image-2" src="{{comment.profile_url?comment.profile_url:'../assets/images/avatar.jpg'}}" alt="" title=""><span>{{comment.username}}</span></span>
                   <p>{{comment.comment}}</p>
                   <span class="comment-date">{{comment.timestamp|date:'medium'}}</span>
                 </li>

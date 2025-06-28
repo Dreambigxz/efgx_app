@@ -328,6 +328,21 @@ span.available-bal {
   color: #4caf50
 }
 
+.profile-image {
+  width: 10px;     /* Default width */
+  height: 30px;    /* Default height */
+  object-fit: cover; /* Ensures the image fills the area without distortion */
+  border-radius: 50%; /* Makes it circular */
+  border: 2px solid #ccc; /* Optional: adds a border */
+}
+
+.profile-image-2 {
+  width: 30px;     /* Default width */
+  height: 40px;    /* Default height */
+  object-fit: cover; /* Ensures the image fills the area without distortion */
+  border-radius: 50%; /* Makes it circular */
+  border: 2px solid #ccc; /* Optional: adds a border */
+}
 
 
 /* html, body { height: 100%; }
