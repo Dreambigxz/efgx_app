@@ -118,8 +118,10 @@ export function loadMore(e:any) {
 
 export function onScroll(event: any,e:any) {
   const element = event.target;
-  if (element.scrollHeight - element.scrollTop === element.clientHeight) {
-    alert('IS BOTTOM')
+  const threshold = 5;
+
+  if (element.scrollHeight - element.scrollTop - element.clientHeight <= threshold) {
+    // alert('IS BOTTOM')
     loadMore(e);
   }
 }
