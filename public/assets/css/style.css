@@ -268,10 +268,10 @@ Template:	GoMobile
 /*===============================================*/
 html, body {
 
-  display: flex;
+  /* display: flex; */
   /* flex-direction: column; */
   justify-content: center;
-  position: relative;
+  position: absolute;
   width: 100%;
   height: 100%;
   overflow-x: hidden;
@@ -279,7 +279,8 @@ html, body {
   /*  (10 px in REM size) */ }
 
 body {
-  width: 500px;
+
+  /* width: 500px; */
   font-family: "Raleway", sans-serif;
   /* background-color: #ffffff; */
   background-color: #dbdaeb;
@@ -2014,7 +2015,7 @@ body.panel-closing .page, body.panel-closing .bottom-toolbar {
 
 .post {
   width: calc(100% - 40px);
-  /* display: flex; */
+  display: flex;
   align-items: center;
   justify-content: space-between;
   margin-bottom: 20px;
