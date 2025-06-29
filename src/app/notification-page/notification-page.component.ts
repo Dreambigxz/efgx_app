@@ -108,7 +108,6 @@ export class NotificationPageComponent implements OnInit {
 
   onScroll(event: any) {
 
-      // alert('scrolling')
     this.loadData.data=this.notifications//&&this.notifications.unseen?[...this.notifications.unseen, ...this.notifications.seen]:this.notifications
     onScroll(event,this.loadData)
     this.display= this.loadData.displayedItems

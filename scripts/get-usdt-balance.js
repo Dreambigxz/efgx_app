@@ -1,4 +1,5 @@
-const TronWeb = require('tronweb').default;
+const TronWeb = require('tronweb')
+// .default;
 
 console.log('TronWeb type:', typeof TronWeb); // Should be 'function'
 

@@ -18,6 +18,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatDialog } from '@angular/material/dialog';
 import { SimpleDialogComponent } from "../simple-dialog/simple-dialog.component";
 import { GoogleAuthComponent } from "../google-auth/google-auth.component";
+import { AppComponent } from '../app.component';
 
 // import { TronService } from "../service/tron.service";
 
@@ -37,6 +38,8 @@ export class MainComponent implements OnInit {
     // private route: ActivatedRoute,
     private router: Router,
     public dialog: MatDialog,
+    private app: AppComponent
+
     // private tron: TronService
     // private googleAuth: GoogleAuthComponent
   ) {}
@@ -58,6 +61,7 @@ export class MainComponent implements OnInit {
   build2FA = (this.serviceData.userData as any).build2FA
   forceClose2fa = false
   totalNotUnread = (this.serviceData.userData as any).totalNotUnread
+  appVersion = (this.serviceData.userData as any).appVersion
 
   address = 'TZCkKfWD3FG3GZ9UUTg2qZokfdwWdBwkYA'
 
@@ -84,15 +88,14 @@ export class MainComponent implements OnInit {
         this.spinnedSignedUp=response.spinnedSignedUp
         this.has2FA=response.has2FA
         this.build2FA=response.build2FA;
-        this.totalNotUnread=response.totalNotUnread
+        this.totalNotUnread=response.totalNotUnread;
+        this.appVersion=response.appVersion;
+
         this.checkViews()
       }, err => {
         if (err.statusText === "Unauthorized") {this.authService.logout(true)}
       });
     }else{
-
-      console.log('totalNotUnread>>', this.totalNotUnread);
-
       this.spinnedSignedUp=(this.serviceData.userData as any).spinnedSignedUp
       this.checkViews()
     }
@@ -104,7 +107,8 @@ export class MainComponent implements OnInit {
     if ((this.serviceData.userData as any).must_reset_password) {
       this.router.navigate(['/profile'])
     }
-    else{this.check2Fa()}
+    else{this.check2Fa()};
+    this.app.checkAppVersion(this.appVersion)
   }
 
   images = [
@@ -145,7 +149,6 @@ export class MainComponent implements OnInit {
   }
 
   check2Fa(){
-
     if (this.user&&!this.has2FA) {
       let dialogRef = this.dialog.open(GoogleAuthComponent,{
         data:this.build2FA
@@ -187,6 +190,7 @@ export class MainComponent implements OnInit {
       })
 
     }
+
   }
 
 }

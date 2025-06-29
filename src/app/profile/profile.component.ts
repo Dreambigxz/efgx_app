@@ -11,6 +11,12 @@ import { MatIconModule } from '@angular/material/icon';
 import { ChangePasswordComponent } from "../modal/change-password/change-password.component";
 import { loadExternalScript } from "../../helper";
 
+import { GoogleAuthComponent } from "../google-auth/google-auth.component";
+import { MatDialog } from '@angular/material/dialog';
+import { SimpleDialogComponent } from "../simple-dialog/simple-dialog.component";
+import { OtpComponent } from "../modal/otp/otp.component";
+
+import { AppComponent } from '../app.component';
 
 @Component({
   selector: 'app-profile',
@@ -20,11 +26,11 @@ import { loadExternalScript } from "../../helper";
 })
 export class ProfileComponent {
 
-    constructor(
+  constructor(
       // private route: ActivatedRoute,
       private router: Router,
-      // public dialog: MatDialog,
-      // private otp: OtpComponent
+      public dialog: MatDialog,
+      private app: AppComponent
     ) {}
 
   navigate (url:any){
@@ -49,11 +55,21 @@ export class ProfileComponent {
   initCurrency = (this.serviceData.userData as any).init_currency
   profileDir = (this.serviceData.userData as any).profileDir
 
+  has2FA = (this.serviceData.userData as any).has2FA
+  build2FA = (this.serviceData.userData as any).build2FA
+  forceClose2fa = false
+
+  totalNotUnread = 0
+
+
   changePassword = false
 
-
   profileImageUrl = 'assets/images/avatar.jpg'
-  // profileDir.image_ur
+
+
+  awaitingReq: any
+  appVersion = (this.serviceData.userData as any).appVersion
+
 
   setImageUrl(){
     this.profileDir?.image_url?this.profileImageUrl=this.profileDir.image_url:0;
@@ -68,9 +84,11 @@ export class ProfileComponent {
         next: (response) =>{
           this.isLoadingContent = false
           this.serviceData.update(response)
-          this.user=response.user;this.checkViews()
-          this.profileDir=response.profileDir
-        this.setImageUrl()
+          this.user=response.user;
+          this.profileDir=response.profileDir;
+          this.has2FA=response.has2FA;
+          this.appVersion=response.appVersion;
+          this.setImageUrl();this.checkViews()
         },
         error: (err) => {
           this.isLoadingContent = false
@@ -78,12 +96,17 @@ export class ProfileComponent {
         }
       });
 
+    }else{
+      this.checkViews()
     }
-    this.checkViews()
+    //
   }
 
   checkViews(){
+    this.totalNotUnread=(this.serviceData.userData as any).totalNotUnread
     if ((this.serviceData.userData as any).must_reset_password) {this.changePassword=true}
+
+    this.app.checkAppVersion(this.appVersion)
   }
 
   ngAfterViewInit() {
@@ -109,5 +132,123 @@ export class ProfileComponent {
       reader.readAsDataURL(file);
     }
   }
+
+  check2Fa(){
+
+    if (this.user&&!this.has2FA) {
+      let dialogRef = this.dialog.open(GoogleAuthComponent,{
+        data:this.build2FA
+      })
+      dialogRef.afterClosed().subscribe(result => {
+        if (result) {
+          if (typeof(result)==='string') {
+            if (result.length==6) {
+              this.isLoadingContent=true
+              this.apiService.tokenData('main/', this.authService.tokenKey, 'post', {otp:result,action:'bind'})
+              .subscribe(response => {
+                this.isLoadingContent=false
+                let dialogRef = this.dialog.open(SimpleDialogComponent,{
+                  data:{message:response.message,header:response.header,color:response.success?'green':'red'}
+                })
+                dialogRef.afterClosed().subscribe(result => {
+                  response.success?[
+                    this.has2FA=true,
+                    this.serviceData.update({has2FA:true})
+                  ]:this.check2Fa()
+                })
+
+              }, error =>{
+                this.isLoadingContent=false
+                if (error.statusText === "Unauthorized") {this.authService.logout()}else{
+                  let dialogRef=this.dialog.open(SimpleDialogComponent,{
+                    data:{message:"Unable to process request, please try again",header:'Request timeout!', color:'red'}
+                  });
+
+                }
+              });
+            }else{
+              this.check2Fa()
+            }
+          }else{
+            this.forceClose2fa=true
+          }
+        }else{this.check2Fa()}
+      })
+
+    }else{
+      console.log("2fa EXIST",this.build2FA);
+      // this.build2FA.push(true)
+      let dialogRef = this.dialog.open(GoogleAuthComponent,{
+        data:''
+      })
+      dialogRef.afterClosed().subscribe(result => {
+        if (result) {
+          this.awaitingReq = (result:any)=>{
+            result['action']='reset'
+            this.isLoadingContent=true
+            this.apiService.tokenData('main/', this.authService.tokenKey, 'post', result)
+            .subscribe(response => {
+              this.isLoadingContent=false;
+              this.serviceData.update(response)
+              this.dialog.open(SimpleDialogComponent,{
+                data:{message:response.message,header:response.header,color:response.success?'green':'red'},
+              })
+              if (response.success) {
+                this.has2FA=false;
+                this.build2FA=response.build2FA;
+                this.check2Fa();
+
+              }
+
+
+            }, error =>{
+              this.isLoadingContent=false
+              if (error.statusText === "Unauthorized") {this.authService.logout()}else{
+                this.dialog.open(SimpleDialogComponent,{
+                  data:{message:"Unable to process request, please try again",header:'Request timeout!', color:'red'}
+                })
+
+              }
+            });
+          }
+          this.promptOtp({'message':'Pleae provide the 6 digit OTP code sent to your valid email address.', header:'OTP'})
+          this.apiService.tokenData('main/', this.authService.tokenKey, 'post', {action:'get_or_set_otp'})
+          .subscribe(response => {
+            console.log({response});
+
+          }, error =>{
+
+
+            if (error.statusText === "Unauthorized") {this.authService.logout()}else{
+              this.dialog.open(SimpleDialogComponent,{
+                data:{message:"Unable to process request, please try again",header:'Request timeout!', color:'red'}
+              })
+
+            }
+          });
+        }
+      })
+
+    }
+  }
+
+  promptOtp(data:any){//{message:'response.message',header:'response.header'}){
+    let dialogRef = this.dialog.open(OtpComponent,{
+      data:data
+      // width:'400px'
+    })
+    dialogRef.afterClosed().subscribe(result => {
+      if (result&&result.length===6) {
+        console.log({result});
+        this.awaitingReq({'pin':result})
+      }
+      else{
+          result?this.promptOtp(data):0;
+      }
+
+    })
+    // return
+  }
+
 
 }

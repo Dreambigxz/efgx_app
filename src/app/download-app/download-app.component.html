@@ -1,0 +1,19 @@
+<div class="modal-backdrop" (click)="dialogRef.close(true)"></div>
+
+<div  class="modal-content">
+  <div (click)="dialogRef.close(true)" class="close-modal">
+    <i class="fa fa-close"></i>
+  </div>
+  <h1>Update App </h1>
+  <div class="app-update">
+    <p class="text-info">Please Kindly download and install the latest version to continue.</p>
+      <!-- <div class="status">
+          <span class="status-icon"></span>
+          <span class="status-text">Active</span>
+        </div> -->
+
+        <div class="reset-otp">
+          <a  href="{{data.url}}" download class="post__more button button--purple button--ex-small"><mat-icon>download</mat-icon> Download</a>
+        </div>
+  </div>
+</div>

@@ -45,6 +45,8 @@ export class GoogleAuthComponent {
   otpDigits = new Array(6);
 
   ngAfterViewInit() {
+
+
     setTimeout(() => {
       this.googleAuthModal.nativeElement.scrollTop=0
 

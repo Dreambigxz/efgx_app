@@ -1,4 +1,4 @@
-import { Component, Output, inject, Inject, AfterViewInit, ViewChild, ElementRef, EventEmitter } from '@angular/core';
+import { Component, Output, EventEmitter, inject, Inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { FormsModule } from '@angular/forms';
@@ -28,36 +28,33 @@ import {
 })
 export class GoogleAuthComponent {
 
+  @Output() closeModal = new EventEmitter<void>();
+
   constructor(
-    public dialogRef: MatDialogRef<GoogleAuthComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: [ 'secret_key' ,'qrcode'],
-    public dialog: MatDialog,
+    // private route: ActivatedRoute,
+    // private router: Router,
+    // public data: { message: string ,header:string, color:'red',confirmation:false},
+
+    private main: MainComponent,
+    public dialog: MatDialog
   ) {}
 
-  @Output() closeModal = new EventEmitter<void>();
-  @ViewChild('otpInput') otpInput!: ElementRef<HTMLInputElement>;
-  @ViewChild('googleAuthModal') googleAuthModal!: ElementRef<HTMLInputElement>;
+  close() {this.main.forceClose2fa=true}
 
+  serviceData = inject(DataService)
+  apiService = inject(ApiService)
+  authService = inject(AuthService)
 
-  close(): void {this.dialogRef.close()}
+  user=(this.serviceData.userData as any).user
+  buid2FA=(this.serviceData.userData as any).buid2FA
 
   otp: string[] = ['', '', '', '','','']; // for 6-digit OTP
   otpDigits = new Array(6);
 
-  ngAfterViewInit() {
-    setTimeout(() => {
-      this.googleAuthModal.nativeElement.scrollTop=0
-
-      this.otpInput?.nativeElement?.blur();
-      this.googleAuthModal.nativeElement.click()
-
-    }, 500); // Short delay ensures DOM is fully settled
-
-  }
-
   onKeyUp(event: KeyboardEvent, index: number) {
     const input = event.target as HTMLInputElement;
     const key = event.key;
+    console.log({key});
     if (key === 'Backspace' && index > 0 && !input.value) {
       const prev = document.getElementById('otp-' + (index - 1));
       prev?.focus();
@@ -72,14 +69,20 @@ export class GoogleAuthComponent {
     return this.otp.join('');
   }
 
+  bindNow(){
+    let otp = this.getOtp()
+    console.log({otp});
+    if (otp.length==6) {
+      console.log('code valid');
 
-  copied=false
+    }
 
-  copyContent(item:any) {
-    navigator.clipboard.writeText(item).then(() => {
-      this.copied = true;
-      setTimeout(() => this.copied = false, 3000);
-    });
+  }
+
+  ngOnInit(): void{
+    console.log('INIT');
+    console.log(this.buid2FA);
+
   }
 
 }

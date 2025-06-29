@@ -110,3 +110,18 @@ button {
 .withdrawal h3{
   color: #fff
 }
+
+.pending-users.mb-12 {
+    display: flex;
+    justify-content: space-between;
+}
+
+.pending-users button{
+  color: #FF5722;
+}
+.text-p{
+  margin-top: 12px;
+  color: #FF5722;
+  padding-left:12px;
+
+}

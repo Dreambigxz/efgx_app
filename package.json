@@ -7,7 +7,11 @@
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "vercel-build": "npm ci --legacy-peer-deps && npm run build",
-    "build": "ng build"
+    "build": "ng build",
+    "rename:apk": "node scripts/rename-apk.js",
+    "getUSDTBalance": "node scripts/get-usdt-balance.js"
+
+
   },
   "private": true,
   "dependencies": {
@@ -21,6 +25,7 @@
     "@angular/platform-browser-dynamic": "^19.2.0",
     "@angular/router": "^19.2.0",
     "@capacitor/android": "^7.4.0",
+    "@capacitor/app": "^7.0.1",
     "@capacitor/cli": "^7.4.0",
     "@capacitor/core": "^7.4.0",
     "@capacitor/ios": "^7.4.0",

@@ -14,6 +14,8 @@ import { loadExternalScript, quickMessage } from "../../helper";
 import { FormsModule } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
+import { FormBuilder, Validators } from '@angular/forms';
+
 @Component({
   selector: 'app-authentication',
   imports: [ReactiveFormsModule,RouterLink,CommonModule,FormsModule],
@@ -53,7 +55,7 @@ export class RegisterComponent {
     username: new FormControl(''),
     otp: new FormControl(''),
     fullname: new FormControl(''),
-    email: new FormControl(''),
+    email: new FormControl('', [Validators.required, Validators.email]),
     password: new FormControl(''),
     currency: new FormControl(''),
     invite:new FormControl(this.invitedBy)
