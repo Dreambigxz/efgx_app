@@ -106,6 +106,8 @@ export class WalletComponent {
   has2FA = (this.serviceData.userData as any).has2FA
   build2FA = (this.serviceData.userData as any).build2FA
 
+  extraField:any
+
   checkPin(){
     if (this.myProfile&&!this.myProfile.transaction_pin) {
       this.hasPin=false
@@ -142,8 +144,8 @@ export class WalletComponent {
 
   updateWalletAddress(awaitingDeposit:any){
     if (awaitingDeposit.transaction) {
-      let extraField = JSON.parse(awaitingDeposit.transaction[0].extraField)
-      this.walletAddress = extraField.pay_address
+      this.extraField = JSON.parse(awaitingDeposit.transaction[0].extraField)
+      this.walletAddress = this.extraField.pay_address
     }
   }
 
@@ -166,7 +168,7 @@ export class WalletComponent {
       const action = params.get('action');
       this.directory=`${action}`
       if (this.directory==='deposit') {
-        if (!this.awaitingDeposit) {
+        if (!this.awaitingDeposit||this.awaitingDeposit&&this.awaitingDeposit.transaction) {
           this.isLoadingContent = true
           this.apiService.tokenData('wallet/get_data?type=awaiting_deposit', this.authService.tokenKey,'get', {}).subscribe({
             next: (response) =>{
@@ -179,6 +181,8 @@ export class WalletComponent {
             }
           });
         }else{
+          this.updateResponse(this.serviceData.userData);
+          this.updateWalletAddress(this.awaitingDeposit)
         }
       }else if(this.directory==='withdraw'){
         if (!this.withdrawalInfo) {
@@ -438,7 +442,6 @@ export class WalletComponent {
     this.filteredTransactions=[...this.allTransactions]
       this.updatePagedTransactions();
   }
-
 
   selectedType: string = 'All';
   dateFrom: string = '';

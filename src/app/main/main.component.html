@@ -60,9 +60,9 @@
 							<li><a [routerLink]="['/wallet','deposit']"><img src="/assets/images/icons/blue/blocks.svg" alt="" title=""><span>Deposit</span></a></li>
 							<li><a [routerLink]="['/wallet','withdraw']"><img src="../assets/images/icons/blue/popup.svg" alt="" title=""><span>withdraw</span></a></li>
 							<li><a [routerLink]="['/wallet','transaction']"><img src="../assets/images/icons/blue/tables.svg" alt="" title=""><span>Records</span></a></li>
-							<li><a><img src="/assets/images/icons/blue/pencil.svg" alt="" title=""><span>About</span></a></li>
-							<li><a ><img src="../assets/images/icons/blue/send.svg" alt="" title=""><span>Telegram</span></a></li>
-							<li><a ><img src="../assets/images/icons/blue/contact.svg" alt="" title=""><span>Help</span></a></li>
+							<li><a [routerLink]="['/about']"><img src="/assets/images/icons/blue/form.svg" alt="" title=""><span>About</span></a></li>
+							<li><a href="{{telegramLink}}" target="_blank"  ><img src="../assets/images/icons/blue/send.svg" alt="" title=""><span>Telegram</span></a></li>
+							<li><a href="{{helpLink}}" target="_blank" ><img src="../assets/images/icons/blue/contact.svg" alt="" title=""><span>Help</span></a></li>
 						</ul>
 					</nav>
 

@@ -1,0 +1,64 @@
+<div class="body-overlay"></div>
+
+<div class="page" data-page="intro-metro">
+
+	<!-- HEADER -->
+	<header class="header header--page header--fixed">
+		<div class="header__inner">
+			<div (click)='history.back()' class="header__icon"><img  src="../assets/images/icons/white/arrow-back.svg" alt="" title=""></div>
+			<div class="header__text">About</div>
+			<div class="header__icon open-panel" data-panel="right" data-arrow="left">
+      </div>
+    </div>
+  </header>
+
+    	<!-- PAGE CONTENT -->
+    	<div class="page__content page__content--with-header">
+
+        <div *ngIf="isLoadingContent; else pageAvailable" class="spinner-overlay">
+            <span class="loader"></span>
+          </div>
+
+        <ng-template #pageAvailable>
+          <div class="about-us-container">
+              <p class="description">
+                Welcome to EFGX (Easy Finance Growth Exchange)  where simplicity meets smart investing. EFGX is more than just a platform; it’s a financial ecosystem built for real people who want consistent, daily profit without the hassle of traditional investment models. With a single daily action  clicking an order,  users earn between 2% to 3% profit every day, securely and transparently..
+              </p>
+
+              <div class="media-section">
+                <div class="video-wrapper">
+                  <iframe
+                    src="/assets/videos/about.mp4"
+                    title="About Us Video"
+                    frameborder="0"
+                    allowfullscreen
+                  ></iframe>
+                </div>
+
+                <!-- <div class="image-gallery">
+                  <img src="assets/images/team1.jpg" alt="Team Member 1" />
+                  <img src="assets/images/office.jpg" alt="Office" />
+                  <img src="assets/images/project.jpg" alt="Project Snapshot" />
+                </div> -->
+              </div>
+
+              <p class="description">
+                EFGX was founded by a team of finance and tech experts with a shared vision: to democratize access to sustainable income. Backed by strategic funding and partnerships with reputable financial firms, EFGX operates with deep liquidity, real-time trading support, and a commitment to long-term user growth. Our partners span across fintech institutions, liquidity providers, and trading firms, ensuring a stable and trustworthy environment for every investor.
+
+                <br>
+                <br>
+                <!-- <hr></hr> -->
+                <strong>EFGX generates revenue through the  task users engage every day.</strong>
+                <br>
+                <br>
+            This engagement from users brings more revenue to the company by exchanging these engagements to data trafficking.
+            There are no complex plans, no hidden terms, and no locked durations. EFGX makes sure your money works for you with ease, safety, and daily rewards. Whether you're just starting your financial journey or scaling your portfolio, EFGX is your trusted partner in smart, daily growth.
+
+             EFGX, Invest Smart, Grow Daily.
+</p>
+            </div>
+
+        </ng-template>
+      </div>
+
+    </div>

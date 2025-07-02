@@ -76,21 +76,28 @@
 
                           <p class="text-info">Please send only  <strong>{{ awaitingDeposit.transaction[0].amount|number:'1.2-2' }} {{ initCurrency.code }}</strong> to the address below:</p>
 
-                          <div *ngIf='walletAddress' style="margin: 20px 0;">
 
+                          <div *ngIf='walletAddress' style="margin: 20px 0;">
 														<qrcode
 															[qrdata]="walletAddress"
 															[width]="150"
 															>
 														</qrcode>
 
+														<button (click)="copyAddress()" style="margin-top: 10px;">Copy Wallet Address <i class="fa fa-copy"></i></button>
+														<p *ngIf="copied" style="color: green;">✔ Address copied!</p>
+
                           </div>
 
                           <p style="word-break: break-word;"><strong>{{ walletAddress }}</strong></p>
 
-                          <button (click)="copyAddress()" style="margin-top: 10px;">Copy Wallet Address</button>
+													<div class="payment-status">
+														<p *ngIf="extraField"> BALANCE: ${{extraField.balance}}</p>
+														<span class="text-warning"> {{ extraField.balance == 0 ?'Awaiting payment': 'Awaiting 2 network confirmation to get your payment reflect, Please keep refreshing this page.' }} </span>
+													</div>
 
-                          <p *ngIf="copied" style="color: green;">✔ Address copied!</p>
+													<button (click)='isLoadingContent=true;history.go(0)' class="refresh" type="button" name="button">REFRESH PAGE <i class="fa fa-refresh"></i></button>
+
                         </div>
 
 

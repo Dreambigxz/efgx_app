@@ -344,6 +344,9 @@ span.available-bal {
   border: 2px solid #ccc; /* Optional: adds a border */
 }
 
+.text-warning {
+    color: #FF5722;
+}
 
 /* html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; } */

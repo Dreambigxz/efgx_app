@@ -1,0 +1,38 @@
+.about-us-container {
+  padding: 2rem;
+  text-align: center;
+}
+
+.description {
+  /* font-size: 1.1rem; */
+  margin-bottom: 2rem;
+}
+
+.media-section {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.video-wrapper iframe {
+  width: 100%;
+  max-width: 600px;
+  height: 315px;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.image-gallery {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.image-gallery img {
+  width: 150px;
+  height: auto;
+  border-radius: 8px;
+  object-fit: cover;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}

@@ -28,7 +28,6 @@ export class AppComponent {
   // ngOnInit(){}
 
   checkAppVersion(version:any){
-    console.log('checking>>', {version});
 
     App.getInfo().then(info => {
       this.appVersion=info.version
@@ -44,9 +43,6 @@ export class AppComponent {
               if (typeof(result)==='string') {}
             }
           })
-      }else{
-        console.log('appVersion OK');
-
       }
 
     });

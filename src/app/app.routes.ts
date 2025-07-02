@@ -13,6 +13,7 @@ import { TeamsComponent } from "./teams/teams.component";
 import { TeamDetailsComponent } from "./teams/team-details/team-details.component";
 import { ProfileComponent } from "./profile/profile.component";
 import { NotificationPageComponent } from "./notification-page/notification-page.component";
+import { AboutComponent } from "./about/about.component";
 
 import {authGuard} from './auth/auth.guard'
 
@@ -87,6 +88,15 @@ export const routes: Routes = [
     path: 'notification',
 
   },
+
+
+    {
+      component: AboutComponent,
+      title: 'About us',
+      // canActivate: [authGuard],
+      path: 'about',
+
+    },
 
   { path:"login",  component: LoginComponent, title:'Authentication'},
   { path:"register",  component: RegisterComponent, title:'Authentication'},

@@ -65,6 +65,9 @@ export class MainComponent implements OnInit {
 
   address = 'TZCkKfWD3FG3GZ9UUTg2qZokfdwWdBwkYA'
 
+  telegramLink=(this.serviceData.userData as any).telegramLink;
+  helpLink=(this.serviceData.userData as any).helpLink;
+
   // checkTronService(){
   //
   //   this.tron.getUSDTBalance(this.address)
@@ -90,7 +93,8 @@ export class MainComponent implements OnInit {
         this.build2FA=response.build2FA;
         this.totalNotUnread=response.totalNotUnread;
         this.appVersion=response.appVersion;
-
+        this.helpLink=response.helpLink
+        this.telegramLink=response.telegramLink
         this.checkViews()
       }, err => {
         if (err.statusText === "Unauthorized") {this.authService.logout(true)}
