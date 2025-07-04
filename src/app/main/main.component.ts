@@ -72,7 +72,7 @@ export class MainComponent implements OnInit {
   totalNotUnread = (this.serviceData.userData as any).totalNotUnread
   appVersion = (this.serviceData.userData as any).appVersion
 
-  address = 'TZCkKfWD3FG3GZ9UUTg2qZokfdwWdBwkYA'
+  address = ''
 
   telegramLink=(this.serviceData.userData as any).telegramLink;
   helpLink=(this.serviceData.userData as any).helpLink;
@@ -160,7 +160,7 @@ export class MainComponent implements OnInit {
 
   check2Fa(){
     return
-    
+
     if (this.user&&!this.has2FA) {
       let dialogRef = this.dialog.open(GoogleAuthComponent,{
         data:this.build2FA
