@@ -66,7 +66,7 @@
 						</ul>
 					</nav>
 
-					<div class="activity-wrapper">
+				<div class="activity-wrapper">
 				  <h2>Today's Activity</h2>
 				  <div class="activity-list">
 				    <div class="activity-card" *ngFor="let activity of activities">
@@ -76,7 +76,7 @@
 								</mat-icon>
 				      </div>
 				      <div class="activity-info">
-				        <div class="activity-title">{{ activity.user_id }}</div>
+				        <div class="activity-title">{{ activity.user_id }} ~ <span style="font-size:12px">{{activity.type}}</span></div>
 								<div class="activity-time">{{ timeSince(activity.timestamp) }}</div>
 				        <div translate='no' class="activity-amount">${{ activity.amount }}</div>
 
