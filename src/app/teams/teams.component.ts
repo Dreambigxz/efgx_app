@@ -73,7 +73,8 @@ export class TeamsComponent {
   }
 
   ngOnInit(): void {
-    if (!this.teamsDir) {
+    if (true) {
+    // if (!this.teamsDir) {
       this.isLoadingContent = true
       this.apiService.tokenData('teams/?type=teams', this.authService.tokenKey,'get', {}).subscribe({
         next: (response) =>{
