@@ -3,16 +3,16 @@
 	<!-- HEADER -->
 	<header class="header header--fixed">
 		<div class="header__inner">
-			<div  (click)='history.back()' class="header__icon">
+			<div (click)='history.back()' class="header__icon">
         <span><img src="../assets/images/icons/gray/arrow-back.svg" alt="" title=""> </span>
       </div>
 
 			<div id="google_translate_element" class="custom-google-select "></div>
 			<div class="">
-				<img src="../assets/images/icons8-headset-24.png" alt="">
+				<a href="{{helpLink}}" target="_blank"><img  src="../assets/images/icons8-headset-24.png" alt=""></a>
 			</div>
 
-			<div style="justify-content:flex-end;display:flex" class="logo">
+			<div (click)="navigate('/')" style="justify-content:flex-end;display:flex" class="logo">
 				<img style='width:40%' src="https://jmglimitedbucket.s3.amazonaws.com/paymentProof/logo.png" alt="">
 			</div>
 

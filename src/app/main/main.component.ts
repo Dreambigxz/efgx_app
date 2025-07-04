@@ -20,13 +20,23 @@ import { SimpleDialogComponent } from "../simple-dialog/simple-dialog.component"
 import { GoogleAuthComponent } from "../google-auth/google-auth.component";
 import { AppComponent } from '../app.component';
 
-// import { TronService } from "../service/tron.service";
+import { trigger, style, transition, animate } from '@angular/animations';
+import { timeSince } from '../../helper';
+
 
 @Component({
   standalone: true,
   imports: [RouterLink, CommonModule,SpinComponent, MatSliderModule,MatIconModule],
   templateUrl: './main.component.html',
-  styleUrl: './main.component.css'
+  styleUrl: './main.component.css',
+  animations: [
+    trigger('fadeSlideIn', [
+      transition(':enter', [
+        style({ opacity: 0, transform: 'translateX(-30px)' }),
+        animate('500ms ease-out', style({ opacity: 1, transform: 'translateX(0)' }))
+      ])
+    ])
+  ]
 })
 
 // export class MainComponent implements OnInit {
@@ -47,7 +57,6 @@ export class MainComponent implements OnInit {
   serviceData = inject(DataService)
   apiService = inject(ApiService)
   authService = inject(AuthService)
-  // tronService = inject(TronService)
 
 
   AllData=this.serviceData.userData;
@@ -67,18 +76,13 @@ export class MainComponent implements OnInit {
 
   telegramLink=(this.serviceData.userData as any).telegramLink;
   helpLink=(this.serviceData.userData as any).helpLink;
+  activities=(this.serviceData.userData as any).activities;
 
-  // checkTronService(){
-  //
-  //   this.tron.getUSDTBalance(this.address)
-  //   // .subscribe(bal => {
-  //   //   console.log({bal});
-  //   //
-  //   // })
-  //
-  // }
+
+
   ngOnInit(): void{
-     // this.checkTronService()
+    (window as any).lucide?.createIcons();
+
     if (!Object.keys(this.serviceData.userData).includes('user')) {
       this.isLoadingContent = true
       this.apiService.tokenData('main/', this.authService.tokenKey,'get', {})
@@ -95,6 +99,7 @@ export class MainComponent implements OnInit {
         this.appVersion=response.appVersion;
         this.helpLink=response.helpLink
         this.telegramLink=response.telegramLink
+        this.activities=response.activities
         this.checkViews()
       }, err => {
         if (err.statusText === "Unauthorized") {this.authService.logout(true)}
@@ -197,4 +202,5 @@ export class MainComponent implements OnInit {
 
   }
 
+  timeSince=timeSince
 }

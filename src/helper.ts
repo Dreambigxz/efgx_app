@@ -1,5 +1,5 @@
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { Component, Injectable } from '@angular/core';
+import { Component, Injectable, inject } from '@angular/core';
 
 let timeOuts: any[] =[]
 
@@ -24,10 +24,14 @@ export function createElement(type:any,cls='',dataset=[],data=null,onclickFun=nu
 
  export function numberWithCommas(x:any,round=2){round!==undefined?x=parseFloat(x).toFixed(round):x=parseFloat(x);x =x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");return x}
 
- export async function copyContent(text:any,show_message=true) {
+ export async function copyContent(text:any,qm:any,show_message=true) {
+
+   // let qm =inject(quickMessage)
    try {await navigator.clipboard.writeText(text);
      let message='Data successfully copied to clipboard';
-     show_message?alert(message):0;
+     show_message?[
+       qm.show(message)
+     ]:0;
      // show_message?toastMess(message):0;
    } catch (err) {console.error('Failed to copy: ', err);}
  }
@@ -122,4 +126,26 @@ export function onScroll(event: any,e:any) {
   if (element.scrollHeight - element.scrollTop - element.clientHeight <= threshold) {
     loadMore(e);
   }
+}
+
+export function timeSince(dateStr: string): string {
+
+  const date = new Date(dateStr);
+  const seconds = Math.floor((+new Date() - +date) / 1000);
+
+  const intervals: { [key: string]: number } = {
+    year: 31536000,
+    month: 2592000,
+    week: 604800,
+    day: 86400,
+    hour: 3600,
+    minute: 60,
+    second: 1
+  };
+
+  for (let key in intervals) {
+    const interval = Math.floor(seconds / intervals[key]);
+    if (interval >= 1) return `${interval} ${key}${interval > 1 ? 's' : ''} ago`;
+  }
+  return 'just now';
 }

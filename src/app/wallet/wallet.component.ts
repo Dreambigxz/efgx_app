@@ -222,7 +222,8 @@ export class WalletComponent {
 
   handleSubmit(action='create_deposit'){
 
-    let data = {action}
+    let data = {action,origin:window.origin}
+
     Object.assign(data,this.walletForm.value)
 
     this.awaitingReq = (result:any)=>{

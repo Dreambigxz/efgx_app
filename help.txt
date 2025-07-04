@@ -3,3 +3,7 @@ npx cap copy
 npx cap open android
 
 npm run build:android
+
+#agent confirmations text
+tiyeago - deposit
+weputaago - withdraw

@@ -32,7 +32,7 @@ export class LoginComponent {
   apiService = inject(ApiService);
 
   history = window.history
-
+  helpLink = localStorage['helpLink']
   favoriteFramework = '';
   loading=false
   showPassword=false
@@ -78,5 +78,9 @@ export class LoginComponent {
 
   ngAfterViewInit() {
     loadExternalScript()
+  }
+  navigate(url:any) {
+    url = url.split(' ')
+    this.router.navigate(url);
   }
 }

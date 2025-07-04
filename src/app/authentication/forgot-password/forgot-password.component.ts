@@ -68,4 +68,9 @@ export class ForgotPasswordComponent {
     loadExternalScript()
   }
 
+  navigate(url:any) {
+    url = url.split(' ')
+    this.router.navigate(url);
+  }
+
 }

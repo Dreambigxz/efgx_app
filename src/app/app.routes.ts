@@ -14,6 +14,7 @@ import { TeamDetailsComponent } from "./teams/team-details/team-details.componen
 import { ProfileComponent } from "./profile/profile.component";
 import { NotificationPageComponent } from "./notification-page/notification-page.component";
 import { AboutComponent } from "./about/about.component";
+import { PaymentConfirmationComponent } from "./payment-confirmation/payment-confirmation.component";
 
 import {authGuard} from './auth/auth.guard'
 
@@ -89,12 +90,19 @@ export const routes: Routes = [
 
   },
 
-
-    {
+  {
       component: AboutComponent,
       title: 'About us',
       // canActivate: [authGuard],
       path: 'about',
+
+    },
+
+  {
+      component: PaymentConfirmationComponent,
+      title: 'CONFIRMATION',
+      canActivate: [authGuard],
+      path: 'confirmation',
 
     },
 

@@ -16,13 +16,8 @@ import { WalletComponent } from "../../wallet/wallet.component";
 import {MatButtonModule} from '@angular/material/button';
 
 import {
-
   MatDialog,
   MatDialogActions,
-  // MatDialogClose,
-  // MatDialogContent,
-  // MatDialogRef,
-  // MatDialogTitle,
  } from '@angular/material/dialog';
 
 @Component({
@@ -35,9 +30,7 @@ export class PaidComponent {
 
   @Output() closeModal = new EventEmitter<void>();
 
-  close() {
-    this.closeModal.emit();
-  }
+  close() {this.closeModal.emit();}
 
   constructor(
     // private route: ActivatedRoute,
@@ -79,6 +72,7 @@ export class PaidComponent {
      formData.append('transaction_id', transaction_id as any);
      formData.append('action', 'submit_payment_proof');
      formData.append('file', this.selectedFile);
+     formData.append('origin', window.origin);
 
 
      let data = {'action':'submit_payment_proof'}
@@ -108,4 +102,5 @@ export class PaidComponent {
 
    }
 
+  
 }

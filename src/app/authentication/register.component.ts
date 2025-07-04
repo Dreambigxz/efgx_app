@@ -38,7 +38,7 @@ export class RegisterComponent {
   apiService = inject(ApiService);
   authService = inject(AuthService);
   router = inject(Router);
-
+  helpLink=''
   history = window.history
 
   loading = false
@@ -123,7 +123,9 @@ export class RegisterComponent {
     if (!this.currencySettings[0]) {
       this.apiService.NotokenData('register/?action=currency_settings',{},'get').subscribe({
         next: (response) => {
-          this.loading=false
+          this.loading=false;
+          this.helpLink=response.helpLink
+          localStorage['helpLink']=response.helpLink
           this.currencySettings=response.currencySettings
           let currencySettings =  document.querySelector('select.currencySettings')
           this.currencySettings.forEach(element => {
@@ -183,6 +185,10 @@ export class RegisterComponent {
 
   trackById(index: number, item: any) {
     return item.id;
+  }
+  navigate(url:any) {
+    url = url.split(' ')
+    this.router.navigate(url);
   }
 
 
