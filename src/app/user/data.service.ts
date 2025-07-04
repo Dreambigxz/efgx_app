@@ -10,7 +10,7 @@ export class DataService {
 
   update(new_obj:any){
     Object.assign(this.userData,new_obj)
-    console.log({userData:this.userData});
+    // console.log({userData:this.userData});
     return this.userData
   }
 

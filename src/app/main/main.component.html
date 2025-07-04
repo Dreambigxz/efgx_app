@@ -66,13 +66,13 @@
 						</ul>
 					</nav>
 
-				<div class="activity-wrapper">
+				<div class="activity-wrapper scroll-box">
 				  <h2>Today's Activity</h2>
 				  <div class="activity-list">
 				    <div class="activity-card" *ngFor="let activity of activities">
 				      <div class="activity-icon {{activity.type}}" >
 								<mat-icon>
-									{{ activity.type ==='deposit'?"account_balance_wallet": activity.type=== 'withdraw'?"upload": "checklist"}}
+									{{ activity.type ==='deposit'?"account_balance_wallet": activity.type=== 'withdraw'?"upload":activity.type.includes('commission')?'task': "checklist"}}
 								</mat-icon>
 				      </div>
 				      <div class="activity-info">

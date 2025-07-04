@@ -109,8 +109,6 @@ export class WalletComponent {
   extraField:any
 
   checkPin(){
-    console.log(this.myProfile);
-
     if (this.myProfile&&!this.myProfile.transaction_pin) {
       this.hasPin=false
       this.promptOtp({'message':'Pleae update your 6 digit Security pin and save it somewhere.', header:'Set Pin'})
@@ -142,9 +140,6 @@ export class WalletComponent {
         });
       }
     }
-
-    console.log('hasPin:', this.hasPin);
-
     return this.hasPin
   }
 
