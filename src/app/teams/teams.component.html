@@ -59,7 +59,7 @@
         </div>
 
 				<div class="pending-users mb-12">
-					<p class="text-p">6 Pending Surbodinate</p>
+					<p class="text-p">{{pendingSurb}} Pending Surbodinate</p>
 					<button (click)="openLevelDetails('pending')"  class="text-info" type="button" name="button"> View </button>
 				</div>
         <div  class="level-card" *ngFor='let level of teamLevels'>

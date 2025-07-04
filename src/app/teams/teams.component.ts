@@ -56,6 +56,8 @@ export class TeamsComponent {
   copied = false
   inviteCode = window.location.host+'/register?invited_by='+this.teamsDir?.invite_url
 
+  pendingSurb = 0
+
   copyContent() {
     navigator.clipboard.writeText(this.inviteCode).then(() => {
       this.copied = true;
@@ -83,6 +85,7 @@ export class TeamsComponent {
           this.teamsDir = (this.serviceData.userData as any).teams_dir
           this.setLevelCard()
           this.updateResponse(response)
+          this.pendingSurb=response.teams_dir.inactive
         },
         error: (err) => {if (err.statusText === "Unauthorized") {this.authService.logout(true)}}
       });
