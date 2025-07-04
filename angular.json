@@ -32,10 +32,7 @@
               "public/assets/css/style.css",
               "src/styles.css"
             ],
-            "scripts": [
-              "https://unpkg.com/lucide@latest"
-
-            ]
+            "scripts": []
           },
           "configurations": {
             "production": {
