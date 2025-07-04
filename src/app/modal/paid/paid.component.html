@@ -6,10 +6,13 @@
 			<div class="form">
 				<form id="paymentCompletedForm" (ngSubmit)="handleSubmit()"  [formGroup]="paymentCompletedForm" novalidate="novalidate">
 					<div class="form__row">
-						<input type="text" formControlName="senders_name" name="senders_name" value="" class="form__input required" placeholder="Senders Name" required>
+						<input type="text" formControlName="senders_name" name="senders_name" value="" class="form__input required" placeholder="Senders Name/ ID" >
+            <small class="minimum-val">Optional</small>
 					</div>
 					<div class="form__row">
-						<input type="text" formControlName="transaction_id" name="transaction_id" value="" class="form__input required" placeholder="Transaction ID" required>
+						<input type="text" formControlName="transaction_id" name="transaction_id" value="" class="form__input required" placeholder="Transfer Number" required>
+            <small class="minimum-val">Account number money was sent from</small>
+
 					</div>
           <div class="form__row">
 						<input accept=".jpg,.jpeg,image/jpeg,.png" type="file" (change)="onFileChange($event)" formControlName="file" name="file" value="" class="form__input required" placeholder="Transaction ID" required>

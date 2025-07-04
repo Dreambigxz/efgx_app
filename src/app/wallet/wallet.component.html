@@ -130,7 +130,6 @@
 
 
                       <div class="invoice-box">
-                        <button *ngIf='awaitingDeposit.transaction[0].generator!=="awaiting_deposit_confirmation"' (click)='paymentCompletedModal=true' style="float:right" class="form__submit button button--green button--small">PAID</button>
                         <!-- <button *ngIf='this.serviceData.userData.awaitingDeposit' (click)='paymentCompletedModal=true' style="float:right" class="form__submit button button--green button--small">PAID</button> -->
                         <div class="invoice-header">
                           <div>
@@ -164,6 +163,8 @@
                             <hr>
 
                           </div>
+
+													<button *ngIf='awaitingDeposit.transaction[0].generator!=="awaiting_deposit_confirmation"' (click)='paymentCompletedModal=true' style="float:" class="form__submit button button--green button--small">PAID</button>
 
                         </div>
 
