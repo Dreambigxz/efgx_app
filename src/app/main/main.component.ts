@@ -66,7 +66,7 @@ export class MainComponent implements OnInit {
   //
   isLoadingContent = false
   spinnedSignedUp = true
-  has2FA = (this.serviceData.userData as any).has2FA
+  has2FA = true//(this.serviceData.userData as any).has2FA
   build2FA = (this.serviceData.userData as any).build2FA
   forceClose2fa = false
   totalNotUnread = (this.serviceData.userData as any).totalNotUnread
@@ -94,8 +94,8 @@ export class MainComponent implements OnInit {
         this.init_currency = response.init_currency
         this.isLoadingContent = false;
         this.spinnedSignedUp=response.spinnedSignedUp
-        this.has2FA=response.has2FA
-        this.build2FA=response.build2FA;
+        // this.has2FA=response.has2FA
+        // this.build2FA=response.build2FA;
         this.totalNotUnread=response.totalNotUnread;
         this.appVersion=response.appVersion;
         this.helpLink=response.helpLink
@@ -159,6 +159,8 @@ export class MainComponent implements OnInit {
   }
 
   check2Fa(){
+    return
+    
     if (this.user&&!this.has2FA) {
       let dialogRef = this.dialog.open(GoogleAuthComponent,{
         data:this.build2FA

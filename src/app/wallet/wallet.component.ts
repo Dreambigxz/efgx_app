@@ -101,17 +101,19 @@ export class WalletComponent {
   awaitingReq: any = null
 
   myProfile = (this.serviceData.userData as any).profile
-  hasPin=true
+  hasPin=true//(this.serviceData.userData as any).hasPin
 
-  has2FA = (this.serviceData.userData as any).has2FA
+  has2FA = true//
   build2FA = (this.serviceData.userData as any).build2FA
 
   extraField:any
 
   checkPin(){
+    console.log(this.myProfile);
+
     if (this.myProfile&&!this.myProfile.transaction_pin) {
       this.hasPin=false
-      this.promptOtp({'message':'Pleae update your four digit Security pin and save it somewhere.', header:'Set Pin'})
+      this.promptOtp({'message':'Pleae update your 6 digit Security pin and save it somewhere.', header:'Set Pin'})
       this.awaitingReq = (result:any)=>{
         result['action']='set_trasanction_pin'
         this.isLoadingContent=true
@@ -126,6 +128,7 @@ export class WalletComponent {
           if (response.success) {
             this.myProfile=response.profile
             this.hasPin=Object.keys(response.profile).includes('transaction_pin')
+
           }
 
         }, error =>{
@@ -139,6 +142,9 @@ export class WalletComponent {
         });
       }
     }
+
+    console.log('hasPin:', this.hasPin);
+
     return this.hasPin
   }
 
@@ -155,10 +161,10 @@ export class WalletComponent {
     this.wallet = response.wallet
     this.serviceData.update(response)
     this.myProfile=response.profile
-    this.has2FA = response.has2FA
+    // this.has2FA = response.has2FA
     this.user=response.user
-    this.build2FA=response.build2FA
-    this.check2Fa();
+    // this.build2FA=response.build2FA
+    this.checkPin();
 
     if (this.withdrawalInfo?.addresses) {this.showWithdrawalAdd(this.withdrawalInfo.addresses)}
   }
@@ -261,7 +267,9 @@ export class WalletComponent {
     }
     if (action==='create_deposit') {
       this.awaitingReq('')
-    }else{this.check2Fa()?this.promptOtp({header:'2 Factor Authentication!',message:"Please provide your google authentication code:"}):0}
+    }else{
+      this.checkPin()?this.promptOtp({header:'6 Digit Pin!',message:"Please provide your 6 digit transaction pin:"}):0
+    }
 
   }
 
@@ -302,7 +310,7 @@ export class WalletComponent {
         }
       });
     }
-    this.check2Fa()?this.promptOtp({header:'2 Factor Authentication!',message:"Please provide your google authentication code:"}):0
+    this.checkPin()?this.promptOtp({header:'6 Digit Pin!',message:"Please provide your 6 digit transaction pin:"}):0
   }
 
   showWithdrawalAdd(addresses:any[]){

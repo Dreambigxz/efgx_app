@@ -81,7 +81,7 @@
 							<li><a [routerLink]="['/wallet','transaction']"><mat-icon>history</mat-icon><span>Transactions</span></a></li>
       				<li><a [routerLink]="['/notification']"><mat-icon>notifications</mat-icon><span>Notification</span><strong>{{totalNotUnread}}</strong></a></li>
       				<li><a [routerLink]="['/task','manage-task']"><mat-icon>settings</mat-icon><span>Mange Tasks</span></a></li>
-							<li><a (click)="check2Fa()" ><mat-icon>security</mat-icon><span>Google Authenticator</span></a></li>
+							<!-- <li><a (click)="check2Fa()" ><mat-icon>security</mat-icon><span>Google Authenticator</span></a></li> -->
       				<li><a (click)="changePassword=true" ><mat-icon>lock</mat-icon><span>Change Password</span></a></li>
               <li *ngIf='appVersion'><a href="{{appVersion.url}}" download><mat-icon>download</mat-icon><span>App</span></a></li>
       				<li><a (click)="authService.logout(false)"><mat-icon>logout</mat-icon><span>Logout</span></a></li>

@@ -80,7 +80,7 @@ export class TeamsComponent {
       this.isLoadingContent = true
       this.apiService.tokenData('teams/?type=teams', this.authService.tokenKey,'get', {}).subscribe({
         next: (response) =>{
-          this.isLoadingContent = false
+          !this.teamsDir?this.isLoadingContent = false:0;
           this.serviceData.update(response)
           this.teamsDir = (this.serviceData.userData as any).teams_dir
           this.setLevelCard()
