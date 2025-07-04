@@ -40,7 +40,7 @@ DIR! {{directory}} -->
 
           </div>
           <div class="tabs tabs--style1 mb-20">
-            <input type="radio" name="tabs2" class="tabs__radio" id="tab1" checked="checked">
+            <input type="radio" name="tabs2" class="tabs__radio" id="tab1" >
             <label class="tabs__label tabs__label--12" for="tab1">Comments</label>
             <div class="tabs__content">
               <h4>{{totalComments}} comments</h4>
@@ -53,13 +53,13 @@ DIR! {{directory}} -->
               </ul>
             </div>
 
-            <input type="radio" name="tabs2" class="tabs__radio" id="tab2">
+            <input type="radio" name="tabs2" class="tabs__radio" id="tab2" checked="checked">
             <label class="tabs__label tabs__label--12" for="tab2">Leave a comment</label>
             <div class="tabs__content">
               <div *ngIf='!hasTask else hasTaskBlock' class="">
 
-                <p>You need to create a task to enable you add a comment.</p>
-                <a [routerLink]="['/task','create-task']">Create task now</a>
+                <p class="text-info">You need to create a task to enable you add a comment.</p>
+                <a class="post__more button button--purple button--ex-small" [routerLink]="['/task','create-task']">Create task now</a>
               </div>
 
               <ng-template #hasTaskBlock>
