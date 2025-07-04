@@ -68,8 +68,8 @@ export class SpinComponent {
     setTimeout(() => {
 
       this.selectedNumber = this.numbers[selectedIndex];
-      if (this.selectedNumber>5) {
-        this.selectedNumber=Math.floor(Math.random() * 5)
+      if (this.selectedNumber>3) {
+        this.selectedNumber=Math.floor(Math.random() * 3)
       }
       this.spinning = false;
       this.sendWonValue(this.selectedNumber)
