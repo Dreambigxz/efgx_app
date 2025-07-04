@@ -111,7 +111,7 @@ export class WalletComponent {
   checkPin(){
     if (this.myProfile&&!this.myProfile.transaction_pin) {
       this.hasPin=false
-      this.promptOtp({'message':'Pleae update your 6 digit Security pin and save it somewhere.', header:'Set Pin'})
+      this.promptOtp({'message':'Please update your 6 digit Security pin and save it somewhere.', header:'Set Pin'})
       this.awaitingReq = (result:any)=>{
         result['action']='set_trasanction_pin'
         this.isLoadingContent=true
