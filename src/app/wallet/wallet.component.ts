@@ -168,8 +168,8 @@ export class WalletComponent {
       const action = params.get('action');
       this.directory=`${action}`
       if (this.directory==='deposit') {
-        if (!this.awaitingDeposit||this.awaitingDeposit&&this.awaitingDeposit.transaction) {
-          this.isLoadingContent = true
+        if (!this.awaitingDeposit||this.awaitingDeposit&&this.awaitingDeposit.transaction&&this.initCurrency.symbol==='$') {
+           this.isLoadingContent = true
           this.apiService.tokenData('wallet/get_data?type=awaiting_deposit', this.authService.tokenKey,'get', {}).subscribe({
             next: (response) =>{
               this.awaitingDeposit=response.awaitingDeposit

@@ -79,12 +79,13 @@ export class MainComponent implements OnInit {
   activities=(this.serviceData.userData as any).activities;
 
 
+  isUser = Object.keys(this.serviceData.userData).includes('user')
 
   ngOnInit(): void{
     (window as any).lucide?.createIcons();
 
-    if (!Object.keys(this.serviceData.userData).includes('user')) {
-      this.isLoadingContent = true
+    if (!Object.keys(this.serviceData.userData).includes('user')||!this.activities) {
+      !this.isUser?this.isLoadingContent = true:0
       this.apiService.tokenData('main/', this.authService.tokenKey,'get', {})
       .subscribe(response => {
         this.AllData = this.serviceData.update(response)

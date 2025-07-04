@@ -486,7 +486,7 @@ ul.custom-listing--checked li {
     position: relative;
     -webkit-overflow-scrolling: touch;
     scrollbar-width: none;
-     /* margin-bottom: 10em; */
+     /* padding-bottom: 3em; */
    }
     .page__content--with-header {
       padding-top: 40px;

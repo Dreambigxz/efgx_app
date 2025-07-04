@@ -191,3 +191,8 @@ h2 {
 .updated mat-icon{
   color: green
 }
+
+.page__content {
+
+   padding-bottom: 10em;
+ }
