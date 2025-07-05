@@ -181,93 +181,88 @@
         </div>
         <div *ngIf="directory==='withdraw'">
           <!-- <app-otp *ngIf="showOtp" (closeModal)="showOtp = false"></app-otp> -->
-					<div *ngIf='!hasPin; else hasPinBlock' class="noPin">
+					
+          <div *ngIf='withdrawalInfo&&!withdrawalInfo.addresses||addNewAddress; else canWithdrawBlock' class="">
+            <h4 class="page__title">Update payment address ({{initCurrency.name}})</h4>
+            <div class="fieldset">
 
-					</div>
-					<ng-template #hasPinBlock>
-						<div *ngIf='withdrawalInfo&&!withdrawalInfo.addresses||addNewAddress; else canWithdrawBlock' class="">
-							<h4 class="page__title">Update payment address ({{initCurrency.name}})</h4>
-							<div class="fieldset">
+        			<div class="form">
+        				<form (ngSubmit)="handleAddressSubmit()" [formGroup]="addAddressForm" novalidate="novalidate">
 
-								<div class="form">
-									<form (ngSubmit)="handleAddressSubmit()" [formGroup]="addAddressForm" novalidate="novalidate">
+                  <div *ngIf='initCurrency&&initCurrency.symbol!=="$";else usdtBlock'>
+                    <div class="form__row">
+          						<input  formControlName='account_number' type="number" name="account_number"  class="form__input required" placeholder="Account Number" required>
+          					</div>
+                    <div class="form__row">
+          						<input formControlName='account_holder'  type="text" name="account_holder"  class="form__input required" placeholder="Account Name" required>
+          					</div>
+                    <div class="form__row">
+          						<input formControlName='bank'  type="text" name="bank"  class="form__input required" placeholder="Bank" required>
+          					</div>
+                  </div>
+                  <ng-template #usdtBlock>
+                    <div class="form__row">
+                      <input  formControlName='account_number' type="text" name="account_number"  class="form__input required" placeholder="USDT Address" required>
+                    </div>
+                    </ng-template>
 
-										<div *ngIf='initCurrency&&initCurrency.symbol!=="$";else usdtBlock'>
-											<div class="form__row">
-												<input  formControlName='account_number' type="number" name="account_number"  class="form__input required" placeholder="Account Number" required>
-											</div>
-											<div class="form__row">
-												<input formControlName='account_holder'  type="text" name="account_holder"  class="form__input required" placeholder="Account Name" required>
-											</div>
-											<div class="form__row">
-												<input formControlName='bank'  type="text" name="bank"  class="form__input required" placeholder="Bank" required>
-											</div>
-										</div>
-										<ng-template #usdtBlock>
-											<div class="form__row">
-												<input  formControlName='account_number' type="text" name="account_number"  class="form__input required" placeholder="USDT Address" required>
-											</div>
-											</ng-template>
+                  <!-- <div class="form__row">
+                    <input formControlName='pin'  type="text" name="pin"  class="form__input required" placeholder="Security pin" required>
+                  </div> -->
+                  <div class="form__row mt-20">
+        						<input *ngIf="!loading; else elseBlock" type="submit" name="submit" class="form__submit button button--green button--full" id="submit" value="SUBMIT" [disabled]="!addAddressForm.valid">
+                    <ng-template #elseBlock>
+                      <input class="form__submit button button--blue button--full is-loading" value="waiting ...">
+                    </ng-template>
+        						<!-- <input class="" type="hidden" name="to" value="youremail@website.com">
+        						<input class="" type="hidden" name="ContactSubject" value="Contacf form message">
+        						<label id="loader" style="display:none;"><div id="loader-animation"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div></label> -->
+        					</div>
+        				</form>
+        			</div>
+        		</div>
+          </div>
+          <ng-template #canWithdrawBlock class="canWithdrawBlock">
+            <h4 class="page__title">How  much do you want to withdraw ?</h4>
+            <div class="fieldset">
+							<button class="add-new-add" (click)="addNewAddress=true" type="button" name="button">+ New Address</button>
+							<span class="available-bal" translate='no' *ngIf="wallet">
+								BAL: {{initCurrency.symbol}}
+								<span style="font-weight:500">{{wallet.bal_info.bal|number:'1.2-2'}}</span>
+							</span>
 
-										<!-- <div class="form__row">
-											<input formControlName='pin'  type="text" name="pin"  class="form__input required" placeholder="Security pin" required>
-										</div> -->
-										<div class="form__row mt-20">
-											<input *ngIf="!loading; else elseBlock" type="submit" name="submit" class="form__submit button button--green button--full" id="submit" value="SUBMIT" [disabled]="!addAddressForm.valid">
-											<ng-template #elseBlock>
-												<input class="form__submit button button--blue button--full is-loading" value="waiting ...">
-											</ng-template>
-											<!-- <input class="" type="hidden" name="to" value="youremail@website.com">
-											<input class="" type="hidden" name="ContactSubject" value="Contacf form message">
-											<label id="loader" style="display:none;"><div id="loader-animation"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div></label> -->
-										</div>
-									</form>
-								</div>
-							</div>
-						</div>
-						<ng-template #canWithdrawBlock class="canWithdrawBlock">
-							<h4 class="page__title">How  much do you want to withdraw ?</h4>
-							<div class="fieldset">
-								<button class="add-new-add" (click)="addNewAddress=true" type="button" name="button">+ New Address</button>
-								<span class="available-bal" translate='no' *ngIf="wallet">
-									BAL: {{initCurrency.symbol}}
-									<span style="font-weight:500">{{wallet.bal_info.bal|number:'1.2-2'}}</span>
-								</span>
+        			<div class="form">
+        				<form (ngSubmit)="handleSubmit('create_withdraw')" [formGroup]="walletForm" novalidate="novalidate">
+        					<div class="form__row mb-10">
+        						<input min="{{wallet.settings.minimum_withdraw}}" formControlName='amount' type="number" name="amount" value="" class="form__input required" placeholder="Amount" required>
+                    <small *ngIf='wallet' class="minimum-val">Minimum of <strong translate='no'>{{initCurrency.symbol}}{{wallet.settings.minimum_withdraw}}</strong> required</small>
+        					</div>
 
-								<div class="form">
-									<form (ngSubmit)="handleSubmit('create_withdraw')" [formGroup]="walletForm" novalidate="novalidate">
-										<div class="form__row mb-10">
-											<input min="{{wallet.settings.minimum_withdraw}}" formControlName='amount' type="number" name="amount" value="" class="form__input required" placeholder="Amount" required>
-											<small *ngIf='wallet' class="minimum-val">Minimum of <strong translate='no'>{{initCurrency.symbol}}{{wallet.settings.minimum_withdraw}}</strong> required</small>
-										</div>
+                  <div class="form__row">
+          						<div class="form__select">
+          							<select formControlName='selectedAddress' name="selectedAddress" class="required selectedAddress" required>
+          								<!-- <option  disabled="disabled" selected="selected">Select Address</option> -->
+                           <!-- <div *ngFor="let add of withdrawalInfo.addresses;let i = index">
+                            <option value="{{i}}">{{add.account_number}}</option>
+                          </div> -->
 
-										<div class="form__row">
-												<div class="form__select">
-													<select formControlName='selectedAddress' name="selectedAddress" class="required selectedAddress" required>
-														<!-- <option  disabled="disabled" selected="selected">Select Address</option> -->
-														 <!-- <div *ngFor="let add of withdrawalInfo.addresses;let i = index">
-															<option value="{{i}}">{{add.account_number}}</option>
-														</div> -->
+          							</select>
+          						</div>
+          					</div>
 
-													</select>
-												</div>
-											</div>
-
-										<div class="form__row mt-20">
-											<input *ngIf="!loading; else elseBlock" type="submit" name="submit" class="form__submit button button--green button--full" id="submit" value="SUBMIT" [disabled]="!walletForm.valid">
-											<ng-template #elseBlock>
-												<input class="form__submit button button--blue button--full is-loading" value="waiting ...">
-											</ng-template>
-											<!-- <input class="" type="hidden" name="to" value="youremail@website.com">
-											<input class="" type="hidden" name="ContactSubject" value="Contacf form message">
-											<label id="loader" style="display:none;"><div id="loader-animation"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div></label> -->
-										</div>
-									</form>
-								</div>
-							</div>
-						</ng-template>
-					</ng-template>
-
+                  <div class="form__row mt-20">
+        						<input *ngIf="!loading; else elseBlock" type="submit" name="submit" class="form__submit button button--green button--full" id="submit" value="SUBMIT" [disabled]="!walletForm.valid">
+                    <ng-template #elseBlock>
+                      <input class="form__submit button button--blue button--full is-loading" value="waiting ...">
+                    </ng-template>
+        						<!-- <input class="" type="hidden" name="to" value="youremail@website.com">
+        						<input class="" type="hidden" name="ContactSubject" value="Contacf form message">
+        						<label id="loader" style="display:none;"><div id="loader-animation"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div></label> -->
+        					</div>
+        				</form>
+        			</div>
+            </div>
+          </ng-template>
         </div>
         <div *ngIf="directory==='transaction'">
             <!-- transaction.component.html -->
