@@ -70,6 +70,7 @@ export class ProfileComponent {
   awaitingReq: any
   appVersion = (this.serviceData.userData as any).appVersion
 
+  selectedFile: any
 
   setImageUrl(){
     this.profileDir?.image_url?this.profileImageUrl=this.profileDir.image_url:0;
@@ -118,19 +119,31 @@ export class ProfileComponent {
 
     if (file) {
       const reader = new FileReader();
+      this.selectedFile=file
 
       reader.onload = () => {
         this.profileImageUrl = reader.result as string;
-        this.apiService.tokenData('profile/', this.authService.tokenKey, 'post', {image:this.profileImageUrl,'action':'upload_profile_image'})
-        .subscribe(response => {
-        }, error =>{
-          if (error.statusText === "Unauthorized") {this.authService.logout()}
-        });
-
+        this.sendImageData()
       };
-
       reader.readAsDataURL(file);
     }
+
+  }
+
+  sendImageData(){
+
+    const formData = new FormData();
+    formData.append('file', this.selectedFile);
+    formData.append('action', 'set_profile_img');
+    console.log({formData});
+
+    this.apiService.tokenData('upload/', this.authService.tokenKey, 'post', formData)
+    .subscribe(response => {
+      console.log({response});
+
+    }, error =>{
+      if (error.statusText === "Unauthorized") {this.authService.logout()}
+    });
   }
 
   check2Fa(){
