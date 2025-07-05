@@ -5,8 +5,10 @@
     <p class="text-info">{{data.message}}</p>
   <div class="otp-container mb-10">
     <input  *ngFor="let digit of otpDigits; let i = index"
-          type="number" maxlength="1" inputmode="numeric"
-
+          type="number"
+           maxlength="1"
+           inputmode="numeric"
+            style="direction: ltr; text-align: left;"
            [(ngModel)]="otp[i]"
            (keyup)="onKeyUp($event, i)"
            [id]="'otp-' + i" />
