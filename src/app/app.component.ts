@@ -7,6 +7,8 @@ import { HttpClientModule, HttpClient } from '@angular/common/http'; // ✅ Impo
 import { DownloadAppComponent } from "./download-app/download-app.component";
 import { MatDialog } from '@angular/material/dialog';
 
+import PullToRefresh from 'pulltorefreshjs';
+
 @Component({
   selector: 'app-root',
   standalone:true,
@@ -23,9 +25,7 @@ export class AppComponent {
 
   title = 'EFGX - Investment App';
   appVersion:any
-  // isMobileApp = !!(window as any).cordova || !!(window as any).Capacitor;
 
-  // ngOnInit(){}
 
   checkAppVersion(version:any){
 
@@ -46,5 +46,26 @@ export class AppComponent {
       }
 
     });
+  }
+
+  ngOnInit(): void {
+    PullToRefresh.init({
+      mainElement: 'body',
+      onRefresh: () => {
+        // Your refresh logic here
+        return new Promise((resolve) => {
+          // console.log('Pull-to-refresh triggered');
+          // simulate async refresh
+          setTimeout(() => {
+            window.location.reload(); // or any refresh logic
+            resolve(true);
+          }, 1000);
+        });
+      }
+    });
+  }
+
+  ngOnDestroy(): void {
+    PullToRefresh.destroyAll(); // Clean up when component is destroyed
   }
 }
