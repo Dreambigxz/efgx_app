@@ -88,7 +88,9 @@ export class WalletComponent {
 
   walletForm = new FormGroup({
     amount: new FormControl(''),
-    selectedAddress: new FormControl('')
+    selectedAddress: new FormControl(''),
+    pin: new FormControl(''),
+
   })
 
   addAddressForm = new FormGroup({
@@ -260,23 +262,25 @@ export class WalletComponent {
       });
 
     }
-    if (action==='create_deposit') {
-      this.awaitingReq('')
-    }else{
-      this.checkPin()?this.promptOtp({header:'6 Digit Pin!',message:"Please provide your 6 digit transaction pin:"}):0
-    }
+
+    this.awaitingReq('')
+    // if (action==='create_deposit') {
+    //   this.awaitingReq('')
+    // }else{
+    //   this.checkPin()?this.promptOtp({header:'6 Digit Pin!',message:"Please provide your 6 digit transaction pin:"}):0
+    // }
 
   }
 
-  handleAddressSubmit(){
+  handleAddressSubmit(action='setup_wallet'){
 
-    let data = {'action':'setup_wallet'}
+    let data = {'action':action}
     // const formData = new FormData(form);
 
     Object.assign(data,this.addAddressForm.value)
 
-    this.awaitingReq = (result:any)=>{
-      result?Object.assign(data,result):0;
+    this.awaitingReq = ()=>{
+      // result?Object.assign(data,result):0;
 
       this.loading=true
       this.apiService.tokenData('wallet/send_request/', this.authService.tokenKey, 'post', data)
@@ -288,6 +292,7 @@ export class WalletComponent {
           // width:'400px'
         })
         if (response.success) {
+          this.hasPin=true
           if (response.withdrawalInfo) {
             this.withdrawalInfo=response.withdrawalInfo
             this.showWithdrawalAdd(response.withdrawalInfo.addresses)
@@ -305,7 +310,10 @@ export class WalletComponent {
         }
       });
     }
-    this.checkPin()?this.promptOtp({header:'6 Digit Pin!',message:"Please provide your 6 digit transaction pin:"}):0
+
+    this.awaitingReq()
+
+    // this.checkPin()?this.promptOtp({header:'6 Digit Pin!',message:"Please provide your 6 digit transaction pin:"}):0
   }
 
   showWithdrawalAdd(addresses:any[]){
