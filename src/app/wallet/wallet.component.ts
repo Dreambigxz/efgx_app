@@ -30,7 +30,7 @@ import { PageEvent, MatPaginator } from '@angular/material/paginator';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material/input';
 import {MatSelectModule} from '@angular/material/select';
-// 
+//
 
 import { QRCodeComponent } from 'angularx-qrcode';
 import { GoogleAuthComponent } from "../google-auth/google-auth.component";
@@ -111,34 +111,34 @@ export class WalletComponent {
   checkPin(){
     if (this.myProfile&&!this.myProfile.transaction_pin) {
       this.hasPin=false
-      this.promptOtp({'message':'Please update your 6 digit Security pin and save it somewhere.', header:'Set Pin'})
-      this.awaitingReq = (result:any)=>{
-        result['action']='set_trasanction_pin'
-        this.isLoadingContent=true
-        this.apiService.tokenData('wallet/send_request/', this.authService.tokenKey, 'post', result)
-        .subscribe(response => {
-          this.isLoadingContent=false;
-          this.serviceData.update(response)
-          this.dialog.open(SimpleDialogComponent,{
-            data:{message:response.message,header:response.header,color:response.success?'green':'red'},
-            // width:'400px'
-          })
-          if (response.success) {
-            this.myProfile=response.profile
-            this.hasPin=Object.keys(response.profile).includes('transaction_pin')
-
-          }
-
-        }, error =>{
-          this.isLoadingContent=true
-          if (error.statusText === "Unauthorized") {this.authService.logout()}else{
-            this.dialog.open(SimpleDialogComponent,{
-              data:{message:"Unable to process request, please try again",header:'Request timeout!', color:'red'}
-            })
-
-          }
-        });
-      }
+      // this.promptOtp({'message':'Please update your 6 digit Security pin and save it somewhere.', header:'Set Pin'})
+      // this.awaitingReq = (result:any)=>{
+      //   result['action']='set_trasanction_pin'
+      //   this.isLoadingContent=true
+      //   this.apiService.tokenData('wallet/send_request/', this.authService.tokenKey, 'post', result)
+      //   .subscribe(response => {
+      //     this.isLoadingContent=false;
+      //     this.serviceData.update(response)
+      //     this.dialog.open(SimpleDialogComponent,{
+      //       data:{message:response.message,header:response.header,color:response.success?'green':'red'},
+      //       // width:'400px'
+      //     })
+      //     if (response.success) {
+      //       this.myProfile=response.profile
+      //       this.hasPin=Object.keys(response.profile).includes('transaction_pin')
+      //
+      //     }
+      //
+      //   }, error =>{
+      //     this.isLoadingContent=true
+      //     if (error.statusText === "Unauthorized") {this.authService.logout()}else{
+      //       this.dialog.open(SimpleDialogComponent,{
+      //         data:{message:"Unable to process request, please try again",header:'Request timeout!', color:'red'}
+      //       })
+      //
+      //     }
+      //   });
+      // }
     }
     return this.hasPin
   }
