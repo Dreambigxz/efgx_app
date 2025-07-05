@@ -30,7 +30,7 @@ import { PageEvent, MatPaginator } from '@angular/material/paginator';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material/input';
 import {MatSelectModule} from '@angular/material/select';
-
+// 
 
 import { QRCodeComponent } from 'angularx-qrcode';
 import { GoogleAuthComponent } from "../google-auth/google-auth.component";
