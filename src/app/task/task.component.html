@@ -38,7 +38,8 @@ DIR! {{directory}} -->
       				  </div>
       				  <div class="post__details">
       					<h4 class="post__title"><a href="blog-single.html">{{post.heading}}</a></h4>
-								<small>{{post.timestamp|date:'fullDate' }}</small>
+								<small class="text-small">{{post.timestamp|date:'fullDate' }}</small>
+								<br>
 								<br>
                 <!-- <a  (click)="openDetails(post.id)" class="post__more button button--blue button--ex-small">READ IT</a> -->
       					<a  [routerLink]="['/task-detail',post.taskID]" class="post__more button button--blue button--ex-small">READ IT</a>

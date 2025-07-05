@@ -352,5 +352,10 @@ span.available-bal {
   display:none;
 }
 
+small.text-small {
+    color: #909090;
+    font-size: 12px;
+}
+
 /* html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; } */
