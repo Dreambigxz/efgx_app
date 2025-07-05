@@ -56,8 +56,7 @@ export class PaymentConfirmationComponent {
     !req_data?req_data='deposit':0;
     this.isLoadingContent = true
 
-    let url = 'confirmation'+window.location.search 
-    console.log({url});
+    let url = 'confirmation'+window.location.search
 
     this.apiService.tokenData(url, this.authService.tokenKey,'get', {})
     .subscribe(response => {
