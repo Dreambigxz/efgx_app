@@ -52,11 +52,15 @@ export class PaymentConfirmationComponent {
 
   ngOnInit():void{
     let req_data = this.route.snapshot.queryParamMap.get('page')
+    let method = this.route.snapshot.queryParamMap.get('method')
     !req_data?req_data='deposit':0;
     this.isLoadingContent = true
-    this.apiService.tokenData('confirmation?page='+req_data, this.authService.tokenKey,'get', {})
+
+    let url = 'confirmation'+window.location.search 
+    console.log({url});
+
+    this.apiService.tokenData(url, this.authService.tokenKey,'get', {})
     .subscribe(response => {
-      console.log(response);
       this.isLoadingContent = false
       this.directory=response.type
       this.transaction=response.table
