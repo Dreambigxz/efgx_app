@@ -86,7 +86,7 @@ export class TeamDetailsComponent implements OnInit{
 
   users : any[] = []
 
-  pageSize = 1;
+  pageSize = 10;
   currentPage = 1;
 
   get paginatedUsers() {
