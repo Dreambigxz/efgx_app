@@ -28,7 +28,6 @@ export class AppComponent {
 
 
   checkAppVersion(version:any){
-
     App.getInfo().then(info => {
       this.appVersion=info.version
       console.log('App Version:', info.version);
@@ -49,20 +48,25 @@ export class AppComponent {
   }
 
   ngOnInit(): void {
-    PullToRefresh.init({
-      mainElement: 'body',
-      onRefresh: () => {
-        // Your refresh logic here
-        return new Promise((resolve) => {
-          // console.log('Pull-to-refresh triggered');
-          // simulate async refresh
-          setTimeout(() => {
-            window.location.reload(); // or any refresh logic
-            resolve(true);
-          }, 1000);
-        });
-      }
+
+    App.getInfo().then(info => {
+
+      PullToRefresh.init({
+        mainElement: 'body',
+        onRefresh: () => {
+          // Your refresh logic here
+          return new Promise((resolve) => {
+            // console.log('Pull-to-refresh triggered');
+            // simulate async refresh
+            setTimeout(() => {
+              window.location.reload(); // or any refresh logic
+              resolve(true);
+            }, 1000);
+          });
+        }
+      });
     });
+
   }
 
   ngOnDestroy(): void {
