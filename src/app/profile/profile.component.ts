@@ -70,7 +70,7 @@ export class ProfileComponent {
   awaitingReq: any
   appVersion = (this.serviceData.userData as any).appVersion
 
-  selectedFile: any
+  selectedFile:any
 
   setImageUrl(){
     this.profileDir?.image_url?this.profileImageUrl=this.profileDir.image_url:0;
@@ -87,6 +87,11 @@ export class ProfileComponent {
           this.serviceData.update(response)
           this.user=response.user;
           this.profileDir=response.profileDir;
+          console.log('profileDir',this.profileDir);
+          //
+          this.profileDir.image_url?this.profileImageUrl=this.profileDir.image_url:0;
+          console.log('this.profileImageUrl>', this.profileImageUrl);
+
           this.has2FA=response.has2FA;
           this.appVersion=response.appVersion;
           this.setImageUrl();this.checkViews()
@@ -120,30 +125,22 @@ export class ProfileComponent {
     if (file) {
       const reader = new FileReader();
       this.selectedFile=file
-
       reader.onload = () => {
         this.profileImageUrl = reader.result as string;
         this.sendImageData()
+        // this.apiService.tokenData('profile/', this.authService.tokenKey, 'post', {image:this.profileImageUrl,'action':'upload_profile_image'})
+        // .subscribe(response => {
+        // }, error =>{
+        //   if (error.statusText === "Unauthorized") {this.authService.logout()}
+        // });
+
       };
+
       reader.readAsDataURL(file);
+
+
     }
 
-  }
-
-  sendImageData(){
-
-    const formData = new FormData();
-    formData.append('file', this.selectedFile);
-    formData.append('action', 'set_profile_img');
-    console.log({formData});
-
-    this.apiService.tokenData('upload/', this.authService.tokenKey, 'post', formData)
-    .subscribe(response => {
-      console.log({response});
-
-    }, error =>{
-      if (error.statusText === "Unauthorized") {this.authService.logout()}
-    });
   }
 
   check2Fa(){
@@ -243,6 +240,22 @@ export class ProfileComponent {
       })
 
     }
+  }
+
+  sendImageData(){
+
+    const formData = new FormData();
+    formData.append('file', this.selectedFile);
+    formData.append('action', 'set_profile_img');
+    console.log({formData});
+
+    this.apiService.tokenData('upload/', this.authService.tokenKey, 'post', formData)
+    .subscribe(response => {
+      console.log({response});
+
+    }, error =>{
+      if (error.statusText === "Unauthorized") {this.authService.logout()}
+    });
   }
 
   promptOtp(data:any){//{message:'response.message',header:'response.header'}){
