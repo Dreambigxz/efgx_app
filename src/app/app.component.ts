@@ -67,9 +67,14 @@ export class AppComponent {
       });
     });
 
+
+
   }
 
   ngOnDestroy(): void {
     PullToRefresh.destroyAll(); // Clean up when component is destroyed
+
+    // console.log(window.location.href);
+
   }
 }

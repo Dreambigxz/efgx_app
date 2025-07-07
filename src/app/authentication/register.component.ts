@@ -108,6 +108,9 @@ export class RegisterComponent {
   }
 
   ngOnInit():void{
+
+    this.authService.isLoggedIn?this.router.navigate(['/main']):0;
+
     let checkUrl = window.location.href.split('invited_by')
 
     if (checkUrl[1]) {

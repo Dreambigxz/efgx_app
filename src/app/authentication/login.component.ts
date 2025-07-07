@@ -44,7 +44,7 @@ export class LoginComponent {
     username: new FormControl(''),
     password: new FormControl(''),
   });
-
+  ngOnInit():void{this.authService.isLoggedIn?this.router.navigate(['/main']):0;}
   handleSubmit() {
 
     let data = this.loginForm.value
