@@ -19,10 +19,6 @@ import {
 
   MatDialog,
   MatDialogActions,
-  // MatDialogClose,
-  // MatDialogContent,
-  // MatDialogRef,
-  // MatDialogTitle,
  } from '@angular/material/dialog';
 
 @Component({
@@ -59,8 +55,7 @@ export class LiquidateComponent {
     reason:new FormControl(''),
   })
 
-
-   handleSubmit (){
+  handleSubmit (){
 
      let data = {'action':'liquidate'}
      Object.assign(data,this.Form.value)

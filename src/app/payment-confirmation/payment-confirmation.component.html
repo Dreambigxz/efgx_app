@@ -9,7 +9,7 @@
 			<div class="header__text">{{directory}}</div>
 			<div class="header__icon open-panel" data-panel="right" data-arrow="left">
       </div>
-                </div>
+    </div>
 	</header>
 
 	<!-- PAGE CONTENT -->
@@ -26,64 +26,66 @@
       <div *ngIf="directory==='Withdraw'" class="withdraw">
 
         <div *ngFor="let tra of transaction;let i = index" class="">
+						<div *ngIf="tra.method!=='EGP'||tra.method==='EGP'&&tra.amount<=5000||username==='admin'">
+								<div  *ngIf="!['success','declined'].includes(tra.status)" class="container">
+		              <div class="row">
+		                <span class="label">👨‍💻:</span>
+		                <span class="value">{{ tra.username }} </span>
+		              </div>
 
-            <div  *ngIf="!['success','declined'].includes(tra.status)" class="container">
-              <div class="row">
-                <span class="label">👨‍💻:</span>
-                <span class="value">{{ tra.username }} </span>
-              </div>
+									<div class="row">
+		                <span class="label">AMOUNT‍:</span>
+		                <span class="value">{{tra.method}}{{ tra.amount|number }} </span>
+		              </div>
 
-							<div class="row">
-                <span class="label">AMOUNT‍:</span>
-                <span class="value">{{tra.method}}{{ tra.amount|number }} </span>
-              </div>
+		              <div class="row">
+		                <span class="label">Time:</span>
+		                <span class="value">{{ timeSince(tra.timestamp) }}</span>
+		              </div>
 
-              <div class="row">
-                <span class="label">Time:</span>
-                <span class="value">{{ timeSince(tra.timestamp) }}</span>
-              </div>
-
-              <div class="row">
-                <span class="label">Status:</span>
-                <span
-                  class="value status"
-                  [ngClass]="{
-                    'status-pending': tra.status === 'pending',
-                    'status-confirmed': tra.status === 'Confirmed',
-                    'status-declined': tra.status === 'Declined'
-                  }"
-                >
-                  {{ tra.status }}
-                </span>
-              </div>
+		              <div class="row">
+		                <span class="label">Status:</span>
+		                <span
+		                  class="value status"
+		                  [ngClass]="{
+		                    'status-pending': tra.status === 'pending',
+		                    'status-confirmed': tra.status === 'Confirmed',
+		                    'status-declined': tra.status === 'Declined'
+		                  }"
+		                >
+		                  {{ tra.status }}
+		                </span>
+		              </div>
 
 
-              <div class="info-{{i}} hide">
-                <div class="row">
-                  <span class="label">Account:</span>
-                  <span class="value">{{ extraField(tra,'account_number') }} <i (click)="copyContent(extraField(tra,'account_number'),quickMessage)" class="fa fa-copy"></i></span>
-                </div>
+		              <div class="info-{{i}} hide">
+		                <div class="row">
+		                  <span class="label">Account:</span>
+		                  <span class="value">{{ extraField(tra,'account_number') }} <i (click)="copyContent(extraField(tra,'account_number'),quickMessage)" class="fa fa-copy"></i></span>
+		                </div>
 
-                <div class="row">
-                  <span class="label">Name:</span>
-                  <span class="value">{{ extraField(tra,'account_holder') }}</span>
-                </div>
+		                <div class="row">
+		                  <span class="label">Name:</span>
+		                  <span class="value">{{ extraField(tra,'account_holder') }}</span>
+		                </div>
 
-                <div class="row">
-                  <span class="label">Bank:</span>
-                  <span class="value">{{ extraField(tra,'bank') }}</span>
-                </div>
+		                <div class="row">
+		                  <span class="label">Bank:</span>
+		                  <span class="value">{{ extraField(tra,'bank') }}</span>
+		                </div>
 
-                <div class="button-group" *ngIf="tra.status === 'pending'">
-                  <button class="confirm" (click)="TransactionHandler(tra, 'success')">Confirm</button>
-                  <button class="decline" (click)="TransactionHandler(tra, 'declined')">Decline</button>
-                </div>
-              </div>
-              <div (click)="openDetails(tra,['info-'+i,'details-'+i])" class="proof details-{{i}}">
-                <a  class="post__more button button--purple button--ex-small">Details</a>
-                <!-- <img class="proof-image" [src]="tra.proofImageUrl" alt="tra Proof" /> -->
-              </div>
-          </div>
+		                <div class="button-group" *ngIf="tra.status === 'pending'">
+		                  <button class="confirm" (click)="TransactionHandler(tra, 'success')">Confirm</button>
+		                  <button class="decline" (click)="TransactionHandler(tra, 'declined')">Decline</button>
+		                </div>
+		              </div>
+		              <div (click)="openDetails(tra,['info-'+i,'details-'+i])" class="proof details-{{i}}">
+		                <a  class="post__more button button--purple button--ex-small">Details</a>
+		                <!-- <img class="proof-image" [src]="tra.proofImageUrl" alt="tra Proof" /> -->
+		              </div>
+		          </div>
+						</div>
+
         </div>
 
       </div>

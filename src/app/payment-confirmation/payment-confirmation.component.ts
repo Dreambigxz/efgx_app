@@ -50,6 +50,8 @@ export class PaymentConfirmationComponent {
   totalAmountDollar=0
   currencySymbol = ''
 
+  username = (this.serviceData.userData as any).username
+
   ngOnInit():void{
     let req_data = this.route.snapshot.queryParamMap.get('page')
     let method = this.route.snapshot.queryParamMap.get('method')
@@ -60,6 +62,10 @@ export class PaymentConfirmationComponent {
 
     this.apiService.tokenData(url, this.authService.tokenKey,'get', {})
     .subscribe(response => {
+      console.log({response});
+
+      this.serviceData.update(response)
+      this.username=response.username
       this.isLoadingContent = false
       this.directory=response.type
       this.transaction=response.table
